@@ -1,0 +1,37 @@
+---
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+
+interface Props {
+  eyebrow?: string;
+  title: string;
+  accent?: string;
+  image: ImageMetadata;
+  reverse?: boolean;
+  lime?: boolean; // section sur fond lime (texte foncé)
+  tall?: boolean; // photo étirée à la hauteur du texte (desktop)
+}
+const { eyebrow, title, accent, image, reverse = false, lime = false, tall = false } = Astro.props;
+---
+
+<div class:list={["grid lg:grid-cols-2 gap-8 lg:gap-16", tall ? "items-center lg:items-stretch" : "items-center", reverse && "lg:[&>*:first-child]:order-2"]}>
+  <div class:list={["relative", tall && "lg:h-full"]}>
+    <Image
+      src={image}
+      alt={title}
+      class:list={["rounded-[2rem] w-full object-cover shadow-2xl shadow-black/30", tall ? "aspect-[4/3] lg:aspect-auto lg:h-full lg:min-h-[420px]" : "aspect-[4/3]"]}
+      widths={[480, 768, 1024]}
+      sizes="(min-width:1024px) 45vw, 100vw"
+      loading="lazy"
+    />
+  </div>
+  <div>
+    {eyebrow && <span class:list={["eyebrow", lime && "!text-green-700"]}>{eyebrow}</span>}
+    <h2 class:list={["mt-4 text-3xl md:text-4xl lg:text-5xl", lime ? "text-green-900" : "text-cream"]}>
+      {title}{accent && <> <span class:list={["accent", lime && "!text-green-700"]}>{accent}</span></>}
+    </h2>
+    <div class:list={["mt-5 space-y-4 leading-relaxed text-lg", lime ? "text-green-900/80" : "text-cream/75"]}>
+      <slot />
+    </div>
+  </div>
+</div>

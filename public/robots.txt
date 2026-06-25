@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://www.aufildes4saisons.fr/sitemap-index.xml

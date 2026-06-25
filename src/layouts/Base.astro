@@ -1,0 +1,159 @@
+---
+import "../styles/global.css";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import ScrollTop from "../components/ScrollTop.astro";
+import { company } from "../site";
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+}
+
+const { title, description, image = "/logo.png" } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site).href.replace(/\/$/, "") || Astro.site?.href;
+const fullTitle = title.includes(company.name) ? title : `${title} | ${company.name}`;
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "LandscapingBusiness",
+  name: company.name,
+  description,
+  image: new URL("/logo.png", Astro.site).href,
+  telephone: company.phone,
+  email: company.email,
+  url: Astro.site?.href,
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "34 Rue du Guilly",
+    addressLocality: "Moëlan-sur-Mer",
+    postalCode: "29350",
+    addressCountry: "FR",
+  },
+  areaServed: "Moëlan-sur-Mer, Quimperlé, Lorient, Bretagne sud",
+  foundingDate: String(company.since),
+  openingHours: ["Mo-Th 08:30-12:30,13:30-17:00", "Fr 08:30-12:30,13:30-16:00"],
+};
+---
+
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Marque que JS est actif (les éléments [data-reveal] ne sont masqués que si .js est présent) -->
+    <script is:inline>document.documentElement.classList.add("js");</script>
+    <link rel="icon" type="image/png" href="/logo.png" />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta property="og:site_name" content={company.name} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL(image, Astro.site).href} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Polices Google : preconnect + display swap -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@1,9..144,400..500&family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </head>
+  <body>
+    <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:top-4 focus:left-4 focus:bg-white focus:px-4 focus:py-2 focus:rounded-full">Aller au contenu</a>
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+    <ScrollTop />
+
+    <!-- Apparition au scroll : ajoute .is-visible quand l'élément [data-reveal] entre dans l'écran -->
+    <script>
+      const els = document.querySelectorAll("[data-reveal]");
+      if (els.length) {
+        if (!("IntersectionObserver" in window)) {
+          els.forEach((el) => el.classList.add("is-visible"));
+        } else {
+          const io = new IntersectionObserver(
+            (entries) => {
+              entries.forEach((e) => {
+                if (e.isIntersecting) {
+                  e.target.classList.add("is-visible");
+                  io.unobserve(e.target);
+                }
+              });
+            },
+            { threshold: 0.15, rootMargin: "0px 0px -10% 0px" },
+          );
+          els.forEach((el) => io.observe(el));
+        }
+      }
+    </script>
+
+    <!-- Feuilles décoratives : déclenche un tour sur soi-même (.is-spinning) à l'entrée dans l'écran, une seule fois -->
+    <script>
+      const leaves = document.querySelectorAll(".leaf-spin");
+      if (leaves.length && "IntersectionObserver" in window) {
+        const leafIo = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              if (e.isIntersecting) {
+                e.target.classList.add("is-spinning");
+                leafIo.unobserve(e.target);
+              }
+            });
+          },
+          { threshold: 0.6 },
+        );
+        leaves.forEach((el) => leafIo.observe(el));
+      }
+    </script>
+
+    <!-- Section épinglée : convertit le scroll vertical en déplacement horizontal (desktop uniquement) -->
+    <script>
+      const pinWrap = document.querySelector("[data-pin-wrap]");
+      const pinTrack = pinWrap?.querySelector("[data-pin-track]");
+      if (pinWrap && pinTrack) {
+        const mq = window.matchMedia("(min-width: 1024px) and (prefers-reduced-motion: no-preference)");
+        let ticking = false;
+        const update = () => {
+          ticking = false;
+          // Hors mode horizontal (mobile / reduced-motion) : on efface tout décalage et on empile.
+          if (!mq.matches) {
+            if (pinTrack.style.transform) pinTrack.style.transform = "";
+            return;
+          }
+          const panels = pinTrack.children.length;
+          const distance = pinWrap.offsetHeight - window.innerHeight;
+          const scrolled = Math.min(Math.max(-pinWrap.getBoundingClientRect().top, 0), distance);
+          const progress = distance > 0 ? scrolled / distance : 0;
+          const maxX = (panels - 1) * window.innerWidth;
+          pinTrack.style.transform = `translate3d(${(-progress * maxX).toFixed(2)}px,0,0)`;
+        };
+        const onScroll = () => {
+          if (!ticking) {
+            ticking = true;
+            requestAnimationFrame(update);
+          }
+        };
+        window.addEventListener("scroll", onScroll, { passive: true });
+        window.addEventListener("resize", onScroll);
+        if (mq.addEventListener) mq.addEventListener("change", onScroll);
+        update();
+      }
+    </script>
+  </body>
+</html>

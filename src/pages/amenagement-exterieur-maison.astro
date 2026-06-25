@@ -1,0 +1,116 @@
+---
+import Base from "../layouts/Base.astro";
+import PageHero from "../components/PageHero.astro";
+import FeatureRow from "../components/FeatureRow.astro";
+import TaxAdvantage from "../components/TaxAdvantage.astro";
+import CtaBand from "../components/CtaBand.astro";
+import { Image } from "astro:assets";
+import { find } from "../images";
+import leafIcon from "../assets/leaves_icon.png";
+import gal1 from "../assets/amenagement_exterieur_maison/1.webp";
+import gal2 from "../assets/amenagement_exterieur_maison/2.webp";
+import gal3 from "../assets/amenagement_exterieur_maison/3.webp";
+
+const leafMask = `-webkit-mask:url(${leafIcon.src}) center/contain no-repeat; mask:url(${leafIcon.src}) center/contain no-repeat;`;
+
+const hero = find("amenagement_exterieur_maison", "hero_ext_maison");
+const imgAllees = find("amenagement_exterieur_maison", "Dallage_ardoise");
+const imgBordures = find("amenagement_exterieur_maison", "Am_nagement_3");
+
+const galerie = [
+  { image: gal1, legende: "Allée" },
+  { image: gal2, legende: "Bordures" },
+  { image: gal3, legende: "Allées jardin" },
+];
+---
+
+<Base
+  title="Création d'allées, bordures et aménagements extérieurs de maison à Moëlan-sur-Mer"
+  description="Création d'allées, de bordures et d'aménagements extérieurs de maison à Moëlan-sur-Mer : enrobé, pavés, béton désactivé, gravier. Structurez et valorisez votre propriété."
+>
+  <PageHero
+    eyebrow="Allées &amp; bordures"
+    title="Création d'allées, bordures et aménagements extérieurs de maison à"
+    accent="Moëlan-sur-Mer"
+    image={hero!}
+    text="Structurez et embelissez votre jardin avec un aménagement extérieur adapté."
+    breadcrumb={[{ label: "Accueil", href: "/" }, { label: "Aménagement extérieur", href: "/amenagement-exterieur" }, { label: "Allées & bordures", href: "/amenagement-exterieur-maison" }]}
+  >
+    <a slot="actions" href="/contact" class="btn btn-primary">Contactez-nous</a>
+  </PageHero>
+
+  <!-- Section 2 : intro + galerie -->
+  <section class="container-x my-20 lg:my-28 relative">
+    <span aria-hidden="true" class="leaf-spin hidden lg:block absolute right-2 -top-8 w-12 h-16 bg-lime rotate-[20deg] opacity-90" style={leafMask}></span>
+    <div class="max-w-3xl mx-auto text-center">
+      <span class="eyebrow justify-center">Valorisez votre patrimoine</span>
+      <h2 class="mt-4 text-3xl md:text-4xl lg:text-5xl text-cream">Aménagement extérieur : profitez de vos espaces et valorisez votre <span class="accent text-lime">patrimoine</span></h2>
+      <div class="mt-6 space-y-4 text-cream/80 leading-relaxed text-left sm:text-center">
+        <p>Votre habitat mérite les meilleures décorations, et en matière d'aménagements extérieurs, un large choix de produits de plus en surprenants et innovants permet des créations de jardins uniques et harmonieuses, l'occasion parfaite pour apporter un cachet supplémentaire à l'architecture de votre maison.</p>
+        <p><a href="/amenagement-exterieur" class="text-lime underline underline-offset-4 hover:text-lime-bright">Spécialiste en aménagement extérieur</a>, lors d'un projet global de construction ou rénovation, notre équipe de paysagistes, après une étude de vos besoins et de la configuration de votre propriété, vous propose des solutions adaptées puis procède aux travaux pour la création d'espaces extérieurs sur mesure.</p>
+        <p>Pour toujours mieux délimiter vos espaces, nous réalisons également <a href="/cloture-portail" class="text-lime underline underline-offset-4 hover:text-lime-bright">la pose de clôtures et de portails</a>.</p>
+      </div>
+    </div>
+    <div class="mt-12 grid sm:grid-cols-3 gap-6">
+      {galerie.map((it) => (
+        <div class="group overflow-hidden rounded-3xl">
+          <Image src={it.image} alt={it.legende} class="w-full aspect-[4/3] object-cover transition-transform duration-500 group-hover:scale-105" widths={[400, 600, 800]} sizes="(min-width:640px) 30vw, 100vw" loading="lazy" />
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- Section 3 : maçonnerie créatrice d'ambiance (fond lime, centré) -->
+  <section class="bg-lime py-20 lg:py-28 relative overflow-hidden">
+    <span aria-hidden="true" class="leaf-spin hidden lg:block absolute right-8 top-10 w-14 h-20 bg-green-800 rotate-[15deg]" style={leafMask}></span>
+    <span aria-hidden="true" class="leaf-spin hidden lg:block absolute left-6 bottom-10 w-10 h-14 bg-green-800/60 -rotate-[20deg]" style={leafMask}></span>
+    <div class="container-x relative max-w-3xl mx-auto text-center text-green-900">
+      <span class="eyebrow justify-center !text-green-700">Créatrice d'ambiance</span>
+      <h2 class="mt-4 text-3xl md:text-4xl lg:text-5xl">Quand la maçonnerie paysagère devient créatrice <span class="accent !text-green-700">d'ambiance</span></h2>
+      <div class="mt-6 space-y-4 leading-relaxed text-green-900/80 text-left sm:text-center">
+        <p>Structurant les espaces de circulation et de détente, les cours et allées permettent toutes les formes et excentricités. Ambiance zen, contemporaine ou encore traditionnelle, jeu de formes, de couleurs, de lignes, d'installations végétales et lumineuses, la disposition de matériaux complémentaires ou contrastants permet la création d'ambiances extérieures uniques adaptées à toutes vos envies.</p>
+        <p>Bien pensées, placées aux endroits stratégiques, l'aménagement d'allées et les bordures facilitent la circulation tout en rehaussant le caractère de votre habitat.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 4 : création d'allées (texte à gauche, photo à droite) -->
+  <section class="container-x my-20 lg:my-28">
+    <FeatureRow
+      eyebrow="Création d'allées"
+      title="Création d'allées : alliez la beauté à la"
+      accent="praticité"
+      image={imgAllees!}
+      tall
+      reverse
+    >
+      <p>Allée carrossable ou piétonne, plane ou en pente, nous vous proposons différentes solutions d'aménagements extérieurs alliant praticité et esthétique.</p>
+      <p>Idéal pour les maisons contemporaines, l'enrobé, disponible en noir, rouge ou dans un ton naturel, est particulièrement apprécié pour sa résistance et durabilité.</p>
+      <p>S'adaptant à tous les styles architecturaux, les pavés en pierre naturelle jouent la carte de l'authenticité.</p>
+      <p>Quant au béton désactivé, particulièrement apprécié pour son rendu granuleux, il permet la création de surfaces uniformes, robustes et faciles d'entretien.</p>
+      <p>Et pour apporter un peu plus de couleur, le gravier disponible dans une large palette minérale, offre une véritable adaptabilité en termes d'esthétique.</p>
+    </FeatureRow>
+  </section>
+
+  <!-- Section 5 : bordures (fond lime, photo à gauche, texte à droite) -->
+  <section class="bg-lime py-20 lg:py-28 relative overflow-hidden">
+    <span aria-hidden="true" class="leaf-spin hidden lg:block absolute right-8 top-10 w-12 h-16 bg-green-800 rotate-[12deg]" style={leafMask}></span>
+    <div class="container-x relative">
+      <FeatureRow
+        eyebrow="Bordures"
+        title="Bordures : soulignez et embellissez les contours de vos"
+        accent="allées"
+        image={imgBordures!}
+        lime
+        tall
+      >
+        <p>En bois, ardoise, pierre reconstituée, pierre naturelle ou encore brique, la bordure permet un jeu de formes, qu'elles soient rectilignes, courbes, à motifs ou en relief.</p>
+        <p>Soulignant les contours de vos allées, massifs ou encore potager, elles offrent une réelle liberté d'aménagement et de décoration.</p>
+        <p>Lors d'un projet global de construction ou rénovation, pour harmoniser l'aspect extérieur de votre propriété, nous vous proposons également la pose de <a href="/cloture-portail" class="font-semibold text-green-900 underline underline-offset-4 decoration-terracotta hover:text-terracotta">clôtures</a>, la création de terrasses et plages de piscine ou encore la construction d'abris de jardin et de carports.</p>
+      </FeatureRow>
+    </div>
+  </section>
+
+  <TaxAdvantage />
+  <CtaBand />
+</Base>

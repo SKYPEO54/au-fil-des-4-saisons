@@ -1,0 +1,130 @@
+---
+import Base from "../layouts/Base.astro";
+import PageHero from "../components/PageHero.astro";
+import FeatureRow from "../components/FeatureRow.astro";
+import TaxAdvantage from "../components/TaxAdvantage.astro";
+import CtaBand from "../components/CtaBand.astro";
+import { Image } from "astro:assets";
+import { find } from "../images";
+import leafIcon from "../assets/leaves_icon.png";
+
+const leafMask = `-webkit-mask:url(${leafIcon.src}) center/contain no-repeat; mask:url(${leafIcon.src}) center/contain no-repeat;`;
+
+const hero = find("terrasse_exterieure", "bois");
+const imgMateriaux = find("terrasse_exterieure", "Photo__17");
+const imgPiscine = find("terrasse_exterieure", "PISCINE");
+
+const galerie = [
+  { img: find("terrasse_exterieure", "Photo__34"), legende: "Terrasse dalle" },
+  { img: find("terrasse_exterieure", "Terrasse_Bistone"), legende: "Terrasse Bistone" },
+  { img: find("terrasse_exterieure", "Photo__24"), legende: "Terrasse dallage" },
+];
+
+const questions = [
+  "quelle orientation",
+  "quel accès ? Plutôt chambre ou plutôt cuisine ?",
+  "l'endroit choisi est-il soumis au vent ou aux intempéries ?",
+  "surélevée ou de plain-pied ?",
+  "quelle surface ?",
+  "quel revêtement de sol ?",
+  "une plage de piscine assortie à la terrasse ou dans un style complétement différent ?",
+];
+---
+
+<Base
+  title="Création et pose de terrasse extérieure et plage de piscine à Moëlan-sur-Mer"
+  description="Création et pose de terrasses extérieures et de plages de piscine à Moëlan-sur-Mer : bois, composite, pierre, dallage. Un espace de convivialité en harmonie avec votre habitat."
+>
+  <PageHero
+    eyebrow="Terrasses &amp; piscines"
+    title="Création et pose de terrasse extérieure et plage de piscine à"
+    accent="Moëlan-sur-Mer"
+    image={hero!}
+    text="Vous allez enfin profiter du beau temps."
+    breadcrumb={[{ label: "Accueil", href: "/" }, { label: "Espaces verts", href: "/espaces-verts" }, { label: "Terrasses", href: "/terrasse-exterieure" }]}
+  >
+    <a slot="actions" href="/contact" class="btn btn-primary">Contactez-nous</a>
+  </PageHero>
+
+  <!-- Section 2 : convivialité + galerie -->
+  <section class="container-x my-20 lg:my-28 relative">
+    <span aria-hidden="true" class="leaf-spin hidden lg:block absolute right-2 -top-8 w-12 h-16 bg-lime rotate-[20deg] opacity-90" style={leafMask}></span>
+    <div class="max-w-3xl mx-auto text-center">
+      <span class="eyebrow justify-center">Convivialité &amp; détente</span>
+      <h2 class="mt-4 text-3xl md:text-4xl lg:text-5xl text-cream">Un espace extérieur propice à la convivialité et la <span class="accent text-lime">détente</span></h2>
+      <div class="mt-6 space-y-4 text-cream/80 leading-relaxed text-left sm:text-center">
+        <p>La terrasse, c'est un <a href="/espaces-verts" class="text-lime underline underline-offset-4 hover:text-lime-bright">prolongement de votre habitat</a>, un premier pas vers le jardin où vous profitez des rayons de soleil, vous prélassez en toute tranquillité. C'est aussi un espace convivial qui permet de réunir la famille et les amis pour un moment de complicité et de partage.</p>
+        <p>Accolée à la maison, au cœur de la végétation ou autour de la piscine, la terrasse offre un espace supplémentaire destiné à votre seul plaisir. Mais faut-il encore avoir une idée précise de ce que l'on souhaite vraiment.</p>
+        <p>Si vous le souhaitez, nous pouvons également <a href="/abri-jardin" class="text-lime underline underline-offset-4 hover:text-lime-bright">installer un abri de jardin</a> ou un carport dans vos espaces extérieurs.</p>
+      </div>
+    </div>
+    <div class="mt-12 grid sm:grid-cols-3 gap-6">
+      {galerie.map((it) => (
+        <div class="group overflow-hidden rounded-3xl">
+          <Image
+            src={it.img!}
+            alt={it.legende}
+            class="w-full aspect-[4/3] object-cover transition-transform duration-500 group-hover:scale-105"
+            widths={[400, 600, 800]}
+            sizes="(min-width:640px) 30vw, 100vw"
+            loading="lazy"
+          />
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- Section 3 : questions indispensables (fond lime, texte centré + liste) -->
+  <section class="bg-lime py-20 lg:py-28 relative overflow-hidden">
+    <span aria-hidden="true" class="leaf-spin hidden lg:block absolute right-8 top-10 w-14 h-20 bg-green-800 rotate-[15deg]" style={leafMask}></span>
+    <span aria-hidden="true" class="leaf-spin hidden lg:block absolute left-6 bottom-10 w-10 h-14 bg-green-800/60 -rotate-[20deg]" style={leafMask}></span>
+    <div class="container-x relative max-w-3xl mx-auto text-center text-green-900">
+      <span class="eyebrow justify-center !text-green-700">Bien réfléchir</span>
+      <h2 class="mt-4 text-3xl md:text-4xl lg:text-5xl">Le choix de vos aménagements extérieurs : les questions <span class="accent !text-green-700">indispensables</span></h2>
+      <p class="mt-6 leading-relaxed text-green-900/80 text-left sm:text-center">Projet enthousiasmant, la création d'une terrasse n'en reste pas moins un projet conséquent qui nécessite d'être bien réfléchi avant d'entreprendre les travaux. Et les questions sont nombreuses :</p>
+      <ul class="mt-6 inline-block text-left space-y-3 text-green-900/85">
+        {questions.map((q) => (
+          <li class="flex gap-3"><span aria-hidden="true" class="text-green-700 mt-1">✓</span><span>{q}</span></li>
+        ))}
+      </ul>
+      <p class="mt-8 leading-relaxed text-green-900/80 text-left sm:text-center">Chez Au Fil des 4 Saisons, équipe de paysagistes passionnés, nous vous guidons dans les nombreuses possibilités, vous aidons à définir vos envies et besoins spécifiques, puis nous procédons aux travaux pour un espace extérieur qui vous ressemble.</p>
+    </div>
+  </section>
+
+  <!-- Section 4 : quels matériaux (texte à gauche, photo à droite) -->
+  <section class="container-x my-20 lg:my-28">
+    <FeatureRow
+      eyebrow="Les matériaux"
+      title="Création d'une terrasse extérieure, quels matériaux"
+      accent="choisir ?"
+      image={imgMateriaux!}
+      tall
+      reverse
+    >
+      <p>Matériau chaleureux par essence, le bois reste souvent le choix privilégié pour les amoureux de la tradition. Terrasse en bois naturel ou composite, sous forme de lames ou caillebotis, essence traditionnelle ou exotique, le large choix de configurations et de coloris vous permet de créer un espace en harmonie avec l'architecture de votre habitat.</p>
+      <p>Quant à la pierre, résistante et facile d'entretien, elle permet des créations originales avec un dallage qui se prolonge dans un chemin à travers votre jardin. En grès cérame, granit, ardoise ou pierre reconstituée, déclinée en diverses nuances, vous pouvez opter pour le mélange de styles pour un aménagement adapté et complètement unique.</p>
+    </FeatureRow>
+  </section>
+
+  <!-- Section 5 : plage de piscine (fond lime, photo à gauche, texte à droite) -->
+  <section class="bg-lime py-20 lg:py-28 relative overflow-hidden">
+    <span aria-hidden="true" class="leaf-spin hidden lg:block absolute right-8 top-10 w-12 h-16 bg-green-800 rotate-[12deg]" style={leafMask}></span>
+    <div class="container-x relative">
+      <FeatureRow
+        eyebrow="Plage de piscine"
+        title="Plage de piscine : associez-la avec vos aménagements"
+        accent="extérieurs"
+        image={imgPiscine!}
+        lime
+        tall
+      >
+        <p>Le choix de votre revêtement de sol extérieur pour votre plage de piscine est moins contraignant.</p>
+        <p>Généralement exposée au soleil et à l'humidité, il convient de faire le choix d'un matériau particulièrement résistant, imputrescible et antidérapant.</p>
+        <p>Lames de bois, en béton ou en pierre reconstituée, en associant votre plage de piscine aux teintes de vos aménagements extérieurs (clôture, portail, abri de jardin, terrasse extérieure), vous préservez l'aspect harmonieux de l'esthétique de votre habitat.</p>
+      </FeatureRow>
+    </div>
+  </section>
+
+  <TaxAdvantage />
+  <CtaBand />
+</Base>

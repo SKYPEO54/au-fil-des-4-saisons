@@ -1,0 +1,140 @@
+---
+import Base from "../layouts/Base.astro";
+import PageHero from "../components/PageHero.astro";
+import FeatureRow from "../components/FeatureRow.astro";
+import CtaBand from "../components/CtaBand.astro";
+import { Image } from "astro:assets";
+import { find } from "../images";
+import leafIcon from "../assets/leaves_icon.png";
+import sap from "../assets/accueil/service-personne-5a3dc2ac-559w.jpg";
+import tva from "../assets/accueil/tva.webp";
+
+const leafMask = `-webkit-mask:url(${leafIcon.src}) center/contain no-repeat; mask:url(${leafIcon.src}) center/contain no-repeat;`;
+
+const hero = find("entretien_jardin", "entretien_espace_vert");
+const imgPrestations = find("entretien_jardin", "125400");
+
+const galerie = [
+  { img: find("entretien_jardin", "125400"), legende: "Taille" },
+  { img: find("entretien_jardin", "125411"), legende: "Taille de haie" },
+  { img: find("entretien_jardin", "41042"), legende: "Tonte" },
+];
+
+const prestations = [
+  "la taille de haies et arbustes",
+  "la tonte de pelouse et le désherbage",
+  "l'élagage et l'abattage d'arbres",
+  "le débroussaillage",
+  "le nettoyage de jardins et massifs",
+  "la plantation d'arbres et arbustes",
+  "le broyage des branches",
+  "l'évacuation des déchets",
+];
+---
+
+<Base
+  title="Entretien d'espaces verts à Moëlan-sur-Mer : embellir vos parcs et jardins"
+  description="Entretien de parcs et jardins à Moëlan-sur-Mer : taille, tonte, élagage, débroussaillage, nettoyage. Contrat annuel ou ponctuel, avec 50 % de crédit d'impôt (services à la personne)."
+>
+  <PageHero
+    eyebrow="Entretien de jardin"
+    title="Entretien d'espaces verts à Moëlan-sur-Mer : embellir vos"
+    accent="parcs et jardins"
+    image={hero!}
+    text="Préservez vos aménagements extérieurs grâce à nos services."
+    breadcrumb={[{ label: "Accueil", href: "/" }, { label: "Jardinier paysagiste", href: "/jardinier-paysagiste" }, { label: "Entretien", href: "/entretien-jardin" }]}
+  >
+    <a slot="actions" href="/contact" class="btn btn-primary">Contactez-nous</a>
+  </PageHero>
+
+  <!-- Section 2 : soin et exigence + galerie -->
+  <section class="container-x my-20 lg:my-28 relative">
+    <span aria-hidden="true" class="leaf-spin hidden lg:block absolute right-2 -top-8 w-12 h-16 bg-lime rotate-[20deg] opacity-90" style={leafMask}></span>
+    <div class="max-w-3xl mx-auto text-center">
+      <span class="eyebrow justify-center">Soin &amp; exigence</span>
+      <h2 class="mt-4 text-3xl md:text-4xl lg:text-5xl text-cream">L'entretien de parcs et jardins : optez pour le <span class="accent text-lime">soin et l'exigence</span></h2>
+      <div class="mt-6 space-y-4 text-cream/80 leading-relaxed text-left sm:text-center">
+        <p>Pour profiter pleinement de vos espaces verts toute l'année, un <a href="/paysagiste" class="text-lime underline underline-offset-4 hover:text-lime-bright">aménagement paysager</a> composé de végétaux demande du soin et de l'organisation. Et parce que certaines tâches nécessitent des connaissances et des moyens conséquents et que d'autres sont exigeantes en patience et précision, l'équipe d'Au Fil des 4 Saisons vous propose l'entretien de votre jardin via un contrat à l'année ou ponctuellement sur demande.</p>
+      </div>
+    </div>
+    <div class="mt-12 grid sm:grid-cols-3 gap-6">
+      {galerie.map((it) => (
+        <div class="group overflow-hidden rounded-3xl">
+          <Image
+            src={it.img!}
+            alt={it.legende}
+            class="w-full aspect-[4/3] object-cover transition-transform duration-500 group-hover:scale-105"
+            widths={[400, 600, 800]}
+            sizes="(min-width:640px) 30vw, 100vw"
+            loading="lazy"
+          />
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- Section 3 : au rythme des saisons (fond lime, texte centré) -->
+  <section class="bg-lime py-20 lg:py-28 relative overflow-hidden">
+    <span aria-hidden="true" class="leaf-spin hidden lg:block absolute right-8 top-10 w-14 h-20 bg-green-800 rotate-[15deg]" style={leafMask}></span>
+    <span aria-hidden="true" class="leaf-spin hidden lg:block absolute left-6 bottom-10 w-10 h-14 bg-green-800/60 -rotate-[20deg]" style={leafMask}></span>
+    <div class="container-x relative max-w-3xl mx-auto text-center text-green-900">
+      <span class="eyebrow justify-center !text-green-700">Au fil des saisons</span>
+      <h2 class="mt-4 text-3xl md:text-4xl lg:text-5xl">Propreté et harmonie de votre jardin : chouchoutez-le <span class="accent !text-green-700">au rythme des saisons</span></h2>
+      <div class="mt-6 space-y-4 leading-relaxed text-green-900/80 text-left sm:text-center">
+        <p>Votre jardin est vivant, de fait, il évolue au rythme des saisons. Période de tonte, de taille, de semis ou de repos, si vous êtes un peu perdu ou que vous manquez de temps pour le respect de votre calendrier ou que vous vous absentez pendant une longue période, faire appel à un professionnel pour l'entretien de vos espaces verts peut s'avérer être d'un grand secours.</p>
+        <p>Parce que oui, pour garder la propreté et l'harmonie de vos espaces verts, il est important de suivre quelques règles en fonction de la saison.</p>
+        <p>En hiver, généralement la période de repos pour vos plantes, on met l'accent sur leur protection avec notamment la pose de paillis pour les plus fragiles. Le printemps est propice aux travaux de taille, d'élagage, bouturage et éventuellement d'un traitement, et on n'oublie pas d'aérer la terre pour booster la pousse des plantes. En été, on veille à un arrosage optimisé et on n'oublie pas de profiter pleinement de ses espaces verts. Enfin, en automne, on réalise une taille préventive des haies, arbustes et buissons, on ratisse le gazon et on procède à une dernière tonte de pelouse avant le début de l'hiver.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 4 : prestations (texte + liste à gauche, photo à droite) -->
+  <section class="container-x my-20 lg:my-28">
+    <FeatureRow
+      eyebrow="Nos prestations"
+      title="Entretien de jardin : découvrez l'ensemble de nos"
+      accent="prestations"
+      image={imgPrestations!}
+      tall
+      reverse
+    >
+      <p><a href="/jardinier-paysagiste" class="text-lime underline underline-offset-4 hover:text-lime-bright">Notre équipe est à votre écoute</a> pour cerner vos attentes, nous vous donnons des conseils personnalisés selon la situation et nous vous proposons des contrats d'entretien de jardin suivant vos besoins.</p>
+      <p>Ainsi, notre équipe de paysagistes vous propose ses services pour :</p>
+      <ul class="grid sm:grid-cols-2 gap-x-6 gap-y-3">
+        {prestations.map((p) => (
+          <li class="flex gap-3"><span aria-hidden="true" class="text-lime mt-1">✓</span><span>{p}</span></li>
+        ))}
+      </ul>
+    </FeatureRow>
+  </section>
+
+  <!-- Avantage fiscal : 2 blocs côte à côte (texte complet) -->
+  <section class="container-x my-20 lg:my-28">
+    <div class="grid lg:grid-cols-2 gap-6 lg:gap-8 items-stretch">
+      <!-- Service à la personne -->
+      <div class="rounded-[2.25rem] bg-green-600 p-8 lg:p-10 flex flex-col">
+        <div class="rounded-2xl bg-white aspect-[16/10] flex items-center justify-center p-8">
+          <Image src={sap} alt="Services à la personne" class="max-h-full w-auto object-contain" widths={[280, 420]} sizes="(min-width:1024px) 40vw, 80vw" loading="lazy" />
+        </div>
+        <h2 class="mt-6 text-2xl md:text-3xl text-cream">Travaux de jardinage : votre <span class="accent text-lime">service à la personne</span></h2>
+        <div class="mt-4 space-y-4 text-cream/80 leading-relaxed">
+          <p>Parce que l'entretien de jardin contribue à votre bien-être, en faisant appel à nos paysagistes et dans le cadre d'un service à la personne, vous bénéficiez d'une réduction ou d'un crédit d'impôt de 50 % des sommes versées.</p>
+          <p>C'est pour nous une belle façon de vous accompagner dans les tâches quotidiennes et pour vous, une occasion de soutenir notre économie locale.</p>
+        </div>
+      </div>
+      <!-- Prix réduit / TVA 10 % -->
+      <div class="rounded-[2.25rem] bg-green-600 p-8 lg:p-10 flex flex-col">
+        <div class="rounded-2xl overflow-hidden aspect-[16/10]">
+          <Image src={tva} alt="TVA 10 %" class="w-full h-full object-cover" widths={[280, 510]} sizes="(min-width:1024px) 40vw, 80vw" loading="lazy" />
+        </div>
+        <h2 class="mt-6 text-2xl md:text-3xl text-cream">Vos travaux de jardinage et aménagements à <span class="accent text-lime">prix réduit</span></h2>
+        <div class="mt-4 space-y-4 text-cream/80 leading-relaxed">
+          <p>Nous vous accompagnons dans la rénovation de vos <a href="/amenagement-exterieur" class="text-lime underline underline-offset-4 hover:text-lime-bright">aménagements extérieurs</a>, vous proposons un entretien ponctuel ou un contrat d'entretien annuel personnalisé adapté à vos besoins.</p>
+          <p class="text-sm text-cream/70"><strong class="text-cream">TVA 10 %</strong> — Sous conditions d'éligibilité pour les travaux d'allées, bordures, clôtures et terrasses.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>

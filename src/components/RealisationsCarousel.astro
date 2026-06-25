@@ -1,0 +1,44 @@
+---
+// Carrousel de réalisations (réutilisable sur plusieurs pages).
+// Eyebrow personnalisable via prop (par défaut "(03) Réalisations").
+import ProjectCard from "./ProjectCard.astro";
+import sCreation from "../assets/accueil/creation_paysageres.jpg";
+import sEntretien from "../assets/accueil/services_entretien_espace_vert.webp";
+import sTerrasse from "../assets/accueil/creation_piscine.jpg";
+import sAbris from "../assets/accueil/service_abris_jardin.webp";
+import sCloture from "../assets/accueil/portails_cloture.jpg";
+import sAllees from "../assets/accueil/service_allees_bordure.webp";
+
+interface Props {
+  eyebrow?: string;
+}
+const { eyebrow = "(03) Réalisations" } = Astro.props;
+
+const projects = [
+  { title: "Création de", accent: "jardin", href: "/paysagiste", image: sCreation, text: "Conception sur mesure, plan 3D, plantations et finitions." },
+  { title: "Entretien", accent: "d'espaces", href: "/entretien-jardin", image: sEntretien, text: "Tonte, taille, élagage, débroussaillage. Ponctuel ou annuel." },
+  { title: "Terrasses &", accent: "piscines", href: "/terrasse-exterieure", image: sTerrasse, text: "Bois, pierre, composite : un prolongement de votre habitat." },
+  { title: "Abris &", accent: "carports", href: "/abri-jardin", image: sAbris, text: "Bois ou PVC, pour gagner en surface et en praticité." },
+  { title: "Clôtures &", accent: "portails", href: "/cloture-portail", image: sCloture, text: "Délimitez et sécurisez avec style et caractère." },
+  { title: "Allées &", accent: "bordures", href: "/amenagement-exterieur-maison", image: sAllees, text: "Pavés, enrobé, béton désactivé, gravier." },
+];
+---
+
+<section class="py-24 lg:py-32">
+  <div class="container-x">
+    <div class="flex flex-wrap items-end justify-between gap-6">
+      <div class="max-w-3xl">
+        <span class="eyebrow">{eyebrow}</span>
+        <h2 class="mt-6 text-cream text-4xl md:text-5xl lg:text-6xl leading-[1.04]">
+          Nos prestations <span class="accent">au fil des saisons</span>
+        </h2>
+      </div>
+      <a href="/maconnerie-paysagere" class="btn btn-ghost text-cream">Tout voir</a>
+    </div>
+  </div>
+  <div class="mt-12 flex gap-5 overflow-x-auto snap-x snap-mandatory px-5 md:px-8 pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+    <div class="shrink-0 w-[max(0px,calc((100vw-80rem)/2))]"></div>
+    {projects.map((p) => <ProjectCard {...p} />)}
+    <div class="shrink-0 w-5"></div>
+  </div>
+</section>

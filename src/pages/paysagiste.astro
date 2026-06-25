@@ -1,0 +1,143 @@
+---
+import Base from "../layouts/Base.astro";
+import PageHero from "../components/PageHero.astro";
+import FeatureRow from "../components/FeatureRow.astro";
+import TaxAdvantage from "../components/TaxAdvantage.astro";
+import CtaBand from "../components/CtaBand.astro";
+import { Image } from "astro:assets";
+import { find } from "../images";
+import leafIcon from "../assets/leaves_icon.png";
+
+const leafMask = `-webkit-mask:url(${leafIcon.src}) center/contain no-repeat; mask:url(${leafIcon.src}) center/contain no-repeat;`;
+
+const hero = find("paysagiste", "cordyline");
+const imgAvant = find("paysagiste", "Am_nagement");
+const imgMiseEnOeuvre = find("paysagiste", "Cloture_Alu3");
+
+const galerie = [
+  { img: find("paysagiste", "Allee_Pavee"), legende: "Allée jardin" },
+  { img: find("paysagiste", "Dallage"), legende: "Terrasse" },
+  { img: find("paysagiste", "P1010195"), legende: "Terrasse bois" },
+];
+
+const etapesAvant = [
+  "un diagnostic et un état des lieux",
+  "une proposition sommaire du projet (choix des végétaux et matériaux de maçonnerie paysagère)",
+  "un plan 3D de votre aménagement de jardin",
+  "un budget prévisionnel",
+];
+const miseEnOeuvre = [
+  "un nettoyage des espaces (abattage, dessouchage si besoin)",
+  "le tracé des ouvrages",
+  "les travaux de maçonnerie",
+  "la préparation des sols qui accueilleront les végétaux",
+  "l'engazonnement",
+  "les travaux de finitions",
+  "le nettoyage du chantier.",
+];
+---
+
+<Base
+  title="Création paysagère à Moëlan-sur-Mer : conception de votre jardin"
+  description="Création de jardin sur mesure à Moëlan-sur-Mer : de la conception (diagnostic, plan 3D, budget) à la réalisation. Une équipe de paysagistes passionnés pour vos parcs et jardins."
+>
+  <PageHero
+    eyebrow="Création paysagère"
+    title="Création paysagère à Moëlan-sur-Mer : conception de"
+    accent="votre jardin"
+    image={hero!}
+    text="La création de vos parcs et jardins par une équipe de paysagistes passionnés."
+    breadcrumb={[{ label: "Accueil", href: "/" }, { label: "Jardinier paysagiste", href: "/jardinier-paysagiste" }, { label: "Création", href: "/paysagiste" }]}
+  >
+    <a slot="actions" href="/contact" class="btn btn-primary">Contactez-nous</a>
+  </PageHero>
+
+  <!-- Section 2 : intro aménagement paysager + galerie -->
+  <section class="container-x my-20 lg:my-28 relative">
+    <span aria-hidden="true" class="leaf-spin hidden lg:block absolute right-2 -top-8 w-12 h-16 bg-lime rotate-[20deg] opacity-90" style={leafMask}></span>
+    <div class="max-w-3xl mx-auto text-center">
+      <span class="eyebrow justify-center">Aménagement paysager</span>
+      <h2 class="mt-4 text-3xl md:text-4xl lg:text-5xl text-cream">L'art de concevoir <span class="accent text-lime">l'harmonie</span></h2>
+      <div class="mt-6 space-y-4 text-cream/80 leading-relaxed text-left sm:text-center">
+        <p>Vous rêvez d'un espace de convivialité pour profiter de votre extérieur en famille ? Vous souhaitez transformer votre jardin pour ajouter un cachet supplémentaire à votre propriété ?</p>
+        <p>Quelle que soit la surface dont vous disposez, Au Fil des 4 Saisons, <a href="/jardinier-paysagiste" class="text-lime underline underline-offset-4 hover:text-lime-bright">notre équipe de paysagistes</a>, vous accompagne dans la transformation de vos espaces extérieurs (balcons, terrasses) et dans la création de vos aménagements paysagers depuis la conception de votre projet jusqu'à sa réalisation.</p>
+      </div>
+    </div>
+    <div class="mt-12 grid sm:grid-cols-3 gap-6">
+      {galerie.map((it) => (
+        <div class="group overflow-hidden rounded-3xl">
+          <Image
+            src={it.img!}
+            alt={it.legende}
+            class="w-full aspect-[4/3] object-cover transition-transform duration-500 group-hover:scale-105"
+            widths={[400, 600, 800]}
+            sizes="(min-width:640px) 30vw, 100vw"
+            loading="lazy"
+          />
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- Section 3 : quelles étapes (fond lime, texte centré) -->
+  <section class="bg-lime py-20 lg:py-28 relative overflow-hidden">
+    <span aria-hidden="true" class="leaf-spin hidden lg:block absolute right-8 top-10 w-14 h-20 bg-green-800 rotate-[15deg]" style={leafMask}></span>
+    <span aria-hidden="true" class="leaf-spin hidden lg:block absolute left-6 bottom-10 w-10 h-14 bg-green-800/60 -rotate-[20deg]" style={leafMask}></span>
+    <div class="container-x relative max-w-3xl mx-auto text-center text-green-900">
+      <span class="eyebrow justify-center !text-green-700">Méthode</span>
+      <h2 class="mt-4 text-3xl md:text-4xl lg:text-5xl">Quelles étapes pour l'aménagement de vos <span class="accent !text-green-700">parcs et jardins</span> ?</h2>
+      <div class="mt-6 space-y-4 leading-relaxed text-green-900/80 text-left sm:text-center">
+        <p>Chaque espace vert est unique ; chacun d'entre eux est un véritable lieu des possibles ou se mêlent architecture, botanique et design en fonction de vos envies et de l'environnement.</p>
+        <p>Ainsi, l'aménagement de vos espaces extérieurs est avant tout la recherche d'une esthétique harmonieuse par nos paysagistes, une recherche adaptée à vos goûts, votre mode de vie mais également aux conditions climatiques de votre région. Il est donc impératif de bien connaître vos besoins pour vous proposer une création sur mesure qui vous accompagnera tout au long des saisons et des années.</p>
+        <p>Que ce soit pour la plantation d'arbres et arbustes, pour la création d'une terrasse (bois, pavés) ou d'allées (dallage, enrobé) et bordures, pour la pose d'un portail, l'installation de clôtures ou la construction d'un abri de jardin ou voiture, notre <a href="/jardinier-paysagiste" class="font-semibold text-green-900 underline underline-offset-4 decoration-terracotta hover:text-terracotta">équipe de paysagistes</a> est à votre écoute pour vous accompagner dans votre projet et pour une réalisation qui vous ressemble.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 4 : étapes avant travaux (photo à gauche, texte + liste à droite) -->
+  <section class="container-x my-20 lg:my-28">
+    <FeatureRow
+      eyebrow="Avant les travaux"
+      title="Projet de création paysagère : les étapes"
+      accent="avant travaux"
+      image={imgAvant!}
+      tall
+    >
+      <p>Parce qu'un aménagement extérieur impacte votre manière de vivre votre jardin, avant tous travaux, il est important de procéder par étapes.</p>
+      <p>Ainsi, notre équipe de paysagistes réalise :</p>
+      <ul class="space-y-3">
+        {etapesAvant.map((e) => (
+          <li class="flex gap-3"><span aria-hidden="true" class="text-lime mt-1">✓</span><span>{e}</span></li>
+        ))}
+      </ul>
+    </FeatureRow>
+  </section>
+
+  <!-- Section 5 : mise en œuvre (fond lime, photo à droite, texte + liste à gauche) -->
+  <section class="bg-lime py-20 lg:py-28 relative overflow-hidden">
+    <span aria-hidden="true" class="leaf-spin hidden lg:block absolute left-8 top-10 w-12 h-16 bg-green-800 -rotate-[12deg]" style={leafMask}></span>
+    <div class="container-x relative">
+      <FeatureRow
+        eyebrow="La mise en œuvre"
+        title="La mise en œuvre de votre aménagement par"
+        accent="nos paysagistes"
+        image={imgMiseEnOeuvre!}
+        lime
+        tall
+        reverse
+      >
+        <p>La transformation des espaces extérieurs est un projet conséquent, donc ici aussi il est impératif de suivre des étapes précises pour une logistique optimale et une réalisation qui respecte les décisions prises en amont.</p>
+        <p>Ainsi, la réalisation comprend :</p>
+        <ul class="space-y-3">
+          {miseEnOeuvre.map((e) => (
+            <li class="flex gap-3"><span aria-hidden="true" class="text-green-700 mt-1">✓</span><span>{e}</span></li>
+          ))}
+        </ul>
+        <p>Et parce que votre jardin est un espace vivant et rythmé au gré des saisons, notre équipe de jardiniers paysagistes vous propose également l'<a href="/entretien-jardin" class="font-semibold text-green-900 underline underline-offset-4 decoration-terracotta hover:text-terracotta">entretien de vos espaces verts</a>.</p>
+      </FeatureRow>
+    </div>
+  </section>
+
+  <TaxAdvantage />
+  <CtaBand />
+</Base>

@@ -1,0 +1,119 @@
+---
+import Base from "../layouts/Base.astro";
+import PageHero from "../components/PageHero.astro";
+import FeatureRow from "../components/FeatureRow.astro";
+import TaxAdvantage from "../components/TaxAdvantage.astro";
+import CtaBand from "../components/CtaBand.astro";
+import { Image } from "astro:assets";
+import { find } from "../images";
+import leafIcon from "../assets/leaves_icon.png";
+
+const leafMask = `-webkit-mask:url(${leafIcon.src}) center/contain no-repeat; mask:url(${leafIcon.src}) center/contain no-repeat;`;
+
+const hero = find("abri_jardin", "1482455480256");
+const imgSolutions = find("abri_jardin", "Abri_de_jardin");
+const imgCarport = find("abri_jardin", "CARPORT");
+
+const galerie = [
+  { img: find("abri_jardin", "1547394117454"), legende: "Abri jardin" },
+  { img: find("abri_jardin", "IMG_0220"), legende: "Cabane" },
+];
+---
+
+<Base
+  title="Carport, abri et cabane de jardin à Moëlan-sur-Mer : conseils et construction"
+  description="Installation d'abris de jardin et de carports en bois à Moëlan-sur-Mer : conseils, réglementation, essences et finitions. Gagnez en surface et en praticité."
+>
+  <PageHero
+    eyebrow="Abris &amp; carports"
+    title="Carport, abri et cabane de jardin à Moëlan-sur-Mer : conseils et"
+    accent="construction"
+    image={hero!}
+    text="Gagnez en surface et praticité."
+    breadcrumb={[{ label: "Accueil", href: "/" }, { label: "Espaces verts", href: "/espaces-verts" }, { label: "Abris & carports", href: "/abri-jardin" }]}
+  >
+    <a slot="actions" href="/contact" class="btn btn-primary">Contactez-nous</a>
+  </PageHero>
+
+  <!-- Section 2 : atouts + galerie -->
+  <section class="container-x my-20 lg:my-28 relative">
+    <span aria-hidden="true" class="leaf-spin hidden lg:block absolute right-2 -top-8 w-12 h-16 bg-lime rotate-[20deg] opacity-90" style={leafMask}></span>
+    <div class="max-w-3xl mx-auto text-center">
+      <span class="eyebrow justify-center">Atouts</span>
+      <h2 class="mt-4 text-3xl md:text-4xl lg:text-5xl text-cream">Abri de jardin et carport : les atouts pratiques et <span class="accent text-lime">esthétiques</span></h2>
+      <div class="mt-6 space-y-4 text-cream/80 leading-relaxed text-left sm:text-center">
+        <p>Gagner en surface de vie ou de rangement, la plupart d'entre nous en a envie mais quand on ne dispose pas d'un budget conséquent ou simplement parce qu'on souhaite éviter les gros travaux, opter pour un abri de jardin peut être une très bonne option.</p>
+        <p>Autre solution : investir votre garage ! En choisissant la création d'un carport, votre voiture reste protégée et vous gagnez de l'espace pour votre projet personnel.</p>
+        <p>Pour vous aider à choisir la solution la plus adaptée à vos envies et besoins, l'équipe d'Au Fil des 4 Saisons, spécialiste en aménagements paysagers et <a href="/espaces-verts" class="text-lime underline underline-offset-4 hover:text-lime-bright">structures de jardin</a> vous guide et vous accompagne pour la réalisation d'un projet de jardin qui vous ressemble.</p>
+        <p>Grâce à nos compétences, nous pouvons aussi réaliser <a href="/terrasse-exterieure" class="text-lime underline underline-offset-4 hover:text-lime-bright">la pose de votre terrasse</a>.</p>
+      </div>
+    </div>
+    <div class="mt-12 grid sm:grid-cols-2 gap-6 max-w-4xl mx-auto">
+      {galerie.map((it) => (
+        <div class="group overflow-hidden rounded-3xl">
+          <Image
+            src={it.img!}
+            alt={it.legende}
+            class="w-full aspect-[4/3] object-cover transition-transform duration-500 group-hover:scale-105"
+            widths={[400, 600, 800]}
+            sizes="(min-width:640px) 45vw, 100vw"
+            loading="lazy"
+          />
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- Section 3 : réglementations (fond lime, texte centré) -->
+  <section class="bg-lime py-20 lg:py-28 relative overflow-hidden">
+    <span aria-hidden="true" class="leaf-spin hidden lg:block absolute right-8 top-10 w-14 h-20 bg-green-800 rotate-[15deg]" style={leafMask}></span>
+    <span aria-hidden="true" class="leaf-spin hidden lg:block absolute left-6 bottom-10 w-10 h-14 bg-green-800/60 -rotate-[20deg]" style={leafMask}></span>
+    <div class="container-x relative max-w-3xl mx-auto text-center text-green-900">
+      <span class="eyebrow justify-center !text-green-700">Réglementation</span>
+      <h2 class="mt-4 text-3xl md:text-4xl lg:text-5xl">Construction d'un abri et d'un carport : quelles <span class="accent !text-green-700">réglementations</span> ?</h2>
+      <div class="mt-6 space-y-4 leading-relaxed text-green-900/80 text-left sm:text-center">
+        <p>Que ce soit pour la création d'un abri de jardin ou pour un abri de voiture, les règles sont les mêmes d'un point de vue administratif, à savoir qu'aucune demande n'est nécessaire si votre projet ne dépasse pas les 5 m² de surface.</p>
+        <p>Au-delà et dans une limite de 20 m², une déclaration préalable de travaux est nécessaire pour faire valider le respect des règles d'urbanisme des plans de votre construction. Pour une surface supérieure à 20 m², on se dirigera plutôt vers une demande de permis de construire.</p>
+        <p>Cas particulier : si vous habitez dans une zone protégée, une déclaration vous sera demandée, même pour les surfaces de moins de 5 m².</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 4 : abri de jardin / solutions (texte à gauche, photo à droite) -->
+  <section class="container-x my-20 lg:my-28">
+    <FeatureRow
+      eyebrow="Abris de jardin"
+      title="Abri de jardin : quelles solutions pour vos"
+      accent="besoins ?"
+      image={imgSolutions!}
+      tall
+      reverse
+    >
+      <p>Particulièrement pratiques, les abris de jardin, longtemps destinés au rangement des outils de jardinage, se transforment de plus en plus en pièce de vie supplémentaire pour la création d'un atelier ou une chambre non attenante pour une retraite hors de l'agitation de la maison.</p>
+      <p>En bois, votre abri s'habille de chaleur pour s'intégrer parfaitement à la nature avec un style qui s'inspire du chalet montagnard. En pin, épicéa ou encore Douglas, les différentes essences choisies déterminent la durabilité et l'esthétique de votre construction. Traité autoclave, il est parfaitement résistant aux intempéries.</p>
+      <p>Pour son côté économique, vous pouvez également opter pour un abri de jardin PVC aspect bois ou une touche de modernisme avec un habillage gris anthracite par exemple.</p>
+    </FeatureRow>
+  </section>
+
+  <!-- Section 5 : carport (fond lime, photo à gauche, texte à droite) -->
+  <section class="bg-lime py-20 lg:py-28 relative overflow-hidden">
+    <span aria-hidden="true" class="leaf-spin hidden lg:block absolute right-8 top-10 w-12 h-16 bg-green-800 rotate-[12deg]" style={leafMask}></span>
+    <div class="container-x relative">
+      <FeatureRow
+        eyebrow="Le carport"
+        title="Carport : le choix de la simplicité pour des avantages"
+        accent="multipliés"
+        image={imgCarport!}
+        lime
+        tall
+      >
+        <p>Le carport gagne du terrain et ce n'est pas une surprise. Nécessitant beaucoup moins de travaux que la création d'un garage, le carport permet d'utiliser une zone inexploitée (sous contrainte des règles de voisinage) de votre propriété.</p>
+        <p>Outre son rôle de protection des aléas extérieurs, réalisé accolé à votre maison ou indépendamment de votre habitation, le carport se transforme en pergola le temps d'un barbecue ou d'un dîner.</p>
+        <p>Disponible en de nombreux styles et coloris, l'abri de voiture s'adapte à l'ensemble de vos aménagements (terrasse, portail, clôture) pour un rendu esthétique harmonieux et adapté à vos envies.</p>
+      </FeatureRow>
+    </div>
+  </section>
+
+  <TaxAdvantage />
+  <CtaBand />
+</Base>

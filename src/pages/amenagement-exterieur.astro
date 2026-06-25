@@ -1,0 +1,106 @@
+---
+import Base from "../layouts/Base.astro";
+import PageHero from "../components/PageHero.astro";
+import FeatureRow from "../components/FeatureRow.astro";
+import TaxAdvantage from "../components/TaxAdvantage.astro";
+import CtaBand from "../components/CtaBand.astro";
+import { Image } from "astro:assets";
+import { find } from "../images";
+import leafIcon from "../assets/leaves_icon.png";
+
+const leafMask = `-webkit-mask:url(${leafIcon.src}) center/contain no-repeat; mask:url(${leafIcon.src}) center/contain no-repeat;`;
+
+const hero = find("amenagement_exterieur", "IMG1_3399");
+const imgAllees = find("amenagement_exterieur", "Escalier_ardoise");
+const imgClotures = find("amenagement_exterieur", "Portillon");
+
+const galerie = [
+  { img: find("amenagement_exterieur", "Claustra_bois"), legende: "Portail bois Guidel" },
+  { img: find("amenagement_exterieur", "PORTAIL_COULISSANT_PVC"), legende: "Portail PVC Guidel" },
+  { img: find("amenagement_exterieur", "Cl_ture_Panneau"), legende: "Clôture Guidel" },
+];
+---
+
+<Base
+  title="Aménagement extérieur à Moëlan-sur-Mer : clôtures, portails et allées"
+  description="Aménagement extérieur de parcs et jardins à Moëlan-sur-Mer : création d'allées, de bordures, pose de clôtures et de portails. Des espaces plus sûrs, organisés et agréables."
+>
+  <PageHero
+    eyebrow="Aménagement extérieur"
+    title="Aménagement extérieur à Moëlan-sur-Mer : mise en place de clôtures, portails et"
+    accent="allées"
+    image={hero!}
+    text="Aménagez vos parcs et jardins pour les rendre plus sûrs et agréables à vivre."
+    breadcrumb={[{ label: "Accueil", href: "/" }, { label: "Aménagement extérieur", href: "/amenagement-exterieur" }]}
+  >
+    <a slot="actions" href="/contact" class="btn btn-primary">Contactez-nous</a>
+  </PageHero>
+
+  <!-- Section 2 : intro + galerie -->
+  <section class="container-x my-20 lg:my-28 relative">
+    <span aria-hidden="true" class="leaf-spin hidden lg:block absolute right-2 -top-8 w-12 h-16 bg-lime rotate-[20deg] opacity-90" style={leafMask}></span>
+    <div class="max-w-3xl mx-auto text-center">
+      <span class="eyebrow justify-center">Notre entreprise</span>
+      <h2 class="mt-4 text-3xl md:text-4xl lg:text-5xl text-cream">Faites appel à notre entreprise pour vos aménagements de <span class="accent text-lime">parcs et jardins</span></h2>
+      <div class="mt-6 space-y-4 text-cream/80 leading-relaxed text-left sm:text-center">
+        <p>Vous aimeriez que vos espaces verts soient mieux délimités, plus sécurisés, mieux organisés et qu'il soit plus simple de s'y balader paisiblement ?</p>
+        <p>Intervenant dans le Morbihan, l'entreprise Au fil des 4 saisons, vous accompagne dans tous vos projets de création et d'aménagement de jardins. Nous procédons notamment à <a href="/amenagement-exterieur-maison" class="text-lime underline underline-offset-4 hover:text-lime-bright">la mise en place de chemin et de bordures</a>, mais aussi de clôtures et de portails.</p>
+        <p>En plus de cela nous pouvons vous proposer nos services pour l'entretien de votre jardin, mais aussi pour l'installation de structures comme des abris, des carports ou des terrasses.</p>
+      </div>
+    </div>
+    <div class="mt-12 grid sm:grid-cols-3 gap-6">
+      {galerie.map((it) => (
+        <div class="group overflow-hidden rounded-3xl">
+          <Image
+            src={it.img!}
+            alt={it.legende}
+            class="w-full aspect-[4/3] object-cover transition-transform duration-500 group-hover:scale-105"
+            widths={[400, 600, 800]}
+            sizes="(min-width:640px) 30vw, 100vw"
+            loading="lazy"
+          />
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- Section 3 : allées & bordures (fond lime, texte à gauche, photo à droite) -->
+  <section class="bg-lime py-20 lg:py-28 relative overflow-hidden">
+    <span aria-hidden="true" class="leaf-spin hidden lg:block absolute right-8 top-10 w-14 h-20 bg-green-800 rotate-[15deg]" style={leafMask}></span>
+    <span aria-hidden="true" class="leaf-spin hidden lg:block absolute left-6 bottom-10 w-10 h-14 bg-green-800/60 -rotate-[20deg]" style={leafMask}></span>
+    <div class="container-x relative">
+      <FeatureRow
+        eyebrow="Allées &amp; bordures"
+        title="Créations d'allées et de bordures pour vos"
+        accent="parcs et jardins"
+        image={imgAllees!}
+        lime
+        tall
+        reverse
+      >
+        <p>Que vous soyez une commune, une entreprise ou un particulier, notre entreprise saura répondre à vos demandes pour la mise en places de chemins, d'allées et de bordures pour vos espaces verts.</p>
+        <p>Que vous préfériez un dallage traditionnel ou quelque chose de plus moderne, notre entreprise possède le personnel qualifié et les outils pour vous proposer un résultat impeccable. Très à l'écoute, nous vous conseillons sur la disposition et les matériaux les mieux adaptés afin de respecter au mieux vos envies et votre espace.</p>
+        <p>Nous pouvons également effectuer la création de bordures comme des petits murets visant à mieux souligner certains espaces ou à mieux les encadrer.</p>
+      </FeatureRow>
+    </div>
+  </section>
+
+  <!-- Section 4 : clôtures & portails (photo à gauche, texte à droite) -->
+  <section class="container-x my-20 lg:my-28">
+    <FeatureRow
+      eyebrow="Clôtures &amp; portails"
+      title="Installations de clôtures et de portails pour particuliers et"
+      accent="professionnels"
+      image={imgClotures!}
+      tall
+    >
+      <p>Pour sécuriser au mieux vos espaces verts, nous pouvons intervenir pour réaliser <a href="/cloture-portail" class="text-lime underline underline-offset-4 hover:text-lime-bright">la pose de clôture et de portails</a>.</p>
+      <p>Nous étudions minutieusement votre environnement afin de vous proposer différents modèles qui sauront s'adapter à vos besoins mais également à l'esthétique des lieux.</p>
+      <p>Clôtures en simple grillage ou en panneau de bois, portails manuels ou automatiques, nos professionnels sauront mettre en place un encadrement sur à vos espaces.</p>
+      <p>Pour plus d'informations, n'hésitez pas à nous contacter.</p>
+    </FeatureRow>
+  </section>
+
+  <TaxAdvantage />
+  <CtaBand />
+</Base>

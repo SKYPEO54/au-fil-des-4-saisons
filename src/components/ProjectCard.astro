@@ -1,0 +1,26 @@
+---
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+
+interface Props {
+  title: string;
+  accent?: string;
+  text: string;
+  href: string;
+  image: ImageMetadata;
+}
+const { title, accent, text, href, image } = Astro.props;
+---
+
+<a href={href} class="group snap-start shrink-0 w-[78vw] sm:w-[20rem] lg:w-[22rem] rounded-[1.75rem] bg-lime text-green-900 p-6 flex flex-col transition-all duration-300 hover:bg-lime-bright hover:-translate-y-1.5">
+  <div class="flex items-start justify-between gap-4">
+    <h3 class="text-2xl leading-[1.1]">{title}{accent && <> <span class="accent !text-green-700">{accent}</span></>}</h3>
+    <span class="shrink-0 w-10 h-10 rounded-full border border-green-900/30 flex items-center justify-center transition-all group-hover:bg-green-900 group-hover:border-green-900 group-hover:text-lime">
+      <svg class="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M9 7h8v8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </span>
+  </div>
+  <div class="mt-5 overflow-hidden rounded-[1.25rem]">
+    <Image src={image} alt={title} class="w-full aspect-[4/3] object-cover transition-transform duration-700 group-hover:scale-105" widths={[320, 480, 640]} sizes="22rem" loading="lazy" />
+  </div>
+  <p class="mt-4 text-sm leading-relaxed text-green-900/70">{text}</p>
+</a>

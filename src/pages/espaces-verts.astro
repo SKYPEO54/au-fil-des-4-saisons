@@ -1,0 +1,109 @@
+---
+import Base from "../layouts/Base.astro";
+import PageHero from "../components/PageHero.astro";
+import FeatureRow from "../components/FeatureRow.astro";
+import TaxAdvantage from "../components/TaxAdvantage.astro";
+import CtaBand from "../components/CtaBand.astro";
+import { Image } from "astro:assets";
+import { find } from "../images";
+import leafIcon from "../assets/leaves_icon.png";
+
+const leafMask = `-webkit-mask:url(${leafIcon.src}) center/contain no-repeat; mask:url(${leafIcon.src}) center/contain no-repeat;`;
+
+const hero = find("espace_vert", "PISCINE");
+const imgTerrasses = find("espace_vert", "Terrasse_composite");
+const imgAbris = find("espace_vert", "1547394117454");
+
+const galerie = [
+  { img: find("espace_vert", "CARPORT"), legende: "Carport Guidel" },
+  { img: find("espace_vert", "Photo__17"), legende: "Terrasse Guidel" },
+  { img: find("espace_vert", "Escalier_ardoise"), legende: "Créations jardins Guidel" },
+];
+---
+
+<Base
+  title="Espaces verts à Moëlan-sur-Mer : installations de terrasses et d'abris"
+  description="Aménagement d'espaces verts à Moëlan-sur-Mer : installation de terrasses, plages de piscine et abris de jardin. Transformez votre jardin en véritable espace de vie."
+>
+  <PageHero
+    eyebrow="Espaces verts"
+    title="Espaces verts à Moëlan-sur-Mer : installations de"
+    accent="terrasses et d'abris"
+    image={hero!}
+    text="Profitez au mieux de vos espaces verts grâce à nos services d'installations."
+    breadcrumb={[{ label: "Accueil", href: "/" }, { label: "Espaces verts", href: "/espaces-verts" }]}
+  >
+    <a slot="actions" href="/contact" class="btn btn-primary">Contactez-nous</a>
+  </PageHero>
+
+  <!-- Section 2 : intro + galerie -->
+  <section class="container-x my-20 lg:my-28 relative">
+    <span aria-hidden="true" class="leaf-spin hidden lg:block absolute right-2 -top-8 w-12 h-16 bg-lime rotate-[20deg] opacity-90" style={leafMask}></span>
+    <div class="max-w-3xl mx-auto text-center">
+      <span class="eyebrow justify-center">Nos installations</span>
+      <h2 class="mt-4 text-3xl md:text-4xl lg:text-5xl text-cream">Confiez la mise en place de vos installations de jardin <span class="accent text-lime">à notre entreprise</span></h2>
+      <div class="mt-6 space-y-4 text-cream/80 leading-relaxed text-left sm:text-center">
+        <p>Vous aimeriez transformer votre jardin en véritable espace de vie bien organisé, un peu à la manière d'une pièce supplémentaire de votre habitat ?</p>
+        <p>Spécialisée dans la création, l'entretien et l'agencement d'espaces verts, l'entreprise Au fil des 4 Saisons est située à Moëlan-sur-Mer dans le Morbihan et intervient dans un large périmètre pour réaliser l'<a href="/terrasse-exterieure" class="text-lime underline underline-offset-4 hover:text-lime-bright">installation de vos terrasses</a>, de vos plages de piscines et de <a href="/abri-jardin" class="text-lime underline underline-offset-4 hover:text-lime-bright">vos abris de jardins</a>.</p>
+        <p>Notre entreprise propose ses services aux professionnels et particuliers. Nous prenons soin de vos jardins et espaces verts.</p>
+        <p>Nous pouvons également intervenir pour des travaux d'agencements d'espaces verts via la mise en place d'allées, de chemins ainsi que de clôtures et portails.</p>
+        <p>Notre entreprise vous propose, ainsi, ses services et réalise vos travaux de création et d'entretien d'espaces verts et jardins !</p>
+      </div>
+    </div>
+    <div class="mt-12 grid sm:grid-cols-3 gap-6">
+      {galerie.map((it) => (
+        <div class="group overflow-hidden rounded-3xl">
+          <Image
+            src={it.img!}
+            alt={it.legende}
+            class="w-full aspect-[4/3] object-cover transition-transform duration-500 group-hover:scale-105"
+            widths={[400, 600, 800]}
+            sizes="(min-width:640px) 30vw, 100vw"
+            loading="lazy"
+          />
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- Section 3 : terrasses & plages de piscines (fond lime, texte à gauche, photo à droite) -->
+  <section class="bg-lime py-20 lg:py-28 relative overflow-hidden">
+    <span aria-hidden="true" class="leaf-spin hidden lg:block absolute right-8 top-10 w-14 h-20 bg-green-800 rotate-[15deg]" style={leafMask}></span>
+    <span aria-hidden="true" class="leaf-spin hidden lg:block absolute left-6 bottom-10 w-10 h-14 bg-green-800/60 -rotate-[20deg]" style={leafMask}></span>
+    <div class="container-x relative">
+      <FeatureRow
+        eyebrow="Terrasses &amp; piscines"
+        title="Installations de terrasses et de plages de piscines par nos"
+        accent="experts"
+        image={imgTerrasses!}
+        lime
+        tall
+        reverse
+      >
+        <p>Comme dit plus haut, votre jardin peut devenir un véritable espace de vie grâce à nos services d'installations de terrasses.</p>
+        <p>Nos professionnels sont à l'écoute de vos projets et vous fournissent de nombreux conseils sur l'agencement de votre terrasse et des matériaux à adopter (lattes de bois, dalle de ciment, carrelage, …). Conditions climatiques, faisabilité, budget, nous analysons tout de A à Z pour nous assurer que le résultat puisse satisfaire vos attentes.</p>
+        <p>Vous venez de faire construire une piscine et vous aimeriez la rendre plus facilement accessible et lui donner plus de cachet ? Nous pouvons également mettre en place des plages de piscines pour que vous puissiez profiter au mieux des beaux jours.</p>
+        <p>Notre entreprise vous propose ses services et effectue vos travaux !</p>
+      </FeatureRow>
+    </div>
+  </section>
+
+  <!-- Section 4 : abris de jardin (photo à gauche, texte à droite) -->
+  <section class="container-x my-20 lg:my-28">
+    <FeatureRow
+      eyebrow="Abris &amp; carports"
+      title="Ajoutez un espace de rangement dans votre jardin avec l'installation d'un"
+      accent="abri"
+      image={imgAbris!}
+      tall
+    >
+      <p>Vous avez besoin d'un espace dans votre jardin pour garer votre voiture à l'abri ou pour ranger vos outils et accessoires de jardin ou de piscine ?</p>
+      <p>Les professionnels de notre entreprise se chargent pour vous de l'installation d'abris de jardins et de carport en bois pour aménager au mieux votre espace extérieur sans pour autant ignorer son esthétique.</p>
+      <p>Grâce à nos travaux, vos jardins et espaces sont équipés d'abris de jardins efficaces.</p>
+      <p>Pour prendre rendez-vous avec nos services ou demander un devis, contactez-nous par téléphone.</p>
+    </FeatureRow>
+  </section>
+
+  <TaxAdvantage />
+  <CtaBand />
+</Base>

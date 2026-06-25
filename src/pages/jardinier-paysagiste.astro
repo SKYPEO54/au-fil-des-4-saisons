@@ -1,0 +1,106 @@
+---
+import Base from "../layouts/Base.astro";
+import PageHero from "../components/PageHero.astro";
+import FeatureRow from "../components/FeatureRow.astro";
+import TaxAdvantage from "../components/TaxAdvantage.astro";
+import CtaBand from "../components/CtaBand.astro";
+import { Image } from "astro:assets";
+import { find } from "../images";
+import leafIcon from "../assets/leaves_icon.png";
+
+const leafMask = `-webkit-mask:url(${leafIcon.src}) center/contain no-repeat; mask:url(${leafIcon.src}) center/contain no-repeat;`;
+
+const hero = find("jardinier_paysagiste", "hero");
+const imgCrea = find("jardinier_paysagiste", "Dallage_ardoise");
+const imgEnt = find("jardinier_paysagiste", "photo-1458245201577");
+
+const galerie = [
+  { img: find("jardinier_paysagiste", "Am_nagement"), legende: "Créations d'espaces verts Guidel" },
+  { img: find("jardinier_paysagiste", "Photo__24"), legende: "Terrasse Guidel" },
+  { img: find("jardinier_paysagiste", "Terrasse_Opus_Gneiss"), legende: "Créations jardins Guidel" },
+];
+---
+
+<Base
+  title="Jardinier paysagiste à Moëlan-sur-Mer : création et entretien de parcs et jardins"
+  description="Création et entretien de parcs et jardins à Moëlan-sur-Mer. Une équipe de jardiniers paysagistes passionnés vous accompagne à chaque étape de la vie de votre espace vert."
+>
+  <PageHero
+    eyebrow="Jardinier paysagiste"
+    title="Jardinier paysagiste à Moëlan-sur-Mer : création et entretien de"
+    accent="parcs et jardins"
+    image={hero!}
+    text="Notre équipe de paysagistes s'occupe de votre espace vert à chaque étape de sa vie."
+    breadcrumb={[{ label: "Accueil", href: "/" }, { label: "Jardinier paysagiste", href: "/jardinier-paysagiste" }]}
+  >
+    <a slot="actions" href="/contact" class="btn btn-primary">Contactez-nous</a>
+  </PageHero>
+
+  <!-- Section 2 : intro + galerie de réalisations -->
+  <section class="container-x my-20 lg:my-28 relative">
+    <span aria-hidden="true" class="leaf-spin hidden lg:block absolute right-2 -top-8 w-12 h-16 bg-lime rotate-[20deg] opacity-90" style={leafMask}></span>
+    <span aria-hidden="true" class="leaf-spin hidden lg:block absolute left-3 top-24 w-9 h-12 bg-lime/60 -rotate-[18deg]" style={leafMask}></span>
+    <div class="max-w-3xl mx-auto text-center">
+      <span class="eyebrow justify-center">Notre entreprise</span>
+      <h2 class="mt-4 text-3xl md:text-4xl lg:text-5xl text-cream">Une entreprise de jardiniers paysagistes passionnés <span class="accent text-lime">à votre écoute</span></h2>
+      <div class="mt-6 space-y-4 text-cream/80 leading-relaxed text-left sm:text-center">
+        <p>Située à Moëlan-sur-Mer dans le département du Morbihan, l'entreprise Au fil des 4 Saisons se spécialise dans la création, l'entretien et l'agencement de parcs et jardins.</p>
+        <p>Bénéficiant d'une expérience de plus de 15 ans, nos équipes sont à votre écoute pour votre projet afin de pouvoir réaliser des espaces verts en accord avec vos envies et votre budget. Nous réalisons aussi l'entretien de vos jardins et parcs afin de les garder beaux et agréables.</p>
+        <p>Fiers de nos compétences, nous pouvons intervenir afin de modifier vos espaces verts en y ajoutant des structures de jardins comme des terrasses ou des abris, ou en les agençant avec des allées, des bordures, des clôtures et des portails.</p>
+      </div>
+    </div>
+    <div class="mt-12 grid sm:grid-cols-3 gap-6">
+      {galerie.map((it) => (
+        <div class="group overflow-hidden rounded-3xl">
+          <Image
+            src={it.img!}
+            alt={it.legende}
+            class="w-full aspect-[4/3] object-cover transition-transform duration-500 group-hover:scale-105"
+            widths={[400, 600, 800]}
+            sizes="(min-width:640px) 30vw, 100vw"
+            loading="lazy"
+          />
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- Section 3 : création (fond lime, texte à gauche, photo à droite) -->
+  <section class="bg-lime py-20 lg:py-28 relative overflow-hidden">
+    <span aria-hidden="true" class="leaf-spin hidden lg:block absolute right-8 top-10 w-14 h-20 bg-green-800 rotate-[15deg]" style={leafMask}></span>
+    <span aria-hidden="true" class="leaf-spin hidden lg:block absolute left-6 bottom-10 w-10 h-14 bg-green-800/60 -rotate-[20deg]" style={leafMask}></span>
+    <div class="container-x relative">
+      <FeatureRow
+        eyebrow="Création"
+        title="Nos paysagistes s'occupent de la création de vos"
+        accent="parcs et jardins"
+        image={imgCrea!}
+        lime
+        tall
+        reverse
+      >
+        <p>Conscients que les parcs et jardins ne sont pas seulement définis par leur végétation, nos jardiniers paysagistes mélangent avec goût l'architecture et la botanique pour <a href="/paysagiste" class="font-semibold text-green-900 underline underline-offset-4 decoration-terracotta hover:text-terracotta">créer un espace de vie</a> qui vous corresponde au mieux.</p>
+        <p>Véritable expression culturelle, la création d'espaces verts nous pousse à étudier avec grande attention vos goûts, votre mode de vie mais aussi les conditions climatiques du lieu. Une fois toutes ces connaissances acquises, nous pourrons vous proposer une création sur-mesure en harmonie avec vos envies.</p>
+        <p>Plantation d'arbres, d'arbustes, de gazon, ajout de chemins, de terrasses ou même de clôtures ou de portails ... Nous possédons toutes les compétences et outils nécessaires à la création de vos espaces verts.</p>
+      </FeatureRow>
+    </div>
+  </section>
+
+  <!-- Section 4 : entretien (photo à gauche, texte à droite) -->
+  <section class="container-x my-20 lg:my-28">
+    <FeatureRow
+      eyebrow="Entretien"
+      title="Besoin de faire entretenir vos espaces verts ? Faites appel à"
+      accent="nos équipes !"
+      image={imgEnt!}
+      tall
+    >
+      <p>Vous aimeriez que votre jardin redevienne beau comme au premier jour pour pouvoir en profiter un maximum toute l'année ?</p>
+      <p>Non contents de créer des espaces verts, nous sommes aussi à même <a href="/entretien-jardin" class="text-lime underline underline-offset-4 hover:text-lime-bright">de les entretenir</a>. Nous réalisons la tonte, l'élagage, le taillage, le nettoyage et le débroussaillage de vos espaces verts grâce à des outils et techniques respectueuses de ces derniers.</p>
+      <p>Vous souhaitez en savoir plus sur nos prestations ? N'hésitez pas à prendre contact avec nos services dès aujourd'hui.</p>
+    </FeatureRow>
+  </section>
+
+  <TaxAdvantage />
+  <CtaBand />
+</Base>

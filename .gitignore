@@ -1,0 +1,28 @@
+# build output
+dist/
+
+# generated types Astro
+.astro/
+
+# dépendances (se réinstallent avec `npm install`)
+node_modules/
+
+# logs
+*.log
+npm-debug.log*
+
+# variables d'environnement
+.env
+.env.*
+!.env.example
+
+# système
+.DS_Store
+Thumbs.db
+
+# éditeur
+.vscode/
+.idea/
+
+# vidéo source en double à la racine (déjà dans public/videos/)
+au_fil_des_4_saisons_hero_video.mp4

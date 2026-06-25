@@ -1,0 +1,41 @@
+---
+// Section récurrente : "Vos travaux de jardinage et aménagements à prix réduit"
+import { Image } from "astro:assets";
+import sap from "../assets/accueil/service-personne-5a3dc2ac-559w.jpg";
+import tva from "../assets/accueil/tva.webp";
+---
+<section class="container-x my-20 lg:my-28">
+  <div class="rounded-[2.25rem] bg-green-600 p-8 lg:p-14">
+    <div class="max-w-2xl">
+      <span class="eyebrow">Bon à savoir</span>
+      <h2 class="mt-4 text-3xl md:text-4xl text-cream">
+        Vos travaux de jardinage et aménagements à <span class="accent">prix réduit</span>
+      </h2>
+      <p class="mt-4 text-cream/75 leading-relaxed">
+        Notre équipe de jardiniers-paysagistes vous accompagne dans la rénovation de vos aménagements
+        extérieurs et vous propose un entretien ponctuel ou un contrat d'entretien annuel personnalisé
+        adapté à vos besoins.
+      </p>
+    </div>
+    <div class="mt-10 grid md:grid-cols-2 gap-6">
+      <div class="bg-green-800 rounded-3xl p-7">
+        <div class="rounded-2xl bg-white h-44 flex items-center justify-center p-6">
+          <Image src={sap} alt="Services à la personne" class="max-h-full w-auto object-contain" widths={[280, 420]} sizes="280px" loading="lazy" />
+        </div>
+        <h3 class="mt-5 text-xl text-cream">Services à la personne</h3>
+        <p class="mt-2 text-sm text-cream/70 leading-relaxed">
+          Services à la personne : 50 % de réduction d'impôt selon loi de finances en vigueur.
+        </p>
+      </div>
+      <div class="bg-green-800 rounded-3xl p-7">
+        <div class="rounded-2xl overflow-hidden h-44">
+          <Image src={tva} alt="TVA 10 %" class="w-full h-full object-cover" widths={[280, 510]} sizes="(min-width:768px) 40vw, 100vw" loading="lazy" />
+        </div>
+        <h3 class="mt-5 text-xl text-cream">TVA 10 %</h3>
+        <p class="mt-2 text-sm text-cream/70 leading-relaxed">
+          Sous conditions d'éligibilité pour les travaux d'allées, bordures, clôtures et terrasses.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,84 @@
+---
+import Base from "../layouts/Base.astro";
+import PageHero from "../components/PageHero.astro";
+import FeatureRow from "../components/FeatureRow.astro";
+import CtaBand from "../components/CtaBand.astro";
+import { find } from "../images";
+import leafIcon from "../assets/leaves_icon.png";
+
+const leafMask = `-webkit-mask:url(${leafIcon.src}) center/contain no-repeat; mask:url(${leafIcon.src}) center/contain no-repeat;`;
+
+const hero = find("a_propos", "hero_about");
+const imgEntreprise = find("a_propos", "IMG_3933");
+const imgServices = find("a_propos", "occultante");
+---
+
+<Base
+  title="À propos — Paysagiste à Moëlan-sur-Mer depuis 2006"
+  description="Au Fil des 4 Saisons, entreprise de jardiniers paysagistes à Moëlan-sur-Mer depuis plus de 15 ans : création et entretien de jardin, espaces verts, aménagement extérieur et maçonnerie paysagère."
+>
+  <PageHero
+    eyebrow="Notre histoire"
+    title="Au Fil des 4 Saisons, votre paysagiste professionnel"
+    accent="à Moëlan-sur-Mer"
+    text="Création et entretien de jardin, réalisation d’espace vert, travaux d’aménagement extérieur et maçonnerie paysagère, nous sommes à votre service !"
+    image={hero!}
+    breadcrumb={[{ label: "Accueil", href: "/" }, { label: "À propos", href: "/a-propos" }]}
+  >
+    <a slot="actions" href="/contact" class="btn btn-primary">Contactez nos experts</a>
+  </PageHero>
+
+  <!-- Section 1 : notre entreprise (texte à gauche, photo à droite) -->
+  <section class="container-x my-20 lg:my-28 relative">
+    <span aria-hidden="true" class="leaf-spin hidden lg:block absolute right-2 -top-10 w-12 h-16 bg-lime rotate-[20deg] opacity-90" style={leafMask}></span>
+    <span aria-hidden="true" class="leaf-spin hidden lg:block absolute -bottom-10 left-4 w-10 h-14 bg-lime/70 -rotate-[18deg]" style={leafMask}></span>
+    <FeatureRow
+      eyebrow="Notre entreprise"
+      title="Apprenez en plus sur notre entreprise de"
+      accent="jardinier paysagiste"
+      image={imgEntreprise!}
+      reverse
+      tall
+    >
+      <p class="text-xl font-medium text-cream">Nous sommes à votre service depuis plus de 15 ans !</p>
+      <p>Notre entreprise, Au Fil des 4 Saisons, vous propose ses services de paysagistes et de jardiniers. Spécialisés dans les travaux de création et d’entretien de jardin, nous réalisons également la création d’espace vert, les travaux d’aménagements extérieurs et la maçonnerie paysagère.</p>
+      <p>Depuis plus de 15 ans, nous sommes au service des professionnels et des particuliers. Notre équipe de paysagistes réalise la création de jardins privés et publics.</p>
+      <p>Notre entreprise est située à Moëlan-sur-Mer, nous intervenons aussi dans les communes aux alentours tel que Guidel ou encore Lorient. Nous sommes disponibles du lundi au jeudi de 8h30 à 12h30 et de 13h30 à 17h00 et le vendredi de 8h30 à 12h30 et de 13h30 à 16h00.</p>
+      <p>Nous effectuons des devis gratuits et sommes à votre écoute pour vous conseiller sur votre projet.</p>
+      <p>Pour nous joindre, vous pouvez nous envoyer un mail à l’adresse suivante <a href="mailto:afd4saisons@gmail.com" class="text-lime underline underline-offset-4 hover:text-lime-bright">afd4saisons@gmail.com</a>, nous appeler ou nous contacter via notre formulaire de contact.</p>
+      <div class="pt-2">
+        <a href="/contact" class="btn btn-lime">Contactez nos paysagistes</a>
+      </div>
+    </FeatureRow>
+  </section>
+
+  <!-- Section 2 : nos services (fond lime, photo à gauche, texte à droite) -->
+  <section class="bg-lime py-20 lg:py-28 relative overflow-hidden">
+   <span aria-hidden="true" class="leaf-spin hidden lg:block absolute right-8 top-10 w-14 h-20 bg-green-800 rotate-[15deg]" style={leafMask}></span>
+   <span aria-hidden="true" class="leaf-spin hidden lg:block absolute left-6 bottom-10 w-10 h-14 bg-green-800/60 -rotate-[20deg]" style={leafMask}></span>
+   <div class="container-x relative">
+    <FeatureRow
+      eyebrow="Nos services"
+      title="Notre équipe vous présente ses services de"
+      accent="paysagiste"
+      image={imgServices!}
+      lime
+      tall
+    >
+      <p class="text-xl font-medium text-green-900">Nous réalisons vos travaux de maçonnerie paysagère, l'aménagement de votre extérieur, la réalisation de vos espaces verts, la création de votre jardin et son entretien !</p>
+      <p>Au Fil des 4 Saisons est à votre disposition pour réaliser tous vos travaux paysagistes. Nous effectuons, notamment, la création et l’entretien de votre jardin.</p>
+      <p>Tonte de votre pelouse, taille de vos arbustes ou encore, plantation de fleurs, nous sommes là pour vous !</p>
+      <p>Nos professionnels sont aussi disponibles pour réaliser la création de vos espaces verts. Nous réalisons ainsi l’ensemble de vos extérieurs et pouvons aussi réaliser leur entretien.</p>
+      <p>Nous proposons notamment l’installation d’abris et de terrasse.</p>
+      <p>Notre équipe de paysagiste vous propose aussi ses services d’aménagements extérieurs. Clôture, portail, allée et bordure, nous aménageons vos jardins.</p>
+      <p>Véritables experts, nos services comprennent aussi les travaux de maçonneries paysagères.</p>
+      <p>Obtenez votre devis gratuit et contactez-nous !</p>
+      <div class="pt-2">
+        <a href="/contact" class="btn btn-green">Obtenez votre devis gratuit</a>
+      </div>
+    </FeatureRow>
+   </div>
+  </section>
+
+  <CtaBand />
+</Base>

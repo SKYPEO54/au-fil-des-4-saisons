@@ -1,0 +1,19 @@
+---
+// Fond feuilles + voile vert foncé. À placer dans un parent `relative`.
+// Reste à la taille de son panneau (pas d'étirement = pas de pixelisation).
+import { Image } from "astro:assets";
+import bgLeaves from "../assets/bg_leaves.jpg";
+---
+
+<Image
+  src={bgLeaves}
+  alt=""
+  aria-hidden="true"
+  class="absolute inset-0 w-full h-full object-cover"
+  widths={[1920]}
+  sizes="100vw"
+  format="webp"
+  quality={55}
+  loading="lazy"
+/>
+<div class="absolute inset-0 bg-green-950/85"></div>

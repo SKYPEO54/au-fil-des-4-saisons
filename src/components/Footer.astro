@@ -1,0 +1,56 @@
+---
+import { company, nav } from "../site";
+import { Image } from "astro:assets";
+import logo from "../assets/logo.png";
+---
+
+<footer class="bg-lime text-green-900">
+  <div class="container-x py-16 lg:py-20">
+    <div class="grid gap-12 lg:grid-cols-[1.4fr_1fr_1fr_1.1fr]">
+      <div>
+        <a href="/" class="inline-flex" aria-label="Au Fil des 4 Saisons — accueil">
+          <Image src={logo} alt="Au Fil des 4 Saisons" width={240} height={102} class="h-16 w-auto" loading="lazy" />
+        </a>
+        <p class="mt-4 max-w-xs text-sm leading-relaxed text-green-900/70">
+          Jardinier paysagiste à Moëlan-sur-Mer depuis {company.since}. Création, entretien,
+          aménagement extérieur et maçonnerie paysagère en Bretagne sud.
+        </p>
+        <a href="/contact" class="btn btn-primary mt-6">Demander un devis gratuit</a>
+      </div>
+
+      <div>
+        <h2 class="font-sans text-xs font-semibold uppercase tracking-widest text-green-900/60">Navigation</h2>
+        <ul class="mt-4 space-y-2.5 text-sm">
+          {nav.map((item) => (
+            <li><a href={item.href} class="hover:text-terracotta transition-colors">{item.label}</a></li>
+          ))}
+        </ul>
+      </div>
+
+      <div>
+        <h2 class="font-sans text-xs font-semibold uppercase tracking-widest text-green-900/60">Horaires</h2>
+        <ul class="mt-4 space-y-2.5 text-sm">
+          {company.hours.map((h) => (
+            <li><span class="block font-medium">{h.day}</span><span class="text-green-900/60">{h.time}</span></li>
+          ))}
+        </ul>
+      </div>
+
+      <div>
+        <h2 class="font-sans text-xs font-semibold uppercase tracking-widest text-green-900/60">Contact</h2>
+        <ul class="mt-4 space-y-3 text-sm">
+          <li class="flex gap-3"><span aria-hidden="true">📍</span><span>{company.address}</span></li>
+          <li class="flex gap-3"><span aria-hidden="true">📞</span><a href={company.phoneHref} class="hover:text-terracotta">{company.phone}</a></li>
+          <li class="flex gap-3"><span aria-hidden="true">📱</span><a href={company.mobileHref} class="hover:text-terracotta">{company.mobile}</a></li>
+          <li class="flex gap-3"><span aria-hidden="true">✉️</span><a href={`mailto:${company.email}`} class="hover:text-terracotta break-all">{company.email}</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="mt-14 pt-8 border-t border-green-900/15 flex flex-col md:flex-row gap-3 items-start md:items-center justify-between text-xs text-green-900/60">
+      <p>© {company.since}–2026 {company.name}. Tous droits réservés.</p>
+      <p>{company.agrement}</p>
+      <a href="/mentions-legales" class="hover:text-terracotta">Mentions légales</a>
+    </div>
+  </div>
+</footer>

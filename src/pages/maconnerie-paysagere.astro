@@ -1,0 +1,54 @@
+---
+import Base from "../layouts/Base.astro";
+import PageHero from "../components/PageHero.astro";
+import GalleryMasonry from "../components/GalleryMasonry.astro";
+import CtaBand from "../components/CtaBand.astro";
+import { find } from "../images";
+import type { ImageMetadata } from "astro";
+import m_allee from "../assets/maconnerie_paysagere/allee.webp";
+import m_ardoise from "../assets/maconnerie_paysagere/ardoise.webp";
+
+const hero = find("maconnerie_paysagere", "hero_maconnerie");
+
+const f = (frag: string, legende: string) => ({ image: find("maconnerie_paysagere", frag), legende });
+const galerie = [
+  f("Terrasse_Opus_Gneiss", "Terrasse Opus Gneiss"),
+  f("Carrelage_imitation_bois", "Carrelage imitation bois"),
+  f("Escalier_ardoise_et_muret_pierre_-_Couvertine_ardoise-1600h", "Escalier ardoises, muret pierre et couvertines ardoises"),
+  f("parking", "Parking"),
+  { image: m_allee, legende: "Allée" },
+  f("Petit-escalier-traverse-et-ardoise", "Escalier traverse et ardoise"),
+  f("amenagement_jardin_maconerie_plantation", "Aménagement de jardin avec maçonnerie et plantation"),
+  { image: m_ardoise, legende: "Ardoise" },
+  f("escalier_pave", "Escalier en pavés"),
+  f("mur_pierre", "Réalisation d'un mur en pierre"),
+  f("dallage_ardoise_pave", "Dallage ardoise en pavé"),
+  f("Dallage-et-beton-desactive", "Dallage béton désactivé"),
+  f("allee_bois_pave", "Allée en bois et pavés"),
+].filter((it): it is { image: ImageMetadata; legende: string } => Boolean(it.image));
+---
+
+<Base
+  title="Aménagements paysagers à Moëlan-sur-Mer : découvrez nos réalisations"
+  description="Maçonnerie paysagère à Moëlan-sur-Mer : allées, terrasses, escaliers, murets, dallages en pierre et ardoise. Découvrez les réalisations sur mesure d'Au Fil des 4 Saisons."
+>
+  <PageHero
+    eyebrow="Maçonnerie paysagère"
+    title="Aménagements paysagers à Moëlan-sur-Mer : découvrez nos"
+    accent="réalisations"
+    image={hero!}
+    text="Des aménagements sur mesure par une équipe de paysagistes passionnés."
+    breadcrumb={[{ label: "Accueil", href: "/" }, { label: "Maçonnerie paysagère", href: "/maconnerie-paysagere" }]}
+  >
+    <a slot="actions" href="/contact" class="btn btn-primary">Contactez-nous</a>
+  </PageHero>
+
+  <GalleryMasonry
+    eyebrow="Nos réalisations"
+    title="Quelques-unes de nos"
+    accent="réalisations paysagères"
+    items={galerie}
+  />
+
+  <CtaBand />
+</Base>

@@ -1,0 +1,138 @@
+---
+// Carrousel manuel : l'utilisateur défile avec les flèches (boucle : revient au début/fin).
+// Mobile : swipe natif. Clic sur une image -> lightbox plein écran.
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+
+interface Item {
+  image: ImageMetadata;
+  legende: string;
+}
+interface Props {
+  eyebrow?: string;
+  title?: string;
+  accent?: string;
+  items: Item[];
+  lime?: boolean;
+}
+const { eyebrow, title, accent, items, lime = false } = Astro.props;
+---
+
+<section class="py-6 lg:py-8" data-carousel>
+  {(eyebrow || title) && (
+    <div class="container-x mb-10">
+      {eyebrow && <span class:list={["eyebrow", lime && "!text-green-700"]}>{eyebrow}</span>}
+      {title && (
+        <h2 class:list={["mt-4 text-3xl md:text-4xl lg:text-5xl", lime ? "text-green-900" : "text-cream"]}>
+          {title}{accent && <> <span class:list={["accent", lime ? "!text-green-700" : "text-lime"]}>{accent}</span></>}
+        </h2>
+      )}
+    </div>
+  )}
+  <div class="relative">
+    <div
+      data-carousel-track
+      class="flex gap-5 overflow-x-auto px-5 md:px-8 pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+    >
+      <div class="shrink-0 w-[max(0px,calc((100vw-80rem)/2))]"></div>
+      {items.map((it) => (
+        <button type="button" data-lb class="group shrink-0 w-[78vw] sm:w-[20rem] lg:w-[22rem] overflow-hidden rounded-[1.75rem] shadow-xl shadow-black/20 cursor-zoom-in block">
+          <Image
+            src={it.image}
+            alt={it.legende}
+            class="w-full aspect-[4/3] object-cover transition-transform duration-500 group-hover:scale-105"
+            widths={[480, 768, 1280]}
+            sizes="22rem"
+            loading="lazy"
+          />
+        </button>
+      ))}
+      <div class="shrink-0 w-5"></div>
+    </div>
+
+    <!-- Flèches -->
+    <button type="button" data-carousel-prev aria-label="Photo précédente"
+      class="hidden md:flex absolute left-4 lg:left-8 top-1/2 -translate-y-1/2 z-10 w-12 h-12 items-center justify-center rounded-full bg-green-900/90 text-lime border border-lime/30 shadow-lg backdrop-blur transition hover:bg-lime hover:text-green-900">
+      <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <button type="button" data-carousel-next aria-label="Photo suivante"
+      class="hidden md:flex absolute right-4 lg:right-8 top-1/2 -translate-y-1/2 z-10 w-12 h-12 items-center justify-center rounded-full bg-green-900/90 text-lime border border-lime/30 shadow-lg backdrop-blur transition hover:bg-lime hover:text-green-900">
+      <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </div>
+</section>
+
+<script>
+  // --- Lightbox partagée ---
+  let lb: HTMLElement | null = null;
+  let lbImg: HTMLImageElement | null = null;
+  function ensureLightbox() {
+    if (lb) return;
+    lb = document.createElement("div");
+    lb.className = "fixed inset-0 z-[100] hidden items-center justify-center bg-green-950/92 backdrop-blur-sm p-4 cursor-zoom-out";
+    lb.innerHTML =
+      '<button type="button" data-lb-close aria-label="Fermer" class="absolute top-5 right-5 w-12 h-12 flex items-center justify-center rounded-full bg-lime text-green-900 hover:bg-lime-bright transition">' +
+      '<svg class="w-6 h-6" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>' +
+      '<img data-lb-img alt="" class="max-h-[90vh] max-w-[92vw] rounded-2xl shadow-2xl object-contain" />';
+    document.body.appendChild(lb);
+    lbImg = lb.querySelector("[data-lb-img]");
+    lb.addEventListener("click", (e) => {
+      const t = e.target as HTMLElement;
+      if (t === lb || t.closest("[data-lb-close]")) closeLightbox();
+    });
+  }
+  function openLightbox(src: string, alt: string) {
+    ensureLightbox();
+    if (!lb || !lbImg) return;
+    lbImg.src = src; lbImg.alt = alt;
+    lb.classList.remove("hidden"); lb.classList.add("flex");
+    document.body.style.overflow = "hidden";
+  }
+  function closeLightbox() {
+    if (!lb) return;
+    lb.classList.add("hidden"); lb.classList.remove("flex");
+    document.body.style.overflow = "";
+  }
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeLightbox(); });
+  function largestSrc(img: HTMLImageElement): string {
+    const ss = img.getAttribute("srcset");
+    if (!ss) return img.currentSrc || img.src;
+    let best = img.currentSrc || img.src; let bw = 0;
+    ss.split(",").forEach((part) => {
+      const [u, w] = part.trim().split(/\s+/);
+      const n = parseInt(w);
+      if (n >= bw) { bw = n; best = u; }
+    });
+    return best;
+  }
+
+  function initCarousels() {
+    document.querySelectorAll("[data-carousel]").forEach((sec) => {
+      const track = sec.querySelector("[data-carousel-track]") as HTMLElement | null;
+      const prev = sec.querySelector("[data-carousel-prev]") as HTMLButtonElement | null;
+      const next = sec.querySelector("[data-carousel-next]") as HTMLButtonElement | null;
+      if (!track) return;
+      const step = () => Math.min(track.clientWidth * 0.85, 380);
+      const maxScroll = () => track.scrollWidth - track.clientWidth - 2;
+      next?.addEventListener("click", () => {
+        if (track.scrollLeft >= maxScroll()) track.scrollTo({ left: 0, behavior: "smooth" });
+        else track.scrollBy({ left: step(), behavior: "smooth" });
+      });
+      prev?.addEventListener("click", () => {
+        if (track.scrollLeft <= 2) track.scrollTo({ left: track.scrollWidth, behavior: "smooth" });
+        else track.scrollBy({ left: -step(), behavior: "smooth" });
+      });
+      track.querySelectorAll("[data-lb]").forEach((btn) => {
+        const el = btn as HTMLElement;
+        if (el.dataset.lbBound) return;
+        el.dataset.lbBound = "1";
+        el.addEventListener("click", () => {
+          const img = el.querySelector("img") as HTMLImageElement | null;
+          if (img) openLightbox(largestSrc(img), img.alt);
+        });
+      });
+    });
+  }
+  initCarousels();
+  document.addEventListener("astro:after-swap", initCarousels);
+</script>

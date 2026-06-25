@@ -1,0 +1,29 @@
+---
+import Base from "../layouts/Base.astro";
+import { company } from "../site";
+---
+
+<Base title="Mentions légales" description="Mentions légales du site Au Fil des 4 Saisons, paysagiste à Moëlan-sur-Mer.">
+  <section class="container-x pt-32 pb-20 max-w-3xl">
+    <h1 class="text-4xl md:text-5xl text-cream">Mentions <span class="accent text-lime">légales</span></h1>
+
+    <div class="mt-10 space-y-8 text-cream/85 leading-relaxed">
+      <div>
+        <h2 class="text-xl text-cream mb-2">Éditeur</h2>
+        <p>{company.name}<br />{company.address}<br />Tél. : {company.phone} — {company.mobile}<br />E-mail : {company.email}<br />{company.agrement}</p>
+      </div>
+      <div>
+        <h2 class="text-xl text-cream mb-2">Hébergement</h2>
+        <p>À compléter selon votre hébergeur (nom, adresse, téléphone).</p>
+      </div>
+      <div>
+        <h2 class="text-xl text-cream mb-2">Propriété intellectuelle</h2>
+        <p>L'ensemble des contenus (textes, images, logo) présents sur ce site est la propriété d'{company.name}, sauf mention contraire. Toute reproduction est interdite sans autorisation préalable.</p>
+      </div>
+      <div>
+        <h2 class="text-xl text-cream mb-2">Données personnelles</h2>
+        <p>Les informations recueillies via le formulaire de contact sont utilisées uniquement pour répondre à votre demande. Conformément au RGPD, vous disposez d'un droit d'accès, de rectification et de suppression de vos données en nous contactant par e-mail.</p>
+      </div>
+    </div>
+  </section>
+</Base>

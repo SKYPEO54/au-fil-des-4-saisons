@@ -1,0 +1,304 @@
+---
+import Base from "../layouts/Base.astro";
+import CategoryCard from "../components/CategoryCard.astro";
+import CtaBand from "../components/CtaBand.astro";
+import TaxAdvantage from "../components/TaxAdvantage.astro";
+import LeafBg from "../components/LeafBg.astro";
+import { company } from "../site";
+import { Image, getImage } from "astro:assets";
+
+import hero from "../assets/accueil/hero.jpg";
+
+// Poster du hero (image affichée instantanément le temps que la vidéo charge → LCP)
+const heroPoster = await getImage({ src: hero, format: "webp", width: 1920 });
+import equipe from "../assets/accueil/equipe.webp";
+import sCreation from "../assets/accueil/creation_paysageres.jpg";
+import sEntretien from "../assets/accueil/services_entretien_espace_vert.webp";
+import sAbris from "../assets/accueil/service_abris_jardin.webp";
+import sAllees from "../assets/accueil/service_allees_bordure.webp";
+import piscine from "../assets/terrasse_exterieure/PISCINE-2880w.webp";
+import clotureBois from "../assets/amenagement_exterieur/IMG1_3399-2880w.webp";
+import leafIcon from "../assets/leaves_icon.png";
+// (le fond feuilles est géré par le composant LeafBg)
+
+// Autres services (cartes avec photo)
+const autresServices = [
+  { title: "Entretien des", accent: "espaces verts", href: "/entretien-jardin", image: sEntretien, text: "Des travaux à prévoir ?" },
+  { title: "Abris de jardin", accent: "et carports", href: "/abri-jardin", image: sAbris, text: "Envie de gagner de l'espace ?" },
+  { title: "Allées et", accent: "bordures", href: "/amenagement-exterieur-maison", image: sAllees, text: "Un projet de rénovation ?" },
+];
+---
+
+<Base
+  title="Jardinier paysagiste à Moëlan-sur-Mer | Au Fil des 4 Saisons"
+  description="Au Fil des 4 Saisons, votre paysagiste professionnel à Moëlan-sur-Mer depuis 2006 : création et entretien de jardins, espaces verts, aménagement extérieur et maçonnerie paysagère. Devis gratuit."
+>
+  <!-- ============ HERO (composition centrée) ============ -->
+  <section class="relative h-screen min-h-160 flex flex-col overflow-hidden">
+    <!-- Vidéo de fond : poster affiché instantanément, source choisie selon l'écran (720p mobile / 1080p desktop) -->
+    <video
+      id="hero-video"
+      class="absolute inset-0 w-full h-full object-cover"
+      poster={heroPoster.src}
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="none"
+      aria-hidden="true"
+    ></video>
+    <script is:inline>
+      (function () {
+        var v = document.getElementById("hero-video");
+        if (!v) return;
+        var small = window.matchMedia("(max-width: 767px)").matches;
+        var base = small ? "/videos/hero-720" : "/videos/hero-1080";
+        [["webm", "video/webm"], ["mp4", "video/mp4"]].forEach(function (f) {
+          var s = document.createElement("source");
+          s.src = base + "." + f[0];
+          s.type = f[1];
+          v.appendChild(s);
+        });
+        v.load();
+        var p = v.play();
+        if (p && p.catch) p.catch(function () {});
+      })();
+    </script>
+    <div class="absolute inset-0 bg-linear-to-t from-green-950/85 via-green-950/35 to-green-950/55"></div>
+
+    <!-- Titre centré -->
+    <div class="container-x relative z-10 flex-1 flex flex-col items-center justify-center text-center pt-20">
+      <h1 class="text-cream text-[2.75rem] leading-[1.04] sm:text-6xl lg:text-[5.75rem] max-w-5xl reveal" style="animation-delay:.05s">
+        <span class="accent">Jardinier paysagiste</span> à Moëlan-sur-Mer : <span class="accent">Au Fil des 4 Saisons</span>
+      </h1>
+      <p class="mt-6 max-w-xl text-base sm:text-lg lg:text-xl text-cream/75 leading-relaxed reveal" style="animation-delay:.12s">
+        Un jardin beau et impeccable en toute saison
+      </p>
+    </div>
+
+    <!-- Bas du hero : adresse · descriptif centré · explorer -->
+    <div class="container-x relative z-10 pb-10 reveal" style="animation-delay:.2s">
+      <div class="grid grid-cols-2 md:grid-cols-3 items-end gap-6 border-t border-cream/15 pt-6">
+        <p class="text-[0.7rem] uppercase tracking-[0.18em] text-cream/55 leading-relaxed max-w-48">
+          {company.address}
+        </p>
+        <p class="hidden md:block text-center text-[0.7rem] uppercase tracking-[0.18em] text-cream/70 leading-relaxed mx-auto max-w-sm">
+          Création · entretien · aménagement extérieur · maçonnerie paysagère en Bretagne sud
+        </p>
+        <a href="#suite" class="group flex items-center justify-end gap-3 text-cream">
+          <span class="text-[0.7rem] uppercase tracking-[0.18em]">Explorer</span>
+          <span class="shrink-0 w-11 h-11 rounded-full border border-cream/30 flex items-center justify-center group-hover:bg-lime group-hover:text-green-900 group-hover:border-lime transition-colors">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M6 13l6 6 6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MANIFESTE (accroche après le hero) ============ -->
+  <section id="suite" class="container-x py-24 lg:py-32">
+    <div class="border-t border-cream/10 pt-12 lg:pt-16 grid lg:grid-cols-2 gap-10 lg:gap-20 items-start">
+      <h2 data-reveal class="text-cream text-4xl md:text-5xl lg:text-[3.5rem] leading-[1.06] max-w-xl">
+        Créez un espace de <span class="accent">détente</span> et de <span class="accent">sérénité</span> grâce à nos services <span class="accent">d'aménagement paysager</span>
+      </h2>
+      <div data-reveal style="--reveal-delay:.2s" class="space-y-6 text-lg text-cream/75 leading-relaxed max-w-xl lg:pt-2">
+        <p>
+          Véritable élément de design, l'aménagement paysager rehausse le caractère de votre propriété
+          avec des réalisations uniques — un mélange de végétal et de minéral créant des espaces de
+          détente et de contemplation.
+        </p>
+        <p>
+          Depuis <span class="text-cream font-medium">{company.since}</span>, l'équipe de
+          <span class="text-cream font-medium">jardiniers-paysagistes</span> d'Au Fil des 4 Saisons vous
+          accompagne dans l'embellissement et la création de jardins privés et publics.
+        </p>
+        <p>
+          Investis à vos côtés pour vous offrir de beaux espaces verts en toute praticité, nous ne
+          cessons d'apprendre et d'innover pour que chaque projet reflète vos attentes, même les plus
+          complexes.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SECTION ÉPINGLÉE : 3 panneaux, scroll horizontal (desktop) / empilé (mobile) ============ -->
+  <section class="pin-wrap relative" data-pin-wrap aria-label="Nos savoir-faire">
+    <div class="pin-sticky relative">
+      <!-- Piste horizontale (chaque panneau a son propre fond feuilles via <LeafBg/>) -->
+      <div class="pin-track relative" data-pin-track>
+
+        <!-- Panneau 1 : Création paysagère (texte gauche / photo droite) -->
+        <article class="pin-panel relative overflow-hidden flex items-center">
+          <LeafBg />
+          <div class="container-x relative w-full grid lg:grid-cols-2 gap-8 lg:gap-14 items-center">
+            <div>
+              <span class="eyebrow">Notre savoir-faire</span>
+              <h2 class="mt-4 text-cream text-3xl md:text-4xl lg:text-5xl leading-[1.06]">
+                Création paysagère, jeux de <span class="accent">textures, matières et couleurs</span>
+              </h2>
+              <div class="mt-5 space-y-3.5 text-base text-cream/75 leading-relaxed max-w-xl">
+                <p>C'est décidé : cette année, vous avez envie de profiter du beau temps et de transformer vos espaces extérieurs. Pour cela, mieux vaut faire appel à des paysagistes professionnels.</p>
+                <p>Étude de votre projet, plans 3D, maçonnerie paysagère, plantation, engazonnement, construction d'une terrasse ou d'un abri : pour l'ensemble de vos <span class="text-cream font-medium">aménagements extérieurs</span>, notre entreprise crée avec vous des espaces qui vous ressemblent.</p>
+                <p>Et pour en profiter toute l'année, nous assurons aussi <span class="text-cream font-medium">l'entretien de votre jardin</span> : élagage, débroussaillage, taille de haies et d'arbres, tonte de gazon.</p>
+              </div>
+              <a href="/paysagiste" class="btn btn-primary mt-6">Création paysagère</a>
+            </div>
+            <div>
+              <Image src={sCreation} alt="Création paysagère réalisée par Au Fil des 4 Saisons" class="rounded-card w-full h-[40vh] lg:h-[62vh] object-cover shadow-2xl shadow-black/40" widths={[480, 768, 1024]} sizes="(min-width:1024px) 45vw, 100vw" loading="lazy" />
+            </div>
+          </div>
+        </article>
+
+        <!-- Panneau 2 : Terrasses & plages de piscines (photo gauche / texte droite) -->
+        <article class="pin-panel relative overflow-hidden flex items-center">
+          <LeafBg />
+          <div class="container-x relative w-full grid lg:grid-cols-2 gap-8 lg:gap-14 items-center">
+            <div class="order-2 lg:order-1">
+              <Image src={piscine} alt="Terrasse et plage de piscine réalisées par Au Fil des 4 Saisons" class="rounded-card w-full h-[40vh] lg:h-[62vh] object-cover shadow-2xl shadow-black/40" widths={[480, 768, 1024]} sizes="(min-width:1024px) 45vw, 100vw" loading="lazy" />
+            </div>
+            <div class="order-1 lg:order-2">
+              <h2 class="text-cream text-3xl md:text-4xl lg:text-5xl leading-[1.06]">
+                Place à la détente avec la création de <span class="accent">terrasses et plages de piscines</span>
+              </h2>
+              <div class="mt-5 space-y-3.5 text-base text-cream/75 leading-relaxed max-w-xl">
+                <p>Endroit convivial et propice à la détente par excellence, la terrasse est synonyme de bains de soleil et réunions avec la famille et les amis.</p>
+                <p>En bois, dalles ou pavage, tous les styles sont possibles et notre équipe vous offre toute sa créativité pour vous proposer des solutions adaptées à vos besoins et envies.</p>
+                <p>Quant à la plage de piscine, en prolongement de la terrasse ou en cassant complètement le style pour un côté éclectique, notre équipe de jardiniers paysagistes vous aide à définir vos attentes puis procède aux travaux dans le respect des décisions prises en amont.</p>
+              </div>
+              <a href="/terrasse-exterieure" class="btn btn-primary mt-6">Terrasse</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Panneau 3 : Portails & clôtures (texte gauche / photo droite) -->
+        <article class="pin-panel relative overflow-hidden flex items-center">
+          <LeafBg />
+          <div class="container-x relative w-full grid lg:grid-cols-2 gap-8 lg:gap-14 items-center">
+            <div>
+              <h2 class="text-cream text-3xl md:text-4xl lg:text-5xl leading-[1.06]">
+                Sécurité, praticité et esthétique : découvrez nos <span class="accent">portails et clôtures</span>
+              </h2>
+              <div class="mt-5 space-y-3.5 text-base text-cream/75 leading-relaxed max-w-xl">
+                <p>Qu'ils servent à délimiter ou protéger votre propriété, les clôtures, portails et portillons s'habillent de style pour se fondre dans l'ambiance de vos aménagements extérieurs ou au contraire, contraster et ajouter du peps et de l'originalité.</p>
+                <p>Choix des matériaux, choix des couleurs, type d'ouverture, nous vous guidons sur les solutions les plus optimisées puis réalisons les travaux d'installation avec soin et exigence.</p>
+              </div>
+              <a href="/cloture-portail" class="btn btn-primary mt-6">Clôture et portail</a>
+            </div>
+            <div>
+              <Image src={clotureBois} alt="Clôture bois réalisée par Au Fil des 4 Saisons" class="rounded-card w-full h-[40vh] lg:h-[62vh] object-cover shadow-2xl shadow-black/40" widths={[480, 768, 1024]} sizes="(min-width:1024px) 45vw, 100vw" loading="lazy" />
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PETITS PLUS / ENGAGEMENTS (4 cartes, fond lime) ============ -->
+  <section class="bg-lime text-green-900 py-24 lg:py-32">
+    <div class="container-x">
+      <div class="max-w-3xl" data-reveal>
+        <span class="eyebrow text-green-700!">Nos engagements</span>
+        <h2 class="mt-4 text-green-900 text-3xl md:text-4xl lg:text-5xl leading-[1.06]">
+          Petits plus et <span class="accent text-green-700!">exigences</span> de notre équipe de jardiniers
+        </h2>
+        <p class="mt-5 text-lg text-green-900/80 leading-relaxed">
+          Engagés auprès de nos clients depuis {company.since}, nous avons à cœur le travail bien fait
+          parce que votre confiance est notre seul gage pour la poursuite de notre passion.
+        </p>
+      </div>
+
+      <div class="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <!-- Zone d'intervention -->
+      <div data-reveal class="rounded-card bg-green-800 p-7">
+        <span class="flex w-14 h-14 rounded-full bg-terracotta text-cream items-center justify-center">
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-5.3 7-11a7 7 0 1 0-14 0c0 5.7 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+        </span>
+        <h3 class="mt-5 text-xl text-cream">Zone d'intervention</h3>
+        <p class="mt-2.5 text-cream/70 leading-relaxed">Sud du Finistère, à Riec-sur-Bélon, Moëlan-sur-Mer, Clohars-Carnoët, Guidel, Quimperlé, Lorient, Ploemeur et leurs alentours.</p>
+      </div>
+
+      <!-- Exigence de soin et qualité -->
+      <div data-reveal style="--reveal-delay:.08s" class="rounded-card bg-green-800 p-7">
+        <span class="flex w-14 h-14 rounded-full bg-lime text-green-900 items-center justify-center">
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12l3 6-9 12L3 9l3-6z"/><path d="M3 9h18M9 3 7 9l5 12 5-12-2-6"/></svg>
+        </span>
+        <h3 class="mt-5 text-xl text-cream">Exigence de soin et qualité</h3>
+        <p class="mt-2.5 text-cream/70 leading-relaxed">Le goût du travail bien fait nous motive chaque jour pour vous proposer des prestations de qualité.</p>
+      </div>
+
+      <!-- Entreprise créative -->
+      <div data-reveal style="--reveal-delay:.16s" class="rounded-card bg-green-800 p-7">
+        <span class="flex w-14 h-14 rounded-full bg-terracotta text-cream items-center justify-center">
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18c.9 0 1.5-.7 1.5-1.6 0-.4-.2-.8-.5-1.1-.3-.3-.5-.7-.5-1.1 0-.9.7-1.6 1.6-1.6H16a5 5 0 0 0 5-5c0-3.9-4-7.6-9-7.6z"/><circle cx="7.5" cy="10.5" r="1"/><circle cx="12" cy="7.5" r="1"/><circle cx="16.5" cy="10.5" r="1"/></svg>
+        </span>
+        <h3 class="mt-5 text-xl text-cream">Entreprise créative</h3>
+        <p class="mt-2.5 text-cream/70 leading-relaxed">Idées d'agencement et de création originales adaptées à vos envies et personnalité.</p>
+      </div>
+
+      <!-- Devis gratuit -->
+      <div data-reveal style="--reveal-delay:.24s" class="rounded-card bg-green-800 p-7">
+        <span class="flex w-14 h-14 rounded-full bg-lime text-green-900 items-center justify-center">
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4h6v3H9z"/><path d="M9 5H6v15h12V5h-3"/><path d="m9 13 2 2 4-4"/></svg>
+        </span>
+        <h3 class="mt-5 text-xl text-cream">Devis gratuit</h3>
+        <p class="mt-2.5 text-cream/70 leading-relaxed">Pour une étude précise de vos besoins, nous nous déplaçons chez vous.</p>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ INTRO / NOTRE ENTREPRISE (photo gauche, texte droite) ============ -->
+  <section class="container-x py-24 lg:py-32">
+    <div class="grid lg:grid-cols-2 gap-10 lg:gap-16 items-stretch">
+      <!-- Photo pleine hauteur à gauche -->
+      <div data-reveal class="relative">
+        <Image src={equipe} alt="L'équipe Au Fil des 4 Saisons" class="rounded-card w-full h-full min-h-[20rem] object-cover shadow-2xl shadow-black/40" widths={[480, 768, 1024]} sizes="(min-width:1024px) 45vw, 100vw" loading="lazy" />
+      </div>
+      <!-- Texte à droite -->
+      <div data-reveal style="--reveal-delay:.12s" class="relative flex flex-col justify-center">
+        <!-- feuille décorative (silhouette lime claire) en haut à droite -->
+        <span aria-hidden="true" class="leaf-spin hidden lg:block absolute -top-4 right-0 w-14 h-20 bg-lime" style={`-webkit-mask:url(${leafIcon.src}) center/contain no-repeat; mask:url(${leafIcon.src}) center/contain no-repeat;`}></span>
+        <span class="eyebrow">(01) Notre entreprise</span>
+        <h2 class="mt-4 text-cream text-4xl md:text-5xl lg:text-6xl leading-[1.04]">
+          Nous transformons vos rêves de jardin en <span class="accent">œuvre vivante</span>
+        </h2>
+        <p class="mt-6 text-lg text-cream/75 leading-relaxed">
+          Basée à Moëlan-sur-Mer, notre équipe de paysagistes passionnés conçoit des espaces de repos
+          où se mêlent végétal et minéral. Particuliers comme professionnels, nous vous accompagnons à
+          chaque étape de la vie de votre jardin, depuis {company.since}.
+        </p>
+        <a href="/a-propos" class="btn btn-lime mt-8 self-start">En savoir plus</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ NOS SERVICES (cartes avec photo) ============ -->
+  <section class="bg-lime text-green-900 py-24 lg:py-32 fit-screen">
+    <div class="container-x relative">
+      <!-- feuille décorative à droite -->
+      <Image src={leafIcon} alt="" aria-hidden="true" class="leaf-spin hidden lg:block absolute right-0 top-0 w-9 h-auto" widths={[40, 80]} loading="lazy" />
+
+      <div class="max-w-3xl mx-auto text-center" data-reveal>
+        <span class="eyebrow text-green-700!">(02) Nos services</span>
+        <h2 class="mt-4 text-green-900 text-3xl md:text-4xl lg:text-[3.25rem] leading-[1.06]">
+          Découvrez nos autres services de <span class="accent text-green-700!">travaux paysagers</span>
+        </h2>
+        <p class="mt-6 text-green-900/75 leading-relaxed max-w-xl mx-auto">
+          Pour une intervention ponctuelle ou pour un projet global de transformation de vos aménagements
+          extérieurs, notre équipe de jardiniers passionnés vous conseille et vous accompagne dans vos
+          choix et la mise en œuvre de vos envies.
+        </p>
+      </div>
+
+      <div class="mt-16 grid md:grid-cols-3 gap-6" data-reveal style="--reveal-delay:.1s">
+        {autresServices.map((s) => <CategoryCard {...s} dark={true} />)}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ AVANTAGE FISCAL (composant réutilisé) ============ -->
+  <TaxAdvantage />
+
+  <CtaBand />
+</Base>

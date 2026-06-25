@@ -1,0 +1,331 @@
+@import "tailwindcss";
+
+/* ===========================================================
+   Au Fil des 4 Saisons — Design System
+   Parti pris : VERT PROFOND immersif (dominant) + sections LIME
+   façon "Green Harvest", adapté aux couleurs entreprise.
+   Couleurs entreprise : terracotta #db3e15 / olive #8a9c0d
+   =========================================================== */
+
+@theme {
+  /* Vert profond émeraude — couleur DOMINANTE du site */
+  --color-green-950: #0b2417;
+  --color-green-900: #0f2f20;
+  --color-green-800: #154029;
+  --color-green-700: #1a4a33;   /* fond principal du site */
+  --color-green-600: #1d5a42;   /* cards / surfaces émeraude */
+  --color-green-500: #2a6d50;
+  --color-green-400: #3c8466;
+
+  /* Lime / chartreuse pastel — sections claires & accents */
+  --color-lime: #d4e87e;        /* fond des sections lime (clair) */
+  --color-lime-bright: #e2f29a;
+  --color-lime-soft: #eef4c8;
+  --color-olive: #8a9c0d;       /* couleur entreprise */
+  --color-olive-dark: #6e7d0a;
+
+  /* Terracotta — pop / CTA (couleur entreprise) */
+  --color-terracotta: #db3e15;
+  --color-terracotta-light: #ef5c34;
+  --color-terracotta-dark: #b8330f;
+
+  /* Neutres */
+  --color-cream: #f2efe3;
+  --color-cream-dim: #d9d6c6;
+
+  /* Typographies
+     - Sans grotesk pour TOUS les titres + le corps (comme l'inspiration)
+     - Serif italique UNIQUEMENT pour les mots-accents (.accent) */
+  --font-sans: "Hanken Grotesk", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-serif: "Fraunces", "Playfair Display", Georgia, serif;
+
+  --radius-card: 1.75rem;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    /* Barre de scroll personnalisée — vert du site (Firefox) */
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-green-500) var(--color-green-900);
+  }
+  /* Barre de scroll personnalisée — vert du site (Chrome/Edge/Safari) */
+  ::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-green-900);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-green-500);
+    border-radius: 9999px;
+    border: 3px solid var(--color-green-900);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-green-400);
+  }
+
+  /* Dans l'overlay du menu : barre de scroll lime (jaune du site) */
+  #overlay-menu {
+    scrollbar-color: var(--color-lime) var(--color-green-950);
+  }
+  #overlay-menu::-webkit-scrollbar-track {
+    background: var(--color-green-950);
+  }
+  #overlay-menu::-webkit-scrollbar-thumb {
+    background: var(--color-lime);
+    border: 3px solid var(--color-green-950);
+  }
+  #overlay-menu::-webkit-scrollbar-thumb:hover {
+    background: var(--color-lime-bright);
+  }
+  body {
+    font-family: var(--font-sans);
+    background-color: var(--color-green-700);
+    color: var(--color-cream);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  h1, h2, h3, h4 {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    line-height: 1.02;
+    letter-spacing: -0.025em;
+  }
+  ::selection {
+    background-color: var(--color-lime);
+    color: var(--color-green-900);
+  }
+}
+
+@layer components {
+  /* Mot accentué en serif italique (signature du design) */
+  .accent {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--color-lime);
+  }
+  /* Accent foncé pour les sections lime */
+  .accent-dark { color: var(--color-green-700); }
+
+  .container-x {
+    width: 100%;
+    max-width: 80rem;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+  @media (min-width: 768px) {
+    .container-x { padding-inline: 2rem; }
+  }
+
+  /* Boutons arrondis — design "pilule + pastille flèche" (comme le CTA principal).
+     Le texte est à gauche, une pastille ronde avec une flèche ↗ est nichée à droite.
+     Au survol, toutes les couleurs s'inversent en douceur.
+     Tout est géré ici en CSS via ::after (le cercle) et ::before (la flèche),
+     pour s'appliquer automatiquement à TOUS les boutons `.btn` du site. */
+  .btn {
+    /* flèche diagonale, recolorée via mask -> sa couleur = --btn-arrow-color */
+    --btn-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 17L17 7M9 7h8v8'/%3E%3C/svg%3E");
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    padding: 0.5rem 3.3rem 0.5rem 1.7rem;
+    min-height: 3.2rem;
+    font-weight: 600;
+    font-size: 0.82rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    line-height: 1;
+    cursor: pointer;
+    transition: transform .25s ease, background-color .35s ease, color .35s ease, box-shadow .3s ease;
+  }
+  /* La pastille ronde */
+  .btn::after {
+    content: "";
+    position: absolute;
+    right: 0.45rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 2.3rem;
+    height: 2.3rem;
+    border-radius: 9999px;
+    background-color: var(--btn-circle, var(--color-green-900));
+    transition: background-color .35s ease, border-color .35s ease;
+    z-index: 1;
+  }
+  /* La flèche, par-dessus la pastille */
+  .btn::before {
+    content: "";
+    position: absolute;
+    right: 0.45rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 2.3rem;
+    height: 2.3rem;
+    -webkit-mask: var(--btn-arrow) center / 1.05rem no-repeat;
+    mask: var(--btn-arrow) center / 1.05rem no-repeat;
+    background-color: var(--btn-arrow-color, var(--color-lime));
+    transition: background-color .35s ease, transform .25s ease;
+    z-index: 2;
+  }
+  .btn:hover { transform: translateY(-2px); }
+  /* petit mouvement diagonal de la flèche au survol */
+  .btn:hover::before { transform: translate(0.08rem, calc(-50% - 0.08rem)); }
+
+  /* Orange : fond terracotta + texte blanc / pastille blanche + flèche terracotta.
+     Au survol -> fond crème, texte terracotta, pastille terracotta, flèche crème. */
+  .btn-primary {
+    background-color: var(--color-terracotta);
+    color: #fff;
+    box-shadow: 0 10px 30px -12px rgba(219,62,21,.7);
+    --btn-circle: #fff;
+    --btn-arrow-color: var(--color-terracotta);
+  }
+  .btn-primary:hover {
+    background-color: var(--color-cream);
+    color: var(--color-terracotta);
+    --btn-circle: var(--color-terracotta);
+    --btn-arrow-color: var(--color-cream);
+  }
+  /* Lime : fond lime + texte vert / pastille verte + flèche lime.
+     Au survol -> tout s'inverse (fond vert, texte/pastille lime, flèche verte). */
+  .btn-lime {
+    background-color: var(--color-lime);
+    color: var(--color-green-900);
+    --btn-circle: var(--color-green-900);
+    --btn-arrow-color: var(--color-lime);
+  }
+  .btn-lime:hover {
+    background-color: var(--color-green-900);
+    color: var(--color-lime);
+    --btn-circle: var(--color-lime);
+    --btn-arrow-color: var(--color-green-900);
+  }
+  /* Vert : l'inverse du lime — pilule vert foncé + texte/pastille lime + flèche verte.
+     Idéal sur fond LIME (où le bouton lime serait invisible). S'inverse au survol. */
+  .btn-green {
+    background-color: var(--color-green-900);
+    color: var(--color-lime);
+    --btn-circle: var(--color-lime);
+    --btn-arrow-color: var(--color-green-900);
+  }
+  .btn-green:hover {
+    background-color: var(--color-lime);
+    color: var(--color-green-900);
+    --btn-circle: var(--color-green-900);
+    --btn-arrow-color: var(--color-lime);
+  }
+  /* Fantôme : transparent + bordure ; pastille cerclée, flèche de la couleur courante. */
+  .btn-ghost {
+    background-color: transparent;
+    color: currentColor;
+    border: 1.5px solid color-mix(in srgb, currentColor 45%, transparent);
+    --btn-circle: transparent;
+    --btn-arrow-color: currentColor;
+  }
+  .btn-ghost::after { border: 1.5px solid color-mix(in srgb, currentColor 45%, transparent); }
+  .btn-ghost:hover { background-color: color-mix(in srgb, currentColor 12%, transparent); }
+  /* Crème : fond crème + texte vert / pastille verte + flèche crème.
+     Au survol -> fond vert, texte/pastille crème, flèche verte. */
+  .btn-cream {
+    background-color: var(--color-cream);
+    color: var(--color-green-800);
+    --btn-circle: var(--color-green-800);
+    --btn-arrow-color: var(--color-cream);
+  }
+  .btn-cream:hover {
+    background-color: var(--color-green-800);
+    color: var(--color-cream);
+    --btn-circle: var(--color-cream);
+    --btn-arrow-color: var(--color-green-800);
+  }
+
+  /* Étiquette de section */
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: .6rem;
+    font-family: var(--font-sans);
+    font-size: .78rem;
+    font-weight: 600;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--color-lime);
+  }
+  .eyebrow::before {
+    content: "";
+    width: 1.75rem;
+    height: 1.5px;
+    background-color: currentColor;
+  }
+
+  /* Carte sur fond vert (surface élevée) */
+  .card {
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    background-color: var(--color-green-600);
+    transition: transform .35s cubic-bezier(.2,.7,.3,1), box-shadow .35s ease;
+  }
+  .card-hover:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 30px 50px -22px rgba(0,0,0,.5);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    animation: reveal-in .8s cubic-bezier(.2,.7,.3,1) forwards;
+  }
+  @keyframes reveal-in {
+    to { opacity: 1; transform: none; }
+  }
+
+  /* Apparition au scroll (déclenchée par IntersectionObserver dans Base.astro).
+     Garde .js : sans JavaScript, le contenu reste visible. --reveal-delay permet de décaler (effet séquentiel). */
+  .js [data-reveal] {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity .7s cubic-bezier(.2,.7,.3,1), transform .7s cubic-bezier(.2,.7,.3,1);
+    transition-delay: var(--reveal-delay, 0s);
+  }
+  .js [data-reveal].is-visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Feuilles décoratives : un seul tour sur elles-mêmes quand la section entre à l'écran.
+     transform:rotate() se compose avec l'inclinaison Tailwind (propriété `rotate:` autonome),
+     donc chaque feuille fait un tour complet puis revient EXACTEMENT à son angle de repos. */
+  .js .leaf-spin.is-spinning {
+    animation: leaf-spin-once 1.15s cubic-bezier(.34, .12, .2, 1);
+  }
+  @keyframes leaf-spin-once {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+}
+
+/* Section qui remplit la hauteur de l'écran (desktop), contenu centré verticalement.
+   Sur mobile : hauteur naturelle. */
+@media (min-width: 1024px) {
+  .fit-screen { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; }
+}
+
+/* ===== Section épinglée (scroll horizontal) =====
+   Par défaut (mobile, sans JS, reduced-motion) : les panneaux s'empilent verticalement. */
+.pin-panel { padding-block: 4rem; }
+
+/* Activé seulement sur grand écran + JS + animations autorisées */
+@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+  .js .pin-wrap { height: 300vh; }
+  .js .pin-sticky { position: sticky; top: 0; height: 100vh; overflow: hidden; }
+  .js .pin-track { display: flex; flex-direction: row; width: 300vw; height: 100vh; will-change: transform; }
+  .js .pin-panel { width: 100vw; height: 100vh; padding-block: 0; flex-shrink: 0; }
+}

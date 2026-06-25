@@ -1,0 +1,137 @@
+---
+import Base from "../layouts/Base.astro";
+import PageHero from "../components/PageHero.astro";
+import FeatureRow from "../components/FeatureRow.astro";
+import GalleryCarousel from "../components/GalleryCarousel.astro";
+import TaxAdvantage from "../components/TaxAdvantage.astro";
+import CtaBand from "../components/CtaBand.astro";
+import { Image } from "astro:assets";
+import { find } from "../images";
+import leafIcon from "../assets/leaves_icon.png";
+import gal1 from "../assets/cloture_portail/1.webp";
+import gal2 from "../assets/cloture_portail/2.webp";
+import gal3 from "../assets/cloture_portail/3.webp";
+
+const leafMask = `-webkit-mask:url(${leafIcon.src}) center/contain no-repeat; mask:url(${leafIcon.src}) center/contain no-repeat;`;
+
+const hero = find("cloture_portail", "hero_cloture");
+const imgPanneaux = find("cloture_portail", "panneau_blanc");
+const imgPortails = find("cloture_portail", "COULISSANT");
+
+const galeriePetite = [
+  { image: gal1, legende: "Clôture brande" },
+  { image: gal2, legende: "Clôture" },
+  { image: gal3, legende: "Clôture bois" },
+];
+
+const galerieGrande = [
+  { image: find("cloture_portail", "IMG1_3399"), legende: "Clôture en bois" },
+  { image: find("cloture_portail", "Portillon"), legende: "Claustra bois" },
+  { image: find("cloture_portail", "Claustra_bois_et_palis"), legende: "Claustra bois et palis ardoise" },
+  { image: find("cloture_portail", "Portail-1000"), legende: "Portail" },
+  { image: find("cloture_portail", "Cloture-Alu-verte"), legende: "Clôture aluminium" },
+  { image: find("cloture_portail", "Panneau_Alu"), legende: "Claustra et panneau alu" },
+  { image: find("cloture_portail", "panneau_design"), legende: "Clôture et panneaux style design" },
+  { image: find("cloture_portail", "Panneau_Soud"), legende: "Clôture en panneaux soudés et plaque béton" },
+  { image: find("cloture_portail", "IMG_0180"), legende: "Panneaux rigides et occultant PVC" },
+];
+---
+
+<Base
+  title="Clôtures et portails à Moëlan-sur-Mer : conseils, pose et installation"
+  description="Pose de clôtures et de portails à Moëlan-sur-Mer : bois, PVC, aluminium, panneaux soudés, portails automatiques. Conseils, étude et installation pour un extérieur qui vous ressemble."
+>
+  <PageHero
+    eyebrow="Clôtures &amp; portails"
+    title="Clôtures et portails à Moëlan-sur-Mer : conseils, pose et"
+    accent="installation"
+    image={hero!}
+    text="Donnez du caractère à votre propriété."
+    breadcrumb={[{ label: "Accueil", href: "/" }, { label: "Aménagement extérieur", href: "/amenagement-exterieur" }, { label: "Clôtures & portails", href: "/cloture-portail" }]}
+  >
+    <a slot="actions" href="/contact" class="btn btn-primary">Contactez-nous</a>
+  </PageHero>
+
+  <!-- Section 2 : intro + galerie (carrousel) -->
+  <section class="container-x mt-20 lg:mt-28 relative">
+    <span aria-hidden="true" class="leaf-spin hidden lg:block absolute right-2 -top-8 w-12 h-16 bg-lime rotate-[20deg] opacity-90" style={leafMask}></span>
+    <div class="max-w-3xl mx-auto text-center">
+      <span class="eyebrow justify-center">Délimiter &amp; simplifier</span>
+      <h2 class="mt-4 text-3xl md:text-4xl lg:text-5xl text-cream">Pose de clôtures et portails adaptés : délimiter et <span class="accent text-lime">simplifier</span></h2>
+      <div class="mt-6 space-y-4 text-cream/80 leading-relaxed text-left sm:text-center">
+        <p>Éléments clés de l'aspect extérieur de votre habitat, le choix de votre équipement n'est pas à prendre à la légère. Délimitant les espaces, sécurisant votre propriété, la clôture et le portail savent également se rendre esthétiques pour apporter du cachet à votre habitation.</p>
+        <p>Jeu de formes, de couleurs, de matières, de motifs et de transparence, les fabricants nous offrent une large gamme de produits qui permettent d'associer performance et harmonie. Quant au portail automatique, il se rend pratique pour faciliter votre accès.</p>
+        <p>Ambiance traditionnelle ou moderne, épurée ou design, graphique ou artistique, notre équipe d'Au Fil des 4 Saisons vous accompagne dans votre projet pour vous aider à bien choisir, puis réalise la pose de votre équipement pour un extérieur qui vous ressemble. Nous réalisons également <a href="/amenagement-exterieur-maison" class="text-lime underline underline-offset-4 hover:text-lime-bright">la pose d'allées et de bordures</a> pour vos espaces verts.</p>
+      </div>
+    </div>
+    <div class="mt-12 grid sm:grid-cols-3 gap-6">
+      {galeriePetite.map((it) => (
+        <div class="group overflow-hidden rounded-3xl">
+          <Image src={it.image} alt={it.legende} class="w-full aspect-[4/3] object-cover transition-transform duration-500 group-hover:scale-105" widths={[400, 600, 800]} sizes="(min-width:640px) 30vw, 100vw" loading="lazy" />
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- Section 3 : quels matériaux (fond lime, texte centré) -->
+  <section class="bg-lime py-20 lg:py-28 relative overflow-hidden mt-8">
+    <span aria-hidden="true" class="leaf-spin hidden lg:block absolute right-8 top-10 w-14 h-20 bg-green-800 rotate-[15deg]" style={leafMask}></span>
+    <span aria-hidden="true" class="leaf-spin hidden lg:block absolute left-6 bottom-10 w-10 h-14 bg-green-800/60 -rotate-[20deg]" style={leafMask}></span>
+    <div class="container-x relative max-w-3xl mx-auto text-center text-green-900">
+      <span class="eyebrow justify-center !text-green-700">Les matériaux</span>
+      <h2 class="mt-4 text-3xl md:text-4xl lg:text-5xl">Quels matériaux choisir pour ma clôture et mon <span class="accent !text-green-700">portail ?</span></h2>
+      <div class="mt-6 space-y-4 leading-relaxed text-green-900/80 text-left sm:text-center">
+        <p>Ici, tout dépend de ce que vous recherchez. Que vous souhaitiez mettre l'accent sur l'esthétique plutôt que sur la sécurité, que vous soyez à la recherche d'un ouvrage imposant ou tout en légèreté, notre équipe de paysagistes vous guide pour vous aider à déterminer vos besoins spécifiques et vous conseille sur les solutions les plus adaptées.</p>
+        <p>À savoir qu'aujourd'hui, les solutions proposées par les fabricants permettent d'allier différentes propriétés techniques à un budget modéré.</p>
+        <p>En fonction des éléments récoltés, de l'architecture de <a href="/amenagement-exterieur" class="font-semibold text-green-900 underline underline-offset-4 decoration-terracotta hover:text-terracotta">vos aménagements extérieurs</a> et l'esthétique de votre habitation, nous vous proposons la pose d'une clôture et d'un portail en bois, PVC ou aluminium.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 4 : clôtures, panneaux et piquets (texte à gauche, photo à droite) -->
+  <section class="container-x my-20 lg:my-28">
+    <FeatureRow
+      eyebrow="Occultation &amp; transparence"
+      title="Clôtures, panneaux et piquets : jouez sur l'occultation et la"
+      accent="transparence"
+      image={imgPanneaux!}
+      tall
+      reverse
+    >
+      <p>La clôture délimite, protège et vous cache des regards indiscrets, mais sa fonction tend de plus en plus vers une utilité purement décorative.</p>
+      <p>Pour une simple délimitation des espaces, un grillage simple suffit, mais si vous souhaitez davantage d'intimité, nous vous conseillons des panneaux soudés qui, avec une finition gris anthracite par exemple, apportent une esthétique contemporaine à votre propriété.</p>
+      <p>Autre solution de brise-vue : la clôture végétale, idéale pour les amoureux de la nature qui ne souhaitent pas dénaturer leur jardin.</p>
+      <p>Quant aux piquets, installés côte à côte, ils permettent de jouer avec les hauteurs et plus ou moins de transparence.</p>
+    </FeatureRow>
+  </section>
+
+  <!-- Section 5 : portails et portillons (fond lime, photo à gauche, texte à droite) -->
+  <section class="bg-lime py-20 lg:py-28 relative overflow-hidden">
+    <span aria-hidden="true" class="leaf-spin hidden lg:block absolute right-8 top-10 w-12 h-16 bg-green-800 rotate-[12deg]" style={leafMask}></span>
+    <div class="container-x relative">
+      <FeatureRow
+        eyebrow="Portails &amp; portillons"
+        title="Portails et portillons : adaptez-les au style de votre"
+        accent="propriété"
+        image={imgPortails!}
+        lime
+        tall
+      >
+        <p>Véritable élément décoratif, tout comme la clôture, les portails ou portillons apportent du caractère à votre propriété. Considérés comme une vitrine, en couleur unie, occultants ou avec des découpes laser personnalisées, ils sont adaptables à tous les goûts et styles.</p>
+        <p>Automatisé, le portail facilite votre accès et, en ouverture latérale coulissante ou à vantaux, il s'adapte à toutes les surfaces.</p>
+        <p>Pour bien choisir, l'équipe d'Au Fil des 4 Saisons réalise une étude de vos besoins directement chez vous puis réalise les travaux de pose en adéquation avec les décisions prises en amont.</p>
+      </FeatureRow>
+    </div>
+  </section>
+
+  <!-- Grande galerie de réalisations (carrousel) -->
+  <GalleryCarousel
+    eyebrow="Réalisations"
+    title="Clôtures &amp; portails : quelques-unes de nos"
+    accent="réalisations"
+    items={galerieGrande}
+  />
+
+  <TaxAdvantage />
+  <CtaBand />
+</Base>

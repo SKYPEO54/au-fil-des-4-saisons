@@ -1,0 +1,137 @@
+---
+import { nav, company } from "../site";
+import { Image } from "astro:assets";
+import logo from "../assets/logo.png";
+
+const path = Astro.url.pathname.replace(/\/$/, "") || "/";
+const isActive = (href: string) =>
+  href === "/" ? path === "/" : path === href || path.startsWith(href + "/");
+---
+
+<!-- Barre fixe (transparente par défaut, fond au scroll) — reste AU-DESSUS de l'overlay -->
+<header id="site-header" class="fixed top-0 inset-x-0 z-50 transition-all duration-300">
+  <div class="container-x flex items-center justify-between h-20 lg:h-24">
+    <a href="/" class="flex items-center" aria-label="Au Fil des 4 Saisons — accueil">
+      <Image src={logo} alt="Au Fil des 4 Saisons" width={200} height={85} class="h-11 lg:h-12 w-auto [filter:drop-shadow(0_2px_6px_rgba(0,0,0,0.45))]" loading="eager" />
+    </a>
+
+    <button
+      id="menu-toggle"
+      class="group inline-flex items-center gap-3 cursor-pointer text-cream font-semibold text-sm uppercase tracking-[0.15em] hover:text-lime transition-colors"
+      aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="overlay-menu"
+    >
+      <span id="menu-label">Menu</span>
+      <span class="hamburger relative w-7 h-[14px] flex flex-col justify-between">
+        <span class="bar block w-7 h-[2px] bg-current rounded-full"></span>
+        <span class="bar block w-7 h-[2px] bg-current rounded-full"></span>
+      </span>
+    </button>
+  </div>
+</header>
+
+<!-- Overlay plein écran (effet rideau : descend du haut) -->
+<div
+  id="overlay-menu"
+  class="fixed inset-0 z-40 -translate-y-full pointer-events-none transition-transform duration-500 ease-[cubic-bezier(.76,0,.24,1)] bg-green-950 overflow-y-auto overflow-x-hidden"
+  aria-hidden="true"
+>
+  <!-- Filigrane décoratif (confiné pour éviter tout débordement) -->
+  <div class="pointer-events-none absolute inset-0 overflow-hidden select-none">
+    <span class="absolute -bottom-28 right-0 font-serif italic text-[28vw] leading-none text-lime opacity-[0.05]">4</span>
+  </div>
+
+  <div class="relative container-x pt-28 lg:pt-32 pb-16 grid lg:grid-cols-[1.4fr_1fr] gap-12 lg:gap-20">
+    <!-- Navigation -->
+    <nav aria-label="Navigation principale" class="flex flex-col">
+      {nav.map((item, i) => (
+        <div class="menu-item border-b border-cream/10 py-4 lg:py-5" style={`--d:${i * 0.04 + 0.05}s`}>
+          <a href={item.href} class:list={["group inline-flex items-baseline gap-4 font-semibold tracking-tight text-4xl md:text-5xl lg:text-6xl transition-colors", isActive(item.href) ? "text-lime" : "text-cream hover:text-lime"]}>
+            <span class="text-xs font-sans tracking-widest text-cream/40 group-hover:text-lime/70 -translate-y-3">0{i + 1}</span>
+            {item.label}
+          </a>
+          {item.children && (
+            <div class="mt-3 ml-9 flex flex-wrap gap-2.5">
+              {item.children.map((c) => (
+                <a href={c.href} class:list={["rounded-full px-4 py-1.5 text-sm border transition-colors", isActive(c.href) ? "bg-lime text-green-900 border-lime" : "border-cream/20 text-cream/80 hover:border-lime hover:text-lime"]}>{c.label}</a>
+              ))}
+            </div>
+          )}
+        </div>
+      ))}
+    </nav>
+
+    <!-- Colonne contact -->
+    <div class="menu-item flex flex-col gap-6 lg:pt-2" style="--d:.35s">
+      <div class="rounded-[1.75rem] bg-green-800 p-7">
+        <span class="eyebrow">Nous contacter</span>
+        <ul class="mt-5 space-y-4 text-cream/85">
+          <li class="flex gap-3"><span aria-hidden="true">📍</span><span>{company.address}</span></li>
+          <li class="flex gap-3"><span aria-hidden="true">📞</span><a href={company.phoneHref} class="hover:text-lime">{company.phone}</a></li>
+          <li class="flex gap-3"><span aria-hidden="true">📱</span><a href={company.mobileHref} class="hover:text-lime">{company.mobile}</a></li>
+          <li class="flex gap-3"><span aria-hidden="true">✉️</span><a href={`mailto:${company.email}`} class="hover:text-lime break-all">{company.email}</a></li>
+        </ul>
+        <a href="/contact" class="btn btn-primary mt-6 w-full">Demander un devis gratuit</a>
+      </div>
+      <div class="rounded-[1.75rem] bg-lime text-green-900 p-7">
+        <div class="text-2xl font-semibold tracking-tight">Horaires</div>
+        <ul class="mt-4 space-y-2 text-sm">
+          {company.hours.map((h) => (
+            <li class="flex justify-between gap-4"><span class="opacity-80">{h.day}</span><span class="font-semibold">{h.time}</span></li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const toggle = document.getElementById("menu-toggle");
+  const label = document.getElementById("menu-label");
+  const overlay = document.getElementById("overlay-menu");
+  const header = document.getElementById("site-header");
+  let open = false;
+
+  // fond de la barre UNIQUEMENT au scroll (désactivé quand le menu est ouvert)
+  const applyHeaderBg = () => {
+    const s = !open && window.scrollY > 20;
+    header?.classList.toggle("bg-green-900/90", s);
+    header?.classList.toggle("backdrop-blur-md", s);
+    header?.classList.toggle("shadow-lg", s);
+    header?.classList.toggle("shadow-black/20", s);
+  };
+
+  const setOpen = (state: boolean) => {
+    open = state;
+    overlay?.classList.toggle("-translate-y-full", !state);
+    overlay?.classList.toggle("pointer-events-none", !state);
+    overlay?.setAttribute("aria-hidden", String(!state));
+    toggle?.setAttribute("aria-expanded", String(state));
+    toggle?.setAttribute("aria-label", state ? "Fermer le menu" : "Ouvrir le menu");
+    if (label) label.textContent = state ? "Fermer" : "Menu";
+    document.body.style.overflow = state ? "hidden" : "";
+    applyHeaderBg(); // barre transparente quand le rideau est ouvert
+  };
+
+  toggle?.addEventListener("click", () => setOpen(!open));
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && open) setOpen(false); });
+
+  applyHeaderBg();
+  window.addEventListener("scroll", applyHeaderBg, { passive: true });
+</script>
+
+<style>
+  /* Animation hamburger -> croix */
+  .bar { transition: transform .3s cubic-bezier(.2,.7,.3,1), opacity .2s ease; transform-origin: center; }
+  #menu-toggle[aria-expanded="true"] .bar:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+  #menu-toggle[aria-expanded="true"] .bar:nth-child(2) { transform: translateY(-6px) rotate(-45deg); }
+
+  /* Apparition des éléments du menu (après la descente du rideau) */
+  #overlay-menu[aria-hidden="false"] .menu-item {
+    animation: menu-in .6s cubic-bezier(.2,.7,.3,1) both;
+    animation-delay: calc(var(--d, 0s) + .15s);
+  }
+  @keyframes menu-in {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: none; }
+  }
+</style>

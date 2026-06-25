@@ -1,0 +1,118 @@
+---
+import Base from "../layouts/Base.astro";
+import PageHero from "../components/PageHero.astro";
+import { company } from "../site";
+import { find } from "../images";
+
+const hero = find("contact", "photo");
+const field = "w-full rounded-xl border border-white/15 bg-green-800/60 text-cream placeholder-cream/40 px-4 py-3 outline-none focus:border-lime focus:ring-2 focus:ring-lime/25 transition";
+---
+
+<Base
+  title="Contact — Au Fil des 4 Saisons, paysagiste à Moëlan-sur-Mer"
+  description="Contactez Au Fil des 4 Saisons à Moëlan-sur-Mer pour un devis gratuit : création de jardin, entretien, aménagement extérieur et maçonnerie paysagère en Bretagne sud."
+>
+  <PageHero
+    eyebrow="Contact"
+    title="Parlons de votre projet"
+    accent="de jardin"
+    image={hero!}
+    text="Un devis gratuit, sans engagement, sous quelques jours."
+    breadcrumb={[{ label: "Accueil", href: "/" }, { label: "Contact", href: "/contact" }]}
+  />
+
+  <section class="container-x my-20 lg:my-28">
+    <div class="grid lg:grid-cols-[1fr_1.2fr] gap-12 lg:gap-16">
+      <!-- Coordonnées -->
+      <div>
+        <span class="eyebrow">Nos coordonnées</span>
+        <h2 class="mt-4 text-3xl md:text-4xl text-cream">À votre <span class="accent">écoute</span></h2>
+        <p class="mt-5 text-cream/75 leading-relaxed">
+          Une question, un projet ? Contactez-nous par téléphone, par e-mail ou via le formulaire.
+          Nous intervenons à {company.zone}.
+        </p>
+
+        <ul class="mt-8 space-y-5">
+          <li class="flex gap-4">
+            <span class="w-11 h-11 rounded-full bg-lime/15 text-lime flex items-center justify-center shrink-0">📍</span>
+            <div><div class="font-semibold text-cream">Adresse</div><div class="text-cream/75">{company.address}</div></div>
+          </li>
+          <li class="flex gap-4">
+            <span class="w-11 h-11 rounded-full bg-lime/15 text-lime flex items-center justify-center shrink-0">📞</span>
+            <div><div class="font-semibold text-cream">Téléphone</div><a href={company.phoneHref} class="text-cream/75 hover:text-lime">{company.phone}</a><span class="text-cream/40"> · </span><a href={company.mobileHref} class="text-cream/75 hover:text-lime">{company.mobile}</a></div>
+          </li>
+          <li class="flex gap-4">
+            <span class="w-11 h-11 rounded-full bg-lime/15 text-lime flex items-center justify-center shrink-0">✉️</span>
+            <div><div class="font-semibold text-cream">E-mail</div><a href={`mailto:${company.email}`} class="text-cream/75 hover:text-lime break-all">{company.email}</a></div>
+          </li>
+        </ul>
+
+        <div class="mt-8 rounded-3xl bg-lime text-green-900 p-6">
+          <div class="font-serif text-2xl mb-3">Horaires d'ouverture</div>
+          <ul class="space-y-2 text-sm">
+            {company.hours.map((h) => (
+              <li class="flex justify-between gap-4"><span class="text-green-900/70">{h.day}</span><span class="font-semibold">{h.time}</span></li>
+            ))}
+          </ul>
+        </div>
+        <p class="mt-4 text-xs text-cream/45">{company.agrement}</p>
+      </div>
+
+      <!-- Formulaire -->
+      <div class="rounded-[2rem] bg-green-600 p-7 lg:p-10">
+        <h2 class="text-2xl md:text-3xl text-cream">Demande de devis gratuit</h2>
+        <p class="mt-2 text-sm text-cream/65">Décrivez votre projet, nous vous recontactons rapidement.</p>
+
+        <!-- ⚠️ Remplacer l'action par votre endpoint Formspree (ou autre) -->
+        <form action="https://formspree.io/f/votre-id" method="POST" class="mt-7 grid sm:grid-cols-2 gap-5">
+          <div>
+            <label for="nom" class="block text-sm font-medium text-cream/90 mb-1.5">Nom *</label>
+            <input id="nom" name="nom" type="text" required class={field} />
+          </div>
+          <div>
+            <label for="tel" class="block text-sm font-medium text-cream/90 mb-1.5">Téléphone</label>
+            <input id="tel" name="telephone" type="tel" class={field} />
+          </div>
+          <div class="sm:col-span-2">
+            <label for="email" class="block text-sm font-medium text-cream/90 mb-1.5">E-mail *</label>
+            <input id="email" name="email" type="email" required class={field} />
+          </div>
+          <div class="sm:col-span-2">
+            <label for="sujet" class="block text-sm font-medium text-cream/90 mb-1.5">Votre projet</label>
+            <select id="sujet" name="sujet" class={field}>
+              <option>Création de jardin</option>
+              <option>Entretien d'espaces verts</option>
+              <option>Terrasse / plage de piscine</option>
+              <option>Abri / carport</option>
+              <option>Clôture / portail</option>
+              <option>Allée / bordure</option>
+              <option>Maçonnerie paysagère</option>
+              <option>Autre</option>
+            </select>
+          </div>
+          <div class="sm:col-span-2">
+            <label for="message" class="block text-sm font-medium text-cream/90 mb-1.5">Message *</label>
+            <textarea id="message" name="message" rows="5" required class={`${field} resize-y`}></textarea>
+          </div>
+          <div class="sm:col-span-2 flex items-start gap-3">
+            <input id="rgpd" name="rgpd" type="checkbox" required class="mt-1 w-4 h-4 accent-[var(--color-lime)]" />
+            <label for="rgpd" class="text-xs text-cream/65">J'accepte que mes informations soient utilisées pour être recontacté(e) dans le cadre de ma demande.</label>
+          </div>
+          <div class="sm:col-span-2">
+            <button type="submit" class="btn btn-primary w-full text-base py-4">Envoyer ma demande</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Carte -->
+  <section class="container-x mb-20 lg:mb-28">
+    <div class="rounded-[2rem] overflow-hidden border border-white/10">
+      <iframe
+        title="Localisation Au Fil des 4 Saisons à Moëlan-sur-Mer"
+        src="https://www.google.com/maps?q=34+Rue+du+Guilly,+29350+Mo%C3%ABlan-sur-Mer&output=embed"
+        width="100%" height="420" style="border:0;" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+  </section>
+</Base>
