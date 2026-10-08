@@ -5,7 +5,7 @@ export const company = {
   tagline: "Jardinier paysagiste à Moëlan-sur-Mer",
   baseline: "Un jardin beau et impeccable en toute saison",
   since: 2006,
-  experience: "15 ans",
+  experience: "20 ans",
   address: "34 Rue du Guilly, 29350 Moëlan-sur-Mer",
   phone: "02 98 96 56 30",
   phoneHref: "tel:+33298965630",
