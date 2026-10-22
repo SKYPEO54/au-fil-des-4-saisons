@@ -29,7 +29,7 @@ const mask = "radial-gradient(circle 65px at calc(100% - 46px) calc(100% - 46px)
     {image ? (
       <Fragment>
         <!-- photo de fond + voile dégradé pour la lisibilité du texte -->
-        <Image src={image} alt="" aria-hidden="true" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" widths={[400, 640, 800]} sizes="(min-width:1024px) 30vw, 100vw" loading="lazy" />
+        <Image src={image} alt={`Illustration : ${title} ${accent}`} class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" widths={[400, 640, 800]} sizes="(min-width:1024px) 30vw, 100vw" loading="lazy" />
         <div class="absolute inset-0 bg-gradient-to-t from-green-950/95 via-green-900/75 to-green-900/45"></div>
       </Fragment>
     ) : (

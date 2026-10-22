@@ -10,6 +10,8 @@ import leafIcon from "../assets/leaves_icon.png";
 import gal1 from "../assets/amenagement_exterieur_maison/1.webp";
 import gal2 from "../assets/amenagement_exterieur_maison/2.webp";
 import gal3 from "../assets/amenagement_exterieur_maison/3.webp";
+import Faq from "../components/Faq.astro";
+import { prestationProps } from "../lib/prestation";
 
 const leafMask = `-webkit-mask:url(${leafIcon.src}) center/contain no-repeat; mask:url(${leafIcon.src}) center/contain no-repeat;`;
 
@@ -22,12 +24,11 @@ const galerie = [
   { image: gal2, legende: "Bordures" },
   { image: gal3, legende: "Allées jardin" },
 ];
+
+const P = prestationProps("amenagement-exterieur-maison");
 ---
 
-<Base
-  title="Création d'allées, bordures et aménagements extérieurs de maison à Moëlan-sur-Mer"
-  description="Création d'allées, de bordures et d'aménagements extérieurs de maison à Moëlan-sur-Mer : enrobé, pavés, béton désactivé, gravier. Structurez et valorisez votre propriété."
->
+<Base title={P.title} description={P.description} miettes={P.miettes} schemas={P.schemas}>
   <PageHero
     eyebrow="Allées &amp; bordures"
     title="Création d'allées, bordures et aménagements extérieurs de maison à"
@@ -111,6 +112,7 @@ const galerie = [
     </div>
   </section>
 
+  <Faq faq={P.faq} />
   <TaxAdvantage />
   <CtaBand />
 </Base>

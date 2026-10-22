@@ -41,7 +41,7 @@ const { eyebrow, title, accent, text, image, breadcrumb } = Astro.props;
       <h1 class="mt-4 text-white text-4xl md:text-5xl lg:text-6xl max-w-4xl reveal" style="animation-delay:.08s">
         {title}{accent && <> <span class="accent text-lime">{accent}</span></>}
       </h1>
-      {text && <p class="mt-5 max-w-2xl text-lg text-cream/85 reveal" style="animation-delay:.16s">{text}</p>}
+      {text && <p data-reponse class="mt-5 max-w-2xl text-lg text-cream/85 reveal" style="animation-delay:.16s">{text}</p>}
       {Astro.slots.has("actions") && (
         <div class="mt-8 flex flex-wrap gap-4 reveal" style="animation-delay:.24s">
           <slot name="actions" />

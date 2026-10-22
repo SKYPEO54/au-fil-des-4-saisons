@@ -7,6 +7,10 @@ import CtaBand from "../components/CtaBand.astro";
 import { Image } from "astro:assets";
 import { find } from "../images";
 import leafIcon from "../assets/leaves_icon.png";
+import Faq from "../components/Faq.astro";
+import { prestationProps } from "../lib/prestation";
+import { howToSchema } from "../lib/schema";
+import { site } from "../site";
 
 const leafMask = `-webkit-mask:url(${leafIcon.src}) center/contain no-repeat; mask:url(${leafIcon.src}) center/contain no-repeat;`;
 
@@ -35,12 +39,16 @@ const miseEnOeuvre = [
   "les travaux de finitions",
   "le nettoyage du chantier.",
 ];
+
+// Les deux listes d'etapes affichees sur la page, declarees telles quelles en HowTo.
+const etapesHowTo = [
+  ...etapesAvant.map((e) => { const t = e.charAt(0).toUpperCase() + e.slice(1); return { nom: t, texte: t }; }),
+  ...miseEnOeuvre.map((e) => { const t = (e.charAt(0).toUpperCase() + e.slice(1)).replace(/\.$/, ""); return { nom: t, texte: t }; }),
+];
+const P = prestationProps("paysagiste", [howToSchema(site.url + "/paysagiste/", "Les étapes d'un projet de création paysagère", etapesHowTo)]);
 ---
 
-<Base
-  title="Création paysagère à Moëlan-sur-Mer : conception de votre jardin"
-  description="Création de jardin sur mesure à Moëlan-sur-Mer : de la conception (diagnostic, plan 3D, budget) à la réalisation. Une équipe de paysagistes passionnés pour vos parcs et jardins."
->
+<Base title={P.title} description={P.description} miettes={P.miettes} schemas={P.schemas}>
   <PageHero
     eyebrow="Création paysagère"
     title="Création paysagère à Moëlan-sur-Mer : conception de"
@@ -138,6 +146,7 @@ const miseEnOeuvre = [
     </div>
   </section>
 
+  <Faq faq={P.faq} />
   <TaxAdvantage />
   <CtaBand />
 </Base>

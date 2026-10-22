@@ -1,5 +1,22 @@
 @import "tailwindcss";
 
+/* Polices auto-hebergees (sous-ensemble latin, variables) : plus aucun appel
+   bloquant a Google Fonts sur le chemin critique. Preload dans Base.astro. */
+@font-face {
+  font-family: "Hanken Grotesk";
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url("/fonts/hanken-grotesk-latin.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Fraunces";
+  font-style: italic;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url("/fonts/fraunces-italic-latin.woff2") format("woff2");
+}
+
 /* ===========================================================
    Au Fil des 4 Saisons — Design System
    Parti pris : VERT PROFOND immersif (dominant) + sections LIME
@@ -180,7 +197,8 @@
   /* Orange : fond terracotta + texte blanc / pastille blanche + flèche terracotta.
      Au survol -> fond crème, texte terracotta, pastille terracotta, flèche crème. */
   .btn-primary {
-    background-color: var(--color-terracotta);
+    /* Terracotta a peine fonce (#d73b13 au lieu de #db3e15) : contraste du texte blanc a 4,6 (seuil 4,5). */
+    background-color: #d73b13;
     color: #fff;
     box-shadow: 0 10px 30px -12px rgba(219,62,21,.7);
     --btn-circle: #fff;

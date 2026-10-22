@@ -3,7 +3,14 @@ import Base from "../layouts/Base.astro";
 import PageHero from "../components/PageHero.astro";
 import FeatureRow from "../components/FeatureRow.astro";
 import CtaBand from "../components/CtaBand.astro";
+import Sources from "../components/Sources.astro";
 import { find } from "../images";
+import { site, gerantsTexte } from "../site";
+import { pages } from "../data/pages";
+
+const meta = pages["/a-propos/"];
+const note = String(site.avis.note).replace(".", ",");
+const releve = new Date(site.avis.releve + "T00:00:00Z").toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" });
 import leafIcon from "../assets/leaves_icon.png";
 
 const leafMask = `-webkit-mask:url(${leafIcon.src}) center/contain no-repeat; mask:url(${leafIcon.src}) center/contain no-repeat;`;
@@ -14,8 +21,10 @@ const imgServices = find("a_propos", "occultante");
 ---
 
 <Base
-  title="À propos — Paysagiste à Moëlan-sur-Mer depuis 2006"
-  description="Au Fil des 4 Saisons, entreprise de jardiniers paysagistes à Moëlan-sur-Mer depuis 20 ans : création et entretien de jardin, espaces verts, aménagement extérieur et maçonnerie paysagère."
+  title={meta.titre}
+  description={meta.description}
+  miettes={[{ nom: meta.nom, href: "/a-propos/" }]}
+  page={{ "@type": "AboutPage" }}
 >
   <PageHero
     eyebrow="Notre histoire"
@@ -46,6 +55,15 @@ const imgServices = find("a_propos", "occultante");
       <p>Notre entreprise est située à Moëlan-sur-Mer, nous intervenons aussi dans les communes aux alentours tel que Guidel ou encore Lorient. Nous sommes disponibles du lundi au jeudi de 8h30 à 12h30 et de 13h30 à 17h00 et le vendredi de 8h30 à 12h30 et de 13h30 à 16h00.</p>
       <p>Nous effectuons des devis gratuits et sommes à votre écoute pour vous conseiller sur votre projet.</p>
       <p>Pour nous joindre, vous pouvez nous envoyer un mail à l’adresse suivante <a href="mailto:afd4saisons@gmail.com" class="text-lime underline underline-offset-4 hover:text-lime-bright">afd4saisons@gmail.com</a>, nous appeler ou nous contacter via notre formulaire de contact.</p>
+      <p>L'entreprise est dirigée par ses deux cogérants, <strong class="text-cream font-medium">{gerantsTexte}</strong>. Sa fiche Google affiche une note de {note}/5 sur {site.avis.nombre} avis (relevé du {releve}).</p>
+      <Sources
+        class="mt-2"
+        items={[
+          { texte: `création en ${site.anneeCreation}, SIRET ${site.siret} et cogérants`, liens: [{ href: site.annuaire, label: "Annuaire des Entreprises" }] },
+          { texte: "note et nombre d'avis", liens: [{ href: site.ficheGoogle, label: "fiche Google d'Au Fil des 4 Saisons" }] },
+          { texte: "ancienneté de 20 ans et zone d'intervention : informations déclarées par l'entreprise" },
+        ]}
+      />
       <div class="pt-2">
         <a href="/contact" class="btn btn-lime">Contactez nos paysagistes</a>
       </div>

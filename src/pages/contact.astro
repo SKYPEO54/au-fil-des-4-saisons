@@ -3,21 +3,26 @@ import Base from "../layouts/Base.astro";
 import PageHero from "../components/PageHero.astro";
 import { company } from "../site";
 import { find } from "../images";
+import { pages } from "../data/pages";
+
+const meta = pages["/contact/"];
 
 const hero = find("contact", "photo");
 const field = "w-full rounded-xl border border-white/15 bg-green-800/60 text-cream placeholder-cream/40 px-4 py-3 outline-none focus:border-lime focus:ring-2 focus:ring-lime/25 transition";
 ---
 
 <Base
-  title="Contact — Au Fil des 4 Saisons, paysagiste à Moëlan-sur-Mer"
-  description="Contactez Au Fil des 4 Saisons à Moëlan-sur-Mer pour un devis gratuit : création de jardin, entretien, aménagement extérieur et maçonnerie paysagère en Bretagne sud."
+  title={meta.titre}
+  description={meta.description}
+  miettes={[{ nom: meta.nom, href: "/contact/" }]}
+  page={{ "@type": "ContactPage" }}
 >
   <PageHero
     eyebrow="Contact"
     title="Parlons de votre projet"
     accent="de jardin"
     image={hero!}
-    text="Un devis gratuit, sans engagement, sous quelques jours."
+    text="Des conseils et un suivi par une équipe passionnée et exigeante, avec un devis gratuit pour votre projet."
     breadcrumb={[{ label: "Accueil", href: "/" }, { label: "Contact", href: "/contact" }]}
   />
 

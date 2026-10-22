@@ -58,7 +58,7 @@ const { eyebrow, title, accent, items } = Astro.props;
     lb.innerHTML =
       '<button type="button" data-lb-close aria-label="Fermer" class="absolute top-5 right-5 w-12 h-12 flex items-center justify-center rounded-full bg-lime text-green-900 hover:bg-lime-bright transition">' +
       '<svg class="w-6 h-6" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>' +
-      '<figure class="flex flex-col items-center gap-3"><img data-lb-img alt="" class="max-h-[82vh] max-w-[92vw] rounded-2xl shadow-2xl object-contain" /><figcaption data-lb-cap class="text-cream/80 text-sm text-center"></figcaption></figure>';
+      '<figure class="flex flex-col items-center gap-3"><img data-lb-img alt="Photo agrandie" class="max-h-[82vh] max-w-[92vw] rounded-2xl shadow-2xl object-contain" /><figcaption data-lb-cap class="text-cream/80 text-sm text-center"></figcaption></figure>';
     document.body.appendChild(lb);
     lbImg = lb.querySelector("[data-lb-img]");
     lb.addEventListener("click", (e) => {

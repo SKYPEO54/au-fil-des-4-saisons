@@ -7,6 +7,8 @@ import CtaBand from "../components/CtaBand.astro";
 import { Image } from "astro:assets";
 import { find } from "../images";
 import leafIcon from "../assets/leaves_icon.png";
+import Faq from "../components/Faq.astro";
+import { prestationProps } from "../lib/prestation";
 
 const leafMask = `-webkit-mask:url(${leafIcon.src}) center/contain no-repeat; mask:url(${leafIcon.src}) center/contain no-repeat;`;
 
@@ -29,12 +31,11 @@ const questions = [
   "quel revêtement de sol ?",
   "une plage de piscine assortie à la terrasse ou dans un style complétement différent ?",
 ];
+
+const P = prestationProps("terrasse-exterieure");
 ---
 
-<Base
-  title="Création et pose de terrasse extérieure et plage de piscine à Moëlan-sur-Mer"
-  description="Création et pose de terrasses extérieures et de plages de piscine à Moëlan-sur-Mer : bois, composite, pierre, dallage. Un espace de convivialité en harmonie avec votre habitat."
->
+<Base title={P.title} description={P.description} miettes={P.miettes} schemas={P.schemas}>
   <PageHero
     eyebrow="Terrasses &amp; piscines"
     title="Création et pose de terrasse extérieure et plage de piscine à"
@@ -125,6 +126,7 @@ const questions = [
     </div>
   </section>
 
+  <Faq faq={P.faq} />
   <TaxAdvantage />
   <CtaBand />
 </Base>

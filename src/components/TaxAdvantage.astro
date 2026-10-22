@@ -3,6 +3,8 @@
 import { Image } from "astro:assets";
 import sap from "../assets/accueil/service-personne-5a3dc2ac-559w.jpg";
 import tva from "../assets/accueil/tva.webp";
+import Sources from "./Sources.astro";
+import { company, site } from "../site";
 ---
 <section class="container-x my-20 lg:my-28">
   <div class="rounded-[2.25rem] bg-green-600 p-8 lg:p-14">
@@ -20,7 +22,7 @@ import tva from "../assets/accueil/tva.webp";
     <div class="mt-10 grid md:grid-cols-2 gap-6">
       <div class="bg-green-800 rounded-3xl p-7">
         <div class="rounded-2xl bg-white h-44 flex items-center justify-center p-6">
-          <Image src={sap} alt="Services à la personne" class="max-h-full w-auto object-contain" widths={[280, 420]} sizes="280px" loading="lazy" />
+          <Image src={sap} alt="Logo Services à la personne" class="max-h-full w-auto object-contain" widths={[280, 420]} sizes="280px" loading="lazy" />
         </div>
         <h3 class="mt-5 text-xl text-cream">Services à la personne</h3>
         <p class="mt-2 text-sm text-cream/70 leading-relaxed">
@@ -29,7 +31,7 @@ import tva from "../assets/accueil/tva.webp";
       </div>
       <div class="bg-green-800 rounded-3xl p-7">
         <div class="rounded-2xl overflow-hidden h-44">
-          <Image src={tva} alt="TVA 10 %" class="w-full h-full object-cover" widths={[280, 510]} sizes="(min-width:768px) 40vw, 100vw" loading="lazy" />
+          <Image src={tva} alt="Tirelire symbolisant la TVA réduite à 10 %" class="w-full h-full object-cover" widths={[280, 510]} sizes="(min-width:768px) 40vw, 100vw" loading="lazy" />
         </div>
         <h3 class="mt-5 text-xl text-cream">TVA 10 %</h3>
         <p class="mt-2 text-sm text-cream/70 leading-relaxed">
@@ -37,5 +39,13 @@ import tva from "../assets/accueil/tva.webp";
         </p>
       </div>
     </div>
+    <Sources
+      items={[
+        { texte: `entreprise créée en ${site.anneeCreation}, SIRET ${site.siret}`, liens: [{ href: site.annuaire, label: "Annuaire des Entreprises" }] },
+        { texte: "crédit d'impôt de 50 % pour les services à la personne", liens: [{ href: site.creditImpot, label: "service-public.fr" }] },
+        { texte: company.agrement },
+        { texte: "TVA à 10 % : taux appliqué par l'entreprise sous conditions d'éligibilité" },
+      ]}
+    />
   </div>
 </section>

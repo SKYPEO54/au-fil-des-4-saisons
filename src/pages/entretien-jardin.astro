@@ -8,6 +8,10 @@ import { find } from "../images";
 import leafIcon from "../assets/leaves_icon.png";
 import sap from "../assets/accueil/service-personne-5a3dc2ac-559w.jpg";
 import tva from "../assets/accueil/tva.webp";
+import Faq from "../components/Faq.astro";
+import Sources from "../components/Sources.astro";
+import { company, site } from "../site";
+import { prestationProps } from "../lib/prestation";
 
 const leafMask = `-webkit-mask:url(${leafIcon.src}) center/contain no-repeat; mask:url(${leafIcon.src}) center/contain no-repeat;`;
 
@@ -30,12 +34,11 @@ const prestations = [
   "le broyage des branches",
   "l'évacuation des déchets",
 ];
+
+const P = prestationProps("entretien-jardin");
 ---
 
-<Base
-  title="Entretien d'espaces verts à Moëlan-sur-Mer : embellir vos parcs et jardins"
-  description="Entretien de parcs et jardins à Moëlan-sur-Mer : taille, tonte, élagage, débroussaillage, nettoyage. Contrat annuel ou ponctuel, avec 50 % de crédit d'impôt (services à la personne)."
->
+<Base title={P.title} description={P.description} miettes={P.miettes} schemas={P.schemas}>
   <PageHero
     eyebrow="Entretien de jardin"
     title="Entretien d'espaces verts à Moëlan-sur-Mer : embellir vos"
@@ -114,7 +117,7 @@ const prestations = [
       <!-- Service à la personne -->
       <div class="rounded-[2.25rem] bg-green-600 p-8 lg:p-10 flex flex-col">
         <div class="rounded-2xl bg-white aspect-[16/10] flex items-center justify-center p-8">
-          <Image src={sap} alt="Services à la personne" class="max-h-full w-auto object-contain" widths={[280, 420]} sizes="(min-width:1024px) 40vw, 80vw" loading="lazy" />
+          <Image src={sap} alt="Logo Services à la personne" class="max-h-full w-auto object-contain" widths={[280, 420]} sizes="(min-width:1024px) 40vw, 80vw" loading="lazy" />
         </div>
         <h2 class="mt-6 text-2xl md:text-3xl text-cream">Travaux de jardinage : votre <span class="accent text-lime">service à la personne</span></h2>
         <div class="mt-4 space-y-4 text-cream/80 leading-relaxed">
@@ -125,16 +128,25 @@ const prestations = [
       <!-- Prix réduit / TVA 10 % -->
       <div class="rounded-[2.25rem] bg-green-600 p-8 lg:p-10 flex flex-col">
         <div class="rounded-2xl overflow-hidden aspect-[16/10]">
-          <Image src={tva} alt="TVA 10 %" class="w-full h-full object-cover" widths={[280, 510]} sizes="(min-width:1024px) 40vw, 80vw" loading="lazy" />
+          <Image src={tva} alt="Tirelire symbolisant la TVA réduite à 10 %" class="w-full h-full object-cover" widths={[280, 510]} sizes="(min-width:1024px) 40vw, 80vw" loading="lazy" />
         </div>
         <h2 class="mt-6 text-2xl md:text-3xl text-cream">Vos travaux de jardinage et aménagements à <span class="accent text-lime">prix réduit</span></h2>
         <div class="mt-4 space-y-4 text-cream/80 leading-relaxed">
           <p>Nous vous accompagnons dans la rénovation de vos <a href="/amenagement-exterieur" class="text-lime underline underline-offset-4 hover:text-lime-bright">aménagements extérieurs</a>, vous proposons un entretien ponctuel ou un contrat d'entretien annuel personnalisé adapté à vos besoins.</p>
-          <p class="text-sm text-cream/70"><strong class="text-cream">TVA 10 %</strong> — Sous conditions d'éligibilité pour les travaux d'allées, bordures, clôtures et terrasses.</p>
+          <p class="text-sm text-cream/70"><strong class="text-cream">TVA 10 %</strong> : sous conditions d'éligibilité pour les travaux d'allées, bordures, clôtures et terrasses.</p>
         </div>
       </div>
     </div>
+    <Sources
+      items={[
+        { texte: `entreprise créée en ${site.anneeCreation}, SIRET ${site.siret}`, liens: [{ href: site.annuaire, label: "Annuaire des Entreprises" }] },
+        { texte: "crédit d'impôt de 50 % pour les services à la personne", liens: [{ href: site.creditImpot, label: "service-public.fr" }] },
+        { texte: company.agrement },
+        { texte: "TVA à 10 % : taux appliqué par l'entreprise sous conditions d'éligibilité" },
+      ]}
+    />
   </section>
 
+  <Faq faq={P.faq} />
   <CtaBand />
 </Base>

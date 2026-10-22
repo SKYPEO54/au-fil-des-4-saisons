@@ -8,17 +8,17 @@ const isActive = (href: string) =>
   href === "/" ? path === "/" : path === href || path.startsWith(href + "/");
 ---
 
-<!-- Barre fixe (transparente par défaut, fond au scroll) — reste AU-DESSUS de l'overlay -->
+<!-- Barre fixe (transparente par défaut, fond au scroll), reste AU-DESSUS de l'overlay -->
 <header id="site-header" class="fixed top-0 inset-x-0 z-50 transition-all duration-300">
   <div class="container-x flex items-center justify-between gap-4 h-20 lg:h-24">
-    <a href="/" class="flex items-center" aria-label="Au Fil des 4 Saisons — accueil">
-      <Image src={logo} alt="Au Fil des 4 Saisons" width={200} height={85} class="h-11 lg:h-12 w-auto [filter:drop-shadow(0_2px_6px_rgba(0,0,0,0.45))]" loading="eager" />
+    <a href="/" class="flex shrink-0 items-center" aria-label="Au Fil des 4 Saisons, accueil">
+      <Image src={logo} alt="Au Fil des 4 Saisons" width={200} height={85} fetchpriority="high" class="h-11 lg:h-12 w-auto [filter:drop-shadow(0_2px_6px_rgba(0,0,0,0.45))]" loading="eager" />
     </a>
 
     <!-- Menu bandeau (desktop) : liens en ligne + sous-menus au survol -->
     <nav aria-label="Navigation principale" class="hidden lg:flex items-center gap-0.5 xl:gap-1">
       {nav.map((item) => (
-        <div class="relative group">
+        <div class="relative group" data-overflow-ok={item.children ? "" : undefined}>
           <a
             href={item.href}
             aria-current={isActive(item.href) ? "page" : undefined}
@@ -45,7 +45,7 @@ const isActive = (href: string) =>
       ))}
     </nav>
 
-    <a href="/contact" class="hidden xl:inline-flex items-center rounded-full bg-terracotta hover:bg-terracotta-light px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.15em] text-cream transition-colors">
+    <a href="/contact" class="hidden xl:inline-flex shrink-0 whitespace-nowrap items-center rounded-full bg-terracotta-dark hover:bg-terracotta px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.15em] text-white transition-colors">
       Devis gratuit
     </a>
 

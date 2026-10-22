@@ -3,12 +3,21 @@ import Base from "../layouts/Base.astro";
 import PageHero from "../components/PageHero.astro";
 import GalleryMasonry from "../components/GalleryMasonry.astro";
 import CtaBand from "../components/CtaBand.astro";
+import FeatureRow from "../components/FeatureRow.astro";
+import TaxAdvantage from "../components/TaxAdvantage.astro";
+import leafIcon from "../assets/leaves_icon.png";
 import { find } from "../images";
 import type { ImageMetadata } from "astro";
 import m_allee from "../assets/maconnerie_paysagere/allee.webp";
 import m_ardoise from "../assets/maconnerie_paysagere/ardoise.webp";
+import Faq from "../components/Faq.astro";
+import { prestationProps } from "../lib/prestation";
 
 const hero = find("maconnerie_paysagere", "hero_maconnerie");
+const imgOuvrages = find("maconnerie_paysagere", "Escalier_ardoise_et_muret");
+const imgMateriaux = find("maconnerie_paysagere", "dallage_ardoise_pave");
+const leafMask = `-webkit-mask:url(${leafIcon.src}) center/contain no-repeat; mask:url(${leafIcon.src}) center/contain no-repeat;`;
+const lien = "font-semibold underline underline-offset-4";
 
 const f = (frag: string, legende: string) => ({ image: find("maconnerie_paysagere", frag), legende });
 const galerie = [
@@ -26,12 +35,11 @@ const galerie = [
   f("Dallage-et-beton-desactive", "Dallage béton désactivé"),
   f("allee_bois_pave", "Allée en bois et pavés"),
 ].filter((it): it is { image: ImageMetadata; legende: string } => Boolean(it.image));
+
+const P = prestationProps("maconnerie-paysagere");
 ---
 
-<Base
-  title="Aménagements paysagers à Moëlan-sur-Mer : découvrez nos réalisations"
-  description="Maçonnerie paysagère à Moëlan-sur-Mer : allées, terrasses, escaliers, murets, dallages en pierre et ardoise. Découvrez les réalisations sur mesure d'Au Fil des 4 Saisons."
->
+<Base title={P.title} description={P.description} miettes={P.miettes} schemas={P.schemas}>
   <PageHero
     eyebrow="Maçonnerie paysagère"
     title="Aménagements paysagers à Moëlan-sur-Mer : découvrez nos"
@@ -43,6 +51,66 @@ const galerie = [
     <a slot="actions" href="/contact" class="btn btn-primary">Contactez-nous</a>
   </PageHero>
 
+  <!-- Intro : le texte du client, puis la méthode (renvoi vers la création paysagère) -->
+  <section class="container-x my-20 lg:my-28 relative">
+    <span aria-hidden="true" class="leaf-spin hidden lg:block absolute right-2 -top-8 w-12 h-16 bg-lime rotate-[20deg] opacity-90" style={leafMask}></span>
+    <div class="max-w-3xl mx-auto text-center">
+      <span class="eyebrow justify-center">Vos projets</span>
+      <h2 class="mt-4 text-3xl md:text-4xl lg:text-5xl text-cream">Vous nous avez fait confiance pour vos projets d'<span class="accent text-lime">aménagement extérieur</span></h2>
+      <div class="mt-6 space-y-4 text-cream/80 leading-relaxed text-left sm:text-center">
+        <p>Rénovation ou création paysagère, entretien d'espaces verts, pose de clôtures et de portails : depuis 20 ans, vous nous faites confiance pour l'embellissement de vos aménagements extérieurs et nous vous en remercions.</p>
+        <p>Chaque ouvrage de maçonnerie paysagère suit les étapes de nos <a href="/paysagiste/" class={lien + " text-lime"}>créations paysagères</a> : diagnostic et état des lieux, proposition, plan 3D et budget prévisionnel, puis tracé des ouvrages, travaux de maçonnerie, finitions et nettoyage du chantier.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ouvrages réalisés (d'après les chantiers de la galerie) -->
+  <section class="container-x my-20 lg:my-28">
+    <FeatureRow
+      eyebrow="Nos ouvrages"
+      title="Quels ouvrages de maçonnerie paysagère"
+      accent="réalisons-nous ?"
+      image={imgOuvrages!}
+      tall
+    >
+      <p>La maçonnerie paysagère structure les espaces de circulation et de détente de votre jardin et sert d'écrin aux plantations. Nos réalisations en témoignent :</p>
+      <ul class="space-y-3">
+        <li class="flex gap-3"><span aria-hidden="true" class="text-lime mt-1">✓</span><span>des terrasses, en opus de gneiss ou en carrelage imitation bois ;</span></li>
+        <li class="flex gap-3"><span aria-hidden="true" class="text-lime mt-1">✓</span><span>des escaliers en ardoise, en traverses et ardoise ou en pavés ;</span></li>
+        <li class="flex gap-3"><span aria-hidden="true" class="text-lime mt-1">✓</span><span>des murets et des murs en pierre, avec couvertines en ardoise ;</span></li>
+        <li class="flex gap-3"><span aria-hidden="true" class="text-lime mt-1">✓</span><span>des dallages en ardoise, en pavés ou en béton désactivé ;</span></li>
+        <li class="flex gap-3"><span aria-hidden="true" class="text-lime mt-1">✓</span><span>des allées, dont une allée en bois et pavés, et des parkings ;</span></li>
+        <li class="flex gap-3"><span aria-hidden="true" class="text-lime mt-1">✓</span><span>des aménagements de jardin qui associent maçonnerie et plantation.</span></li>
+      </ul>
+    </FeatureRow>
+  </section>
+
+  <!-- Matériaux (fond lime) -->
+  <section class="bg-lime py-20 lg:py-28 relative overflow-hidden">
+    <span aria-hidden="true" class="leaf-spin hidden lg:block absolute left-8 top-10 w-12 h-16 bg-green-800 -rotate-[12deg]" style={leafMask}></span>
+    <div class="container-x relative">
+      <FeatureRow
+        eyebrow="Matériaux"
+        title="Quels matériaux pour vos"
+        accent="ouvrages extérieurs ?"
+        image={imgMateriaux!}
+        lime
+        tall
+        reverse
+      >
+        <p>Ambiance zen, contemporaine ou traditionnelle : nous vous conseillons selon l'architecture de vos aménagements extérieurs et l'esthétique de votre habitation.</p>
+        <ul class="space-y-3">
+          <li class="flex gap-3"><span aria-hidden="true" class="text-green-700 mt-1">✓</span><span>la pierre naturelle, pour l'authenticité, en pavés, en murets ou en murs ;</span></li>
+          <li class="flex gap-3"><span aria-hidden="true" class="text-green-700 mt-1">✓</span><span>l'ardoise, en dallage, en marches d'escalier, en couvertine ou en palis ;</span></li>
+          <li class="flex gap-3"><span aria-hidden="true" class="text-green-700 mt-1">✓</span><span>le béton désactivé, pour des surfaces uniformes, robustes et faciles d'entretien ;</span></li>
+          <li class="flex gap-3"><span aria-hidden="true" class="text-green-700 mt-1">✓</span><span>les pavés et le gravier, pour les allées et les cours ;</span></li>
+          <li class="flex gap-3"><span aria-hidden="true" class="text-green-700 mt-1">✓</span><span>la pierre reconstituée, le bois et la brique, pour les bordures.</span></li>
+        </ul>
+        <p>Lors d'un projet global, ces ouvrages se combinent avec la pose de <a href="/cloture-portail/" class={lien + " text-green-900 decoration-terracotta hover:text-terracotta"}>clôtures</a>, la création de <a href="/terrasse-exterieure/" class={lien + " text-green-900 decoration-terracotta hover:text-terracotta"}>terrasses et plages de piscine</a> ou la construction d'<a href="/abri-jardin/" class={lien + " text-green-900 decoration-terracotta hover:text-terracotta"}>abris de jardin et de carports</a>.</p>
+      </FeatureRow>
+    </div>
+  </section>
+
   <GalleryMasonry
     eyebrow="Nos réalisations"
     title="Quelques-unes de nos"
@@ -50,5 +118,7 @@ const galerie = [
     items={galerie}
   />
 
+  <Faq faq={P.faq} />
+  <TaxAdvantage />
   <CtaBand />
 </Base>

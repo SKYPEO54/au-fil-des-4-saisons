@@ -7,6 +7,8 @@ import CtaBand from "../components/CtaBand.astro";
 import { Image } from "astro:assets";
 import { find } from "../images";
 import leafIcon from "../assets/leaves_icon.png";
+import Faq from "../components/Faq.astro";
+import { prestationProps } from "../lib/prestation";
 
 const leafMask = `-webkit-mask:url(${leafIcon.src}) center/contain no-repeat; mask:url(${leafIcon.src}) center/contain no-repeat;`;
 
@@ -19,12 +21,11 @@ const galerie = [
   { img: find("amenagement_exterieur", "PORTAIL_COULISSANT_PVC"), legende: "Portail PVC Guidel" },
   { img: find("amenagement_exterieur", "Cl_ture_Panneau"), legende: "Clôture Guidel" },
 ];
+
+const P = prestationProps("amenagement-exterieur");
 ---
 
-<Base
-  title="Aménagement extérieur à Moëlan-sur-Mer : clôtures, portails et allées"
-  description="Aménagement extérieur de parcs et jardins à Moëlan-sur-Mer : création d'allées, de bordures, pose de clôtures et de portails. Des espaces plus sûrs, organisés et agréables."
->
+<Base title={P.title} description={P.description} miettes={P.miettes} schemas={P.schemas}>
   <PageHero
     eyebrow="Aménagement extérieur"
     title="Aménagement extérieur à Moëlan-sur-Mer : mise en place de clôtures, portails et"
@@ -44,7 +45,7 @@ const galerie = [
       <h2 class="mt-4 text-3xl md:text-4xl lg:text-5xl text-cream">Faites appel à notre entreprise pour vos aménagements de <span class="accent text-lime">parcs et jardins</span></h2>
       <div class="mt-6 space-y-4 text-cream/80 leading-relaxed text-left sm:text-center">
         <p>Vous aimeriez que vos espaces verts soient mieux délimités, plus sécurisés, mieux organisés et qu'il soit plus simple de s'y balader paisiblement ?</p>
-        <p>Intervenant dans le Morbihan, l'entreprise Au fil des 4 saisons, vous accompagne dans tous vos projets de création et d'aménagement de jardins. Nous procédons notamment à <a href="/amenagement-exterieur-maison" class="text-lime underline underline-offset-4 hover:text-lime-bright">la mise en place de chemin et de bordures</a>, mais aussi de clôtures et de portails.</p>
+        <p>Intervenant dans le sud du Finistère, l'entreprise Au fil des 4 saisons, vous accompagne dans tous vos projets de création et d'aménagement de jardins. Nous procédons notamment à <a href="/amenagement-exterieur-maison" class="text-lime underline underline-offset-4 hover:text-lime-bright">la mise en place de chemin et de bordures</a>, mais aussi de clôtures et de portails.</p>
         <p>En plus de cela nous pouvons vous proposer nos services pour l'entretien de votre jardin, mais aussi pour l'installation de structures comme des abris, des carports ou des terrasses.</p>
       </div>
     </div>
@@ -101,6 +102,7 @@ const galerie = [
     </FeatureRow>
   </section>
 
+  <Faq faq={P.faq} />
   <TaxAdvantage />
   <CtaBand />
 </Base>

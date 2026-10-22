@@ -1,20 +1,23 @@
 ---
 import Base from "../layouts/Base.astro";
-import { company } from "../site";
+import { company, site, gerantsTexte } from "../site";
+import { pages } from "../data/pages";
+
+const meta = pages["/mentions-legales/"];
 ---
 
-<Base title="Mentions légales" description="Mentions légales du site Au Fil des 4 Saisons, paysagiste à Moëlan-sur-Mer.">
+<Base title={meta.titre} description={meta.description} miettes={[{ nom: meta.nom, href: "/mentions-legales/" }]}>
   <section class="container-x pt-32 pb-20 max-w-3xl">
     <h1 class="text-4xl md:text-5xl text-cream">Mentions <span class="accent text-lime">légales</span></h1>
 
     <div class="mt-10 space-y-8 text-cream/85 leading-relaxed">
       <div>
         <h2 class="text-xl text-cream mb-2">Éditeur</h2>
-        <p>{company.name}<br />{company.address}<br />Tél. : {company.phone} — {company.mobile}<br />E-mail : {company.email}<br />SIREN : 487 945 255<br />SIRET : 487 945 255 00023<br />{company.agrement}</p>
+        <p>{company.name}<br />{company.address}<br />Tél. : {company.phone} · {company.mobile}<br />E-mail : {company.email}<br />Capital : {site.capital}<br />SIREN : {site.siren}<br />SIRET : {site.siret}<br />TVA intracommunautaire : {site.tva}<br />{company.agrement}<br />Responsables de la publication : {gerantsTexte}, cogérants</p>
       </div>
       <div>
         <h2 class="text-xl text-cream mb-2">Conception &amp; réalisation</h2>
-        <p>Ce site a été réalisé par <a class="accent text-lime underline underline-offset-4" href="https://www.skypeo.fr" target="_blank" rel="noopener">Skypeo</a> — Agence web à Nancy.</p>
+        <p>Ce site a été réalisé par <a class="accent text-lime underline underline-offset-4" href="https://www.skypeo.fr" target="_blank" rel="noopener">Skypeo</a>, agence web à Nancy.</p>
       </div>
       <div>
         <h2 class="text-xl text-cream mb-2">Hébergement</h2>

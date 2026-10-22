@@ -70,6 +70,19 @@ Vert profond émeraude DOMINANT + sections LIME pastel + accents terracotta. NE 
 - ⏳ Compléter l'hébergeur dans `mentions-legales.astro`.
 - 🐞 À vérifier : `service-personne-…jpg` = logo SAP (pas une photo) ; bien vérifié qu'il n'est plus utilisé comme "photo équipe" ailleurs.
 
+## Mise à niveau SEO et IA (21/10/2026)
+Objectif : SEO ≥ 95 et IA ≥ 85 sans toucher au design. Mesures locales sur `dist/` : Lighthouse mobile 94-95 / ordinateur 100 (a11y, bonnes pratiques, SEO 100), geo-score 95/100.
+- **Données** : `src/site.ts` exporte aussi `site` (url, `miseAJour`, SIREN/SIRET/TVA, capital, gérants, fiche Google 4,1/21 relevée le 21/10, GPS, communes, horaires schema) et `gerantsTexte`. Sources : Annuaire des Entreprises (SIRET, 2006, cogérants Cédric et Ulrich Le Corre), mentions légales de l'ancien site (capital, TVA), fiche Google.
+- **`src/data/pages.ts`** : titre (50-60 car.) et description (120-155) de chaque page, uniques. **`src/data/prestations.ts`** : résumé + FAQ (3-4 questions tirées des textes du client) des 10 pages de prestation. Une question ne vit que sur une page.
+- **`src/lib/schema.ts`** : `@graph` à entité unique (`LandscapingBusiness`+`LocalBusiness`, un seul `@id`), `WebSite`, 2 `Person` (cogérants, url /a-propos/), `BreadcrumbList`, `FAQPage`, `Service`, `HowTo` (/paysagiste/). **`src/lib/prestation.ts`** : `prestationProps(slug)` donne titre, miettes et schémas à chaque page de prestation.
+- **`Base.astro`** : props `miettes`, `schemas`, `page`, `lcp` ; `WebPage` avec `dateModified`, `author`, `breadcrumb`, `speakable` (h1 + `[data-reponse]`) ; canonique à barre finale sur l'hôte de prod ; polices auto-hébergées (`public/fonts`, préchargées) ; `<link rel="alternate" href="/llms.txt">`. CSS inline (`build.inlineStylesheets: 'always'`).
+- **Pied de page** : signature des cogérants (lien /a-propos/) + « Mis à jour le » en `<time>` = `site.miseAJour`. **Changer `miseAJour` quand le contenu change**, jamais à chaque build.
+- **Composants** : `Faq.astro` (accordéon `<details>`, texte identique au JSON-LD), `Sources.astro` (ligne de sources sous les chiffres, dans `TaxAdvantage` et sur /a-propos/ et /entretien-jardin/).
+- **Endpoints** : `robots.txt.ts` (robots IA nommés + sitemap), `llms.txt.ts`, `llms-full.txt.ts`. Sitemap : `lastmod` + priorités par type de page.
+- **Accueil** : l'image du hero est un vrai `<img>` (srcset 480-1920, `fetchpriority=high`, préchargée) sous la vidéo, qui n'a plus de `poster`. La vidéo vient de notre banque, pas du client : aucun `VideoObject`.
+- **Contenu corrigé** : « Morbihan » → Finistère (3 pages), tirets cadratins retirés, /maconnerie-paysagere/ enrichie (ouvrages et matériaux réels, 282 → ~680 mots), 16 images sans alt corrigées.
+- **Reste connu** : `check.mjs` signale R-POIDS (29 Mo de photos sources pour un plafond de 5 Mo pensé pour une maquette une-page), le formulaire de contact poste encore vers un Formspree factice, les mentions légales citent Hostinger alors que la prévisualisation est sur Vercel. Questions au client : `QUESTIONS-CLIENT.md`.
+
 ## Infos entreprise
 34 Rue du Guilly, 29350 Moëlan-sur-Mer · 02 98 96 56 30 · 06 58 88 68 16 · afd4saisons@gmail.com
 Agrément Services à la Personne N° N/240108/F/029/S/271 · depuis 2006 · zone ~30 km (Quimperlé, Lorient, Guidel…)

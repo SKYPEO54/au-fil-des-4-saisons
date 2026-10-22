@@ -7,6 +7,8 @@ import CtaBand from "../components/CtaBand.astro";
 import { Image } from "astro:assets";
 import { find } from "../images";
 import leafIcon from "../assets/leaves_icon.png";
+import Faq from "../components/Faq.astro";
+import { prestationProps } from "../lib/prestation";
 
 const leafMask = `-webkit-mask:url(${leafIcon.src}) center/contain no-repeat; mask:url(${leafIcon.src}) center/contain no-repeat;`;
 
@@ -19,12 +21,11 @@ const galerie = [
   { img: find("espace_vert", "Photo__17"), legende: "Terrasse Guidel" },
   { img: find("espace_vert", "Escalier_ardoise"), legende: "Créations jardins Guidel" },
 ];
+
+const P = prestationProps("espaces-verts");
 ---
 
-<Base
-  title="Espaces verts à Moëlan-sur-Mer : installations de terrasses et d'abris"
-  description="Aménagement d'espaces verts à Moëlan-sur-Mer : installation de terrasses, plages de piscine et abris de jardin. Transformez votre jardin en véritable espace de vie."
->
+<Base title={P.title} description={P.description} miettes={P.miettes} schemas={P.schemas}>
   <PageHero
     eyebrow="Espaces verts"
     title="Espaces verts à Moëlan-sur-Mer : installations de"
@@ -44,7 +45,7 @@ const galerie = [
       <h2 class="mt-4 text-3xl md:text-4xl lg:text-5xl text-cream">Confiez la mise en place de vos installations de jardin <span class="accent text-lime">à notre entreprise</span></h2>
       <div class="mt-6 space-y-4 text-cream/80 leading-relaxed text-left sm:text-center">
         <p>Vous aimeriez transformer votre jardin en véritable espace de vie bien organisé, un peu à la manière d'une pièce supplémentaire de votre habitat ?</p>
-        <p>Spécialisée dans la création, l'entretien et l'agencement d'espaces verts, l'entreprise Au fil des 4 Saisons est située à Moëlan-sur-Mer dans le Morbihan et intervient dans un large périmètre pour réaliser l'<a href="/terrasse-exterieure" class="text-lime underline underline-offset-4 hover:text-lime-bright">installation de vos terrasses</a>, de vos plages de piscines et de <a href="/abri-jardin" class="text-lime underline underline-offset-4 hover:text-lime-bright">vos abris de jardins</a>.</p>
+        <p>Spécialisée dans la création, l'entretien et l'agencement d'espaces verts, l'entreprise Au fil des 4 Saisons est située à Moëlan-sur-Mer dans le Finistère et intervient dans un large périmètre pour réaliser l'<a href="/terrasse-exterieure" class="text-lime underline underline-offset-4 hover:text-lime-bright">installation de vos terrasses</a>, de vos plages de piscines et de <a href="/abri-jardin" class="text-lime underline underline-offset-4 hover:text-lime-bright">vos abris de jardins</a>.</p>
         <p>Notre entreprise propose ses services aux professionnels et particuliers. Nous prenons soin de vos jardins et espaces verts.</p>
         <p>Nous pouvons également intervenir pour des travaux d'agencements d'espaces verts via la mise en place d'allées, de chemins ainsi que de clôtures et portails.</p>
         <p>Notre entreprise vous propose, ainsi, ses services et réalise vos travaux de création et d'entretien d'espaces verts et jardins !</p>
@@ -104,6 +105,7 @@ const galerie = [
     </FeatureRow>
   </section>
 
+  <Faq faq={P.faq} />
   <TaxAdvantage />
   <CtaBand />
 </Base>

@@ -1,0 +1,21 @@
+---
+/**
+ * Ligne « Sources » placée sous les chiffres qu'elle couvre (modèle hilairehabitat).
+ * Chaque entrée dit d'où vient l'information, avec un lien vers la source quand
+ * elle existe. Une entrée sans lien reste un texte : jamais de source au hasard.
+ */
+interface Props {
+  items: { texte: string; liens?: { href: string; label: string }[] }[];
+  /** Section sur fond lime : texte foncé. */
+  lime?: boolean;
+  class?: string;
+}
+const { items, lime = false, class: classe = "mt-8" } = Astro.props;
+---
+
+<p class:list={["text-sm leading-relaxed", lime ? "text-green-900/80" : "text-cream/75", classe]}>
+  Sources :{" "}
+  {items.map((it, i) => (
+    <><cite class="not-italic">{it.texte}{it.liens?.length ? <>{" ("}{it.liens.map((l, j) => (<>{j > 0 ? ", " : ""}<a href={l.href} target="_blank" rel="noopener" class:list={["underline underline-offset-2", lime ? "hover:text-terracotta" : "hover:text-lime"]}>{l.label}</a></>))}{")"}</> : null}</cite>{i < items.length - 1 ? " ; " : "."}</>
+  ))}
+</p>

@@ -1,14 +1,24 @@
 ---
-import { company, nav } from "../site";
+import { company, nav, gerantsTexte } from "../site";
 import { Image } from "astro:assets";
 import logo from "../assets/logo.png";
+
+interface Props {
+  /** Date AAAA-MM-JJ de mise a jour du contenu (site.miseAJour), identique au dateModified du JSON-LD. */
+  maj?: string;
+}
+const { maj } = Astro.props;
+const majLisible = maj
+  ? new Date(maj + "T00:00:00Z").toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" })
+  : undefined;
 ---
 
 <footer class="bg-lime text-green-900">
   <div class="container-x py-16 lg:py-20">
-    <div class="grid gap-12 lg:grid-cols-[1.4fr_1fr_1fr_1.1fr]">
+    <!-- Colonnes volontairement inégales (bloc marque plus large) : hors contrôle de grille -->
+    <div data-overflow-ok class="grid gap-12 lg:grid-cols-[1.4fr_1fr_1fr_1.1fr]">
       <div>
-        <a href="/" class="inline-flex" aria-label="Au Fil des 4 Saisons — accueil">
+        <a href="/" class="inline-flex" aria-label="Au Fil des 4 Saisons, accueil">
           <Image src={logo} alt="Au Fil des 4 Saisons" width={240} height={102} class="h-16 w-auto" loading="lazy" />
         </a>
         <p class="mt-4 max-w-xs text-sm leading-relaxed text-green-900/70">
@@ -19,7 +29,7 @@ import logo from "../assets/logo.png";
       </div>
 
       <div>
-        <h2 class="font-sans text-xs font-semibold uppercase tracking-widest text-green-900/60">Navigation</h2>
+        <h2 class="font-sans text-xs font-semibold uppercase tracking-widest text-green-900/80">Navigation</h2>
         <ul class="mt-4 space-y-2.5 text-sm">
           {nav.map((item) => (
             <li><a href={item.href} class="hover:text-terracotta transition-colors">{item.label}</a></li>
@@ -28,16 +38,16 @@ import logo from "../assets/logo.png";
       </div>
 
       <div>
-        <h2 class="font-sans text-xs font-semibold uppercase tracking-widest text-green-900/60">Horaires</h2>
+        <h2 class="font-sans text-xs font-semibold uppercase tracking-widest text-green-900/80">Horaires</h2>
         <ul class="mt-4 space-y-2.5 text-sm">
           {company.hours.map((h) => (
-            <li><span class="block font-medium">{h.day}</span><span class="text-green-900/60">{h.time}</span></li>
+            <li><span class="block font-medium">{h.day}</span><span class="text-green-900/80">{h.time}</span></li>
           ))}
         </ul>
       </div>
 
       <div>
-        <h2 class="font-sans text-xs font-semibold uppercase tracking-widest text-green-900/60">Contact</h2>
+        <h2 class="font-sans text-xs font-semibold uppercase tracking-widest text-green-900/80">Contact</h2>
         <ul class="mt-4 space-y-3 text-sm">
           <li class="flex gap-3"><span aria-hidden="true">📍</span><span>{company.address}</span></li>
           <li class="flex gap-3"><span aria-hidden="true">📞</span><a href={company.phoneHref} class="hover:text-terracotta">{company.phone}</a></li>
@@ -47,10 +57,14 @@ import logo from "../assets/logo.png";
       </div>
     </div>
 
-    <div class="mt-14 pt-8 border-t border-green-900/15 flex flex-col md:flex-row gap-3 items-start md:items-center justify-between text-xs text-green-900/60">
-      <p>© {company.since}–2026 {company.name}. Tous droits réservés.</p>
+    <div class="mt-14 pt-8 border-t border-green-900/15 flex flex-col md:flex-row gap-3 items-start md:items-center justify-between text-xs text-green-900/80">
+      <p>© {company.since}-2026 {company.name}. Tous droits réservés.</p>
       <p>{company.agrement}</p>
-      <a href="/mentions-legales" class="hover:text-terracotta">Mentions légales</a>
+      <a href="/mentions-legales/" class="hover:text-terracotta">Mentions légales</a>
     </div>
+    <p class="mt-4 text-xs text-green-900/80">
+      Contenu publié sous la responsabilité de <a href="/a-propos/" rel="author" class="underline underline-offset-2 hover:text-terracotta">{gerantsTexte}</a>, cogérants
+      {majLisible && <> · Mis à jour le <time datetime={maj}>{majLisible}</time></>}
+    </p>
   </div>
 </footer>

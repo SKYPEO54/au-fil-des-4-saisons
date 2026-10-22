@@ -1,0 +1,40 @@
+---
+/**
+ * Questions fréquentes d'une page de prestation : affichées en accordéon
+ * (<details>, fonctionne sans JavaScript) et déclarées en FAQPage par la page,
+ * avec exactement le même texte.
+ */
+import type { QR } from "../data/prestations";
+
+interface Props {
+  faq: QR[];
+  titre?: string;
+}
+const { faq, titre = "Vos questions sur" } = Astro.props;
+---
+
+{faq.length > 0 && (
+  <section class="container-x my-20 lg:my-28" aria-labelledby="faq-titre">
+    <div class="max-w-3xl mx-auto">
+      <span class="eyebrow">Questions fréquentes</span>
+      <h2 id="faq-titre" class="mt-4 text-3xl md:text-4xl text-cream">{titre}{" "}<span class="accent">cette prestation</span></h2>
+      <div class="mt-10 space-y-4">
+        {faq.map((x, i) => (
+          <details class="faq group rounded-3xl bg-green-800 px-6 py-5 lg:px-8" open={i === 0}>
+            <summary class="flex cursor-pointer list-none items-start justify-between gap-6">
+              <h3 class="text-lg md:text-xl text-cream leading-snug">{x.q}</h3>
+              <span aria-hidden="true" class="mt-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-lime text-green-900 transition-transform duration-300 group-open:rotate-45">
+                <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
+              </span>
+            </summary>
+            <p class="mt-4 text-cream/75 leading-relaxed">{x.r}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+)}
+
+<style>
+  .faq summary::-webkit-details-marker { display: none; }
+</style>

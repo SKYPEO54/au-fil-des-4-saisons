@@ -3,37 +3,57 @@ import "../styles/global.css";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import ScrollTop from "../components/ScrollTop.astro";
-import { company } from "../site";
+import { company, site } from "../site";
+import { entreprise, siteWeb, gerants, auteurs, filAriane, abs, ID_ENTREPRISE, ID_SITE, type Miette } from "../lib/schema";
 
 interface Props {
   title: string;
   description: string;
   image?: string;
+  /** Fil d'Ariane apres l'accueil (BreadcrumbList). */
+  miettes?: Miette[];
+  /** Noeuds JSON-LD propres a la page (Service, FAQPage, HowTo...). */
+  schemas?: unknown[];
+  /** Surcharge du noeud de page (ex. { "@type": "AboutPage" }). Un seul noeud de page par URL. */
+  page?: Record<string, unknown>;
+  /** Image principale a precharger (LCP) : src, srcset et sizes. */
+  lcp?: { src: string; srcset?: string; sizes?: string };
 }
 
-const { title, description, image = "/logo.png" } = Astro.props;
-const canonical = new URL(Astro.url.pathname, Astro.site).href.replace(/\/$/, "") || Astro.site?.href;
+const { title, description, image = "/logo.png", miettes = [], schemas = [], page = {}, lcp } = Astro.props;
+// Canonique sur l'hote de production, forme a barre finale identique au sitemap.
+const canonical = new URL(Astro.url.pathname.replace(/\/?$/, "/"), site.url + "/").href;
 const fullTitle = title.includes(company.name) ? title : `${title} | ${company.name}`;
+const dateMaj = /^\d{4}-\d{2}-\d{2}$/.test(site.miseAJour) ? site.miseAJour : undefined;
+const toutesMiettes: Miette[] = [{ nom: "Accueil", href: "/" }, ...miettes];
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "LandscapingBusiness",
-  name: company.name,
+const noeudPage = {
+  "@type": "WebPage",
+  "@id": canonical + "#page",
+  url: canonical,
+  name: fullTitle,
   description,
-  image: new URL("/logo.png", Astro.site).href,
-  telephone: company.phone,
-  email: company.email,
-  url: Astro.site?.href,
-  address: {
-    "@type": "PostalAddress",
-    streetAddress: "34 Rue du Guilly",
-    addressLocality: "Moëlan-sur-Mer",
-    postalCode: "29350",
-    addressCountry: "FR",
-  },
-  areaServed: "Moëlan-sur-Mer, Quimperlé, Lorient, Bretagne sud",
-  foundingDate: String(company.since),
-  openingHours: ["Mo-Th 08:30-12:30,13:30-17:00", "Fr 08:30-12:30,13:30-16:00"],
+  inLanguage: "fr-FR",
+  isPartOf: { "@id": ID_SITE },
+  about: { "@id": ID_ENTREPRISE },
+  publisher: { "@id": ID_ENTREPRISE },
+  author: auteurs,
+  ...(dateMaj ? { dateModified: dateMaj } : {}),
+  ...(toutesMiettes.length > 1 ? { breadcrumb: { "@id": canonical + "#fil" } } : {}),
+  speakable: { "@type": "SpeakableSpecification", cssSelector: ["h1", "[data-reponse]"] },
+  ...page,
+};
+
+const graphe = {
+  "@context": "https://schema.org",
+  "@graph": [
+    entreprise,
+    siteWeb,
+    ...gerants,
+    noeudPage,
+    ...(toutesMiettes.length > 1 ? [filAriane(canonical, toutesMiettes)] : []),
+    ...schemas,
+  ],
 };
 ---
 
@@ -44,12 +64,21 @@ const jsonLd = {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- Marque que JS est actif (les éléments [data-reveal] ne sont masqués que si .js est présent) -->
     <script is:inline>document.documentElement.classList.add("js");</script>
-    <link rel="icon" type="image/png" href="/logo.png" />
-    <meta name="generator" content={Astro.generator} />
-
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
+    <meta name="author" content={`${site.gerants.map((g) => g.prenom + " " + g.nom).join(", ")}, ${company.name}`} />
+    <meta name="geo.region" content="FR-29" />
+    <meta name="geo.placename" content={site.ville} />
+
+    <!-- Polices auto-hébergées : préchargées, aucune ressource tierce bloquante -->
+    <link rel="preload" href="/fonts/hanken-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/fraunces-italic-latin.woff2" as="font" type="font/woff2" crossorigin />
+    {lcp && <link rel="preload" as="image" href={lcp.src} imagesrcset={lcp.srcset} imagesizes={lcp.sizes} fetchpriority="high" />}
+
+    <link rel="icon" type="image/png" href="/logo.png" />
+    <link rel="alternate" type="text/plain" href="/llms.txt" title="Résumé du site pour les assistants IA" />
+    <meta name="generator" content={Astro.generator} />
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
@@ -58,26 +87,21 @@ const jsonLd = {
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
-    <meta property="og:image" content={new URL(image, Astro.site).href} />
+    <meta property="og:image" content={abs(image)} />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={abs(image)} />
 
-    <!-- Polices Google : preconnect + display swap -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@1,9..144,400..500&family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap"
-      rel="stylesheet"
-    />
-
-    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    <script type="application/ld+json" set:html={JSON.stringify(graphe)} />
   </head>
-  <body>
+<body>
     <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:top-4 focus:left-4 focus:bg-white focus:px-4 focus:py-2 focus:rounded-full">Aller au contenu</a>
     <Header />
     <main id="main">
       <slot />
     </main>
-    <Footer />
+    <Footer maj={dateMaj} />
     <ScrollTop />
 
     <!-- Apparition au scroll : ajoute .is-visible quand l'élément [data-reveal] entre dans l'écran -->

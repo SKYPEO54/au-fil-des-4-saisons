@@ -11,6 +11,8 @@ import leafIcon from "../assets/leaves_icon.png";
 import gal1 from "../assets/cloture_portail/1.webp";
 import gal2 from "../assets/cloture_portail/2.webp";
 import gal3 from "../assets/cloture_portail/3.webp";
+import Faq from "../components/Faq.astro";
+import { prestationProps } from "../lib/prestation";
 
 const leafMask = `-webkit-mask:url(${leafIcon.src}) center/contain no-repeat; mask:url(${leafIcon.src}) center/contain no-repeat;`;
 
@@ -35,12 +37,11 @@ const galerieGrande = [
   { image: find("cloture_portail", "Panneau_Soud"), legende: "Clôture en panneaux soudés et plaque béton" },
   { image: find("cloture_portail", "IMG_0180"), legende: "Panneaux rigides et occultant PVC" },
 ];
+
+const P = prestationProps("cloture-portail");
 ---
 
-<Base
-  title="Clôtures et portails à Moëlan-sur-Mer : conseils, pose et installation"
-  description="Pose de clôtures et de portails à Moëlan-sur-Mer : bois, PVC, aluminium, panneaux soudés, portails automatiques. Conseils, étude et installation pour un extérieur qui vous ressemble."
->
+<Base title={P.title} description={P.description} miettes={P.miettes} schemas={P.schemas}>
   <PageHero
     eyebrow="Clôtures &amp; portails"
     title="Clôtures et portails à Moëlan-sur-Mer : conseils, pose et"
@@ -132,6 +133,7 @@ const galerieGrande = [
     items={galerieGrande}
   />
 
+  <Faq faq={P.faq} />
   <TaxAdvantage />
   <CtaBand />
 </Base>
