@@ -10,20 +10,20 @@ const isActive = (href: string) =>
 
 <!-- Barre fixe (transparente par défaut, fond au scroll), reste AU-DESSUS de l'overlay -->
 <header id="site-header" class="fixed top-0 inset-x-0 z-50 transition-all duration-300">
-  <div class="container-x flex items-center justify-between gap-4 h-20 lg:h-24">
+  <div class="mx-auto w-full max-w-[110rem] px-4 md:px-6 min-[1400px]:px-10 flex items-center justify-between gap-4 h-20 lg:h-24">
     <a href="/" class="flex shrink-0 items-center" aria-label="Au Fil des 4 Saisons, accueil">
-      <Image src={logo} alt="Au Fil des 4 Saisons" width={200} height={85} fetchpriority="high" class="h-11 lg:h-12 w-auto [filter:drop-shadow(0_2px_6px_rgba(0,0,0,0.45))]" loading="eager" />
+      <Image src={logo} alt="Au Fil des 4 Saisons" width={200} height={85} fetchpriority="high" class="h-14 min-[1400px]:h-16 w-auto max-w-[200px] object-contain [filter:drop-shadow(0_2px_6px_rgba(0,0,0,0.45))]" loading="eager" />
     </a>
 
     <!-- Menu bandeau (desktop) : liens en ligne + sous-menus au survol -->
     <nav aria-label="Navigation principale" class="hidden lg:flex items-center gap-0.5 xl:gap-1">
-      {nav.map((item) => (
+      {nav.map((item, i) => (
         <div class="relative group" data-overflow-ok={item.children ? "" : undefined}>
           <a
             href={item.href}
             aria-current={isActive(item.href) ? "page" : undefined}
             class:list={[
-              "flex items-center gap-1 whitespace-nowrap rounded-full px-2.5 xl:px-3 py-2 text-[0.8rem] xl:text-sm font-semibold tracking-wide transition-colors [text-shadow:0_1px_4px_rgba(0,0,0,0.35)]",
+              "flex items-center gap-1 whitespace-nowrap rounded-full px-2 xl:px-2.5 min-[1400px]:px-3 py-2 text-[0.8rem] xl:text-sm font-semibold tracking-wide transition-colors [text-shadow:0_1px_4px_rgba(0,0,0,0.35)]",
               isActive(item.href) ? "text-lime" : "text-cream hover:text-lime",
             ]}
           >
@@ -33,7 +33,7 @@ const isActive = (href: string) =>
             )}
           </a>
           {item.children && (
-            <div class="absolute left-0 top-full pt-2 opacity-0 invisible translate-y-1 transition-all duration-200 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 group-focus-within:opacity-100 group-focus-within:visible group-focus-within:translate-y-0">
+            <div class:list={["absolute top-full pt-2 opacity-0 invisible translate-y-1 transition-all duration-200 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 group-focus-within:opacity-100 group-focus-within:visible group-focus-within:translate-y-0", i >= 4 ? "right-0" : "left-0"]}>
               <div class="min-w-52 flex flex-col gap-0.5 rounded-2xl bg-green-900/95 backdrop-blur-md p-2 shadow-xl shadow-black/30 ring-1 ring-cream/10">
                 {item.children.map((c) => (
                   <a href={c.href} class:list={["rounded-xl px-4 py-2.5 text-sm whitespace-nowrap transition-colors", isActive(c.href) ? "bg-lime text-green-900 font-semibold" : "text-cream/85 hover:bg-green-700 hover:text-lime"]}>{c.label}</a>
