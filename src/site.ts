@@ -32,7 +32,7 @@ export const company = {
 export const site = {
   url: "https://www.aufildes4saisons.fr",
   // Date AAAA-MM-JJ de la derniere modification REELLE du contenu (pas du build).
-  miseAJour: "2026-10-21",
+  miseAJour: "2026-10-28",
   raisonSociale: "AU FIL DES 4 SAISONS",
   siren: "487 945 255",
   siret: "487 945 255 00023",

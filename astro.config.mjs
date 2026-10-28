@@ -12,6 +12,8 @@ export default defineConfig({
   },
   integrations: [
     sitemap({
+      // La page de remerciement du formulaire n'a rien a faire dans l'index.
+      filter: (page) => !page.includes('/contact/merci'),
       // Date reelle de generation et priorite par type de page.
       lastmod: new Date(),
       serialize(item) {

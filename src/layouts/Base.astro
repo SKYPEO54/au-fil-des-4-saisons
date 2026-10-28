@@ -18,9 +18,11 @@ interface Props {
   page?: Record<string, unknown>;
   /** Image principale a precharger (LCP) : src, srcset et sizes. */
   lcp?: { src: string; srcset?: string; sizes?: string };
+  /** Page hors index (remerciement du formulaire). */
+  noindex?: boolean;
 }
 
-const { title, description, image = "/logo.png", miettes = [], schemas = [], page = {}, lcp } = Astro.props;
+const { title, description, image = "/logo.png", miettes = [], schemas = [], page = {}, lcp, noindex = false } = Astro.props;
 // Canonique sur l'hote de production, forme a barre finale identique au sitemap.
 const canonical = new URL(Astro.url.pathname.replace(/\/?$/, "/"), site.url + "/").href;
 const fullTitle = title.includes(company.name) ? title : `${title} | ${company.name}`;
@@ -67,6 +69,7 @@ const graphe = {
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
     <meta name="author" content={`${site.gerants.map((g) => g.prenom + " " + g.nom).join(", ")}, ${company.name}`} />
     <meta name="geo.region" content="FR-29" />
     <meta name="geo.placename" content={site.ville} />

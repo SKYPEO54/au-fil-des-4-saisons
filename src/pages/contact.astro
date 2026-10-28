@@ -68,23 +68,35 @@ const field = "w-full rounded-xl border border-white/15 bg-green-800/60 text-cre
         <h2 class="text-2xl md:text-3xl text-cream">Demande de devis gratuit</h2>
         <p class="mt-2 text-sm text-cream/65">Décrivez votre projet, nous vous recontactons rapidement.</p>
 
-        <!-- ⚠️ Remplacer l'action par votre endpoint Formspree (ou autre) -->
-        <form action="https://formspree.io/f/votre-id" method="POST" class="mt-7 grid sm:grid-cols-2 gap-5">
-          <div>
-            <label for="nom" class="block text-sm font-medium text-cream/90 mb-1.5">Nom *</label>
-            <input id="nom" name="nom" type="text" required class={field} />
+        <!-- Message d'erreur après un envoi refusé (?erreur=...) -->
+        <p id="form-erreur" role="alert" class="hidden mt-5 rounded-xl bg-terracotta-dark/90 px-4 py-3 text-sm text-white"></p>
+
+        <!-- POST classique vers la fonction Vercel api/contact.mjs (Resend) : fonctionne sans JavaScript -->
+        <form action="/api/contact/" method="POST" class="mt-7 grid sm:grid-cols-2 gap-5">
+          <!-- Pot de miel : invisible pour un humain, rempli par les robots -->
+          <div class="hidden" aria-hidden="true">
+            <label for="site_web">Ne pas remplir</label>
+            <input id="site_web" name="site_web" type="text" tabindex="-1" autocomplete="off" />
           </div>
           <div>
-            <label for="tel" class="block text-sm font-medium text-cream/90 mb-1.5">Téléphone</label>
-            <input id="tel" name="telephone" type="tel" class={field} />
+            <label for="nom" class="block text-sm font-medium text-cream/90 mb-1.5">Nom *</label>
+            <input id="nom" name="nom" type="text" required autocomplete="name" class={field} />
+          </div>
+          <div>
+            <label for="tel" class="block text-sm font-medium text-cream/90 mb-1.5">Téléphone *</label>
+            <input id="tel" name="telephone" type="tel" required autocomplete="tel" class={field} />
           </div>
           <div class="sm:col-span-2">
             <label for="email" class="block text-sm font-medium text-cream/90 mb-1.5">E-mail *</label>
-            <input id="email" name="email" type="email" required class={field} />
+            <input id="email" name="email" type="email" required autocomplete="email" class={field} />
+          </div>
+          <div class="sm:col-span-2">
+            <label for="commune" class="block text-sm font-medium text-cream/90 mb-1.5">Commune du chantier</label>
+            <input id="commune" name="commune" type="text" autocomplete="address-level2" class={field} />
           </div>
           <div class="sm:col-span-2">
             <label for="sujet" class="block text-sm font-medium text-cream/90 mb-1.5">Votre projet</label>
-            <select id="sujet" name="sujet" class={field}>
+            <select id="sujet" name="demande" class={field}>
               <option>Création de jardin</option>
               <option>Entretien d'espaces verts</option>
               <option>Terrasse / plage de piscine</option>
@@ -107,6 +119,19 @@ const field = "w-full rounded-xl border border-white/15 bg-green-800/60 text-cre
             <button type="submit" class="btn btn-primary w-full text-base py-4">Envoyer ma demande</button>
           </div>
         </form>
+        <script is:inline>
+          (function () {
+            var e = new URLSearchParams(location.search).get("erreur");
+            if (!e) return;
+            var msg = {
+              "1": "Merci de renseigner votre nom, votre téléphone et une adresse e-mail valide.",
+              trop: "Trop de demandes envoyées en peu de temps. Merci de réessayer dans quelques minutes ou de nous appeler.",
+            }[e] || "Votre demande n'a pas pu être envoyée. Merci de réessayer ou de nous appeler au 02 98 96 56 30.";
+            var p = document.getElementById("form-erreur");
+            p.textContent = msg;
+            p.classList.remove("hidden");
+          })();
+        </script>
       </div>
     </div>
   </section>
