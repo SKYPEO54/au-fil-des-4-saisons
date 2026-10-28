@@ -1,0 +1,9 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "redirects": [
+    { "source": "/mentionslegales", "destination": "/mentions-legales/", "permanent": true },
+    { "source": "/vieprivee", "destination": "/mentions-legales/", "permanent": true },
+    { "source": "/privacy", "destination": "/mentions-legales/", "permanent": true },
+    { "source": "/page-avis", "destination": "/a-propos/", "permanent": true }
+  ]
+}
