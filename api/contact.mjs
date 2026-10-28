@@ -14,6 +14,15 @@
  * touche, et sa boite mail garde sa reputation.
  *
  * Le formulaire fonctionne sans JavaScript : POST classique, reponse 303.
+ *
+ * Filtre anti-robots (28/10/2026), etabli sur les 7 messages de robots recus
+ * par artizassist en octobre : tous passaient le pot de miel, car ils
+ * remplissent les formulaires comme un humain. Ils se trahissent par leur
+ * contenu : numero de telephone sans indicatif francais, prenom recopie dans
+ * le nom, liens vers d'autres sites, demarchage en anglais, adresse e-mail
+ * deguisee en domaine du site. Un message juge robot recoit la meme reponse
+ * qu'un vrai (page de remerciement) et n'est pas envoye : on ne lui apprend
+ * rien. Le motif est seulement journalise, sans les coordonnees.
  */
 
 const REDIR = (url) => new Response(null, { status: 303, headers: { Location: url } })
@@ -40,6 +49,52 @@ const propre = (v, max = 500) =>
     .trim()
     .slice(0, max)
 
+/**
+ * Telephone plausible : numero francais (0X XX XX XX XX, +33, 0033) ou
+ * numero etranger AVEC son indicatif (+32..., 0041...). Les robots envoient
+ * 10 ou 11 chiffres sans 0 initial ni indicatif : ils tombent ici.
+ */
+export function telephoneValide(brut) {
+  const t = String(brut).replace(/[\s.\-()/]/g, '')
+  if (/^0[1-9]\d{8}$/.test(t)) return true
+  if (/^(\+|00)33[1-9]\d{8}$/.test(t)) return true
+  if (/^(\+|00)(?!33)[1-9]\d{6,13}$/.test(t)) return true
+  return false
+}
+
+const MOTS_EN = /\b(the|your|you|our|we|hello|hi|dear|regards|website|services?|business|offer|free|trial|price|pricing|customers?)\b/gi
+const MOTS_FR = /\b(je|nous|vous|le|la|les|des|du|pour|mon|ma|mes|est|une?|bonjour|merci|devis|maison|jardin|travaux)\b/gi
+const DEMARCHAGE = /\b(telegram|whatsapp|seo|backlinks?|crypto|bitcoin|casino|loan|search index|google search|marketing digital|digital marketing|guest post|link building|1 million|50 000 messages)\b/i
+// Lien ou nom de domaine dans le texte, hors adresse e-mail (precede d'un @).
+const LIEN = /(https?:\/\/|www\.|(?<![@\w.-])[a-z0-9-]{2,}\.(com|net|org|info|biz|io|co|xyz|live|pro|online|site|top|shop|store|ru|cn|in|us|uk|app|dev|ai)\b)/i
+
+/**
+ * Renvoie le motif si le message ressemble a un robot, sinon null.
+ * Jamais sur un seul indice faible : chaque regle correspond a un motif vu
+ * dans les vrais messages de robots, absent des vraies demandes de devis.
+ */
+export function motifRobot({ nom, prenom, email, message, commune }, hoteSite) {
+  if (prenom && nom && prenom.toLowerCase() === nom.toLowerCase()) return 'prenom identique au nom'
+  if (/(https?:|www\.|\.\w{2,}\/)/i.test(nom + ' ' + prenom + ' ' + commune)) return 'lien dans le nom ou la commune'
+  if (/\d{5,}/.test(nom + prenom) || /[A-Z]{5,}\d{3,}/.test(commune)) return 'nom ou commune aleatoire'
+
+  // Adresse e-mail deguisee : son domaine reprend le nom du site sans etre le site.
+  const etiquette = String(hoteSite || '').replace(/^www\./, '').split('.')[0]
+  const domaineEmail = email.split('@')[1] || ''
+  if (etiquette.length >= 5 && domaineEmail.includes(etiquette) && !String(hoteSite).endsWith(domaineEmail)) {
+    return 'e-mail au nom du site'
+  }
+
+  if (message) {
+    if (LIEN.test(message)) return 'lien dans le message'
+    if (DEMARCHAGE.test(message)) return 'demarchage'
+    const en = (message.match(MOTS_EN) || []).length
+    const fr = (message.match(MOTS_FR) || []).length
+    if (en >= 3 && en > fr * 2) return 'message en anglais'
+  }
+  return null
+}
+
 export default {
   async fetch(request) {
     if (request.method !== 'POST') return REDIR('/contact/')
@@ -50,6 +105,22 @@ export default {
     if (!cle || !from || !to) {
       console.error('contact: RESEND_API_KEY, FORM_FROM ou FORM_TO absent')
       return REDIR('/contact/?erreur=config')
+    }
+
+    const hote = new URL(request.url).host
+
+    // Un navigateur envoie l'origine de la page qui poste. Une origine
+    // etrangere au site, c'est un envoi fabrique ailleurs.
+    const origine = request.headers.get('origin')
+    if (origine && origine !== 'null') {
+      try {
+        if (new URL(origine).host !== hote) {
+          console.warn('contact: refuse, origine etrangere', new URL(origine).host)
+          return REDIR('/contact/merci/')
+        }
+      } catch {
+        return REDIR('/contact/merci/')
+      }
     }
 
     let f
@@ -77,6 +148,15 @@ export default {
     const emailValide = /^[^@\s]+@[^@\s.]+\.[^@\s]+$/.test(email)
     if (!nom || !telephone || !emailValide) return REDIR('/contact/?erreur=1')
 
+    // Un humain qui se trompe de numero doit pouvoir corriger : message visible.
+    if (!telephoneValide(telephone)) return REDIR('/contact/?erreur=tel')
+
+    const motif = motifRobot({ nom, prenom, email, message, commune }, hote)
+    if (motif) {
+      console.warn('contact: robot ecarte :', motif)
+      return REDIR('/contact/merci/')
+    }
+
     const corps = [
       `Nom : ${prenom} ${nom}`.trim(),
       `Téléphone : ${telephone}`,
@@ -86,7 +166,7 @@ export default {
       '',
       message || '(aucun message)',
       '',
-      `Reçu depuis ${new URL(request.url).host}`,
+      `Reçu depuis ${hote}`,
     ].join('\n')
 
     try {
