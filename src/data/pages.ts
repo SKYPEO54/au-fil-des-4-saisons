@@ -11,9 +11,9 @@ export interface MetaPage {
 export const pages: Record<string, MetaPage> = {
   "/": {
     nom: "Accueil",
-    titre: "Jardinier paysagiste à Moëlan-sur-Mer | Au Fil des 4 Saisons",
+    titre: "Paysagiste à Moëlan-sur-Mer | Au Fil des 4 Saisons",
     description:
-      "Jardiniers paysagistes à Moëlan-sur-Mer depuis 2006 : création et entretien de jardins, terrasses, clôtures, allées et maçonnerie paysagère. Devis gratuit.",
+      "Paysagistes à Moëlan-sur-Mer depuis 2006 : création et entretien de jardins, terrasses et clôtures. Devis gratuit, crédit d'impôt de 50 % sur l'entretien.",
   },
   "/a-propos/": {
     nom: "À propos",
@@ -23,9 +23,9 @@ export const pages: Record<string, MetaPage> = {
   },
   "/jardinier-paysagiste/": {
     nom: "Jardinier paysagiste",
-    titre: "Parcs et jardins à Moëlan-sur-Mer | Au Fil des 4 Saisons",
+    titre: "Jardinier paysagiste à Moëlan-sur-Mer | Au Fil des 4 Saisons",
     description:
-      "Création, entretien et agencement de parcs et jardins à Moëlan-sur-Mer par une équipe de jardiniers paysagistes, en accord avec vos envies et votre budget.",
+      "Jardiniers paysagistes à Moëlan-sur-Mer depuis 2006 : création, agencement et entretien de parcs et jardins sur la côte sud du Finistère. Devis gratuit.",
   },
   "/paysagiste/": {
     nom: "Création paysagère",
@@ -37,7 +37,7 @@ export const pages: Record<string, MetaPage> = {
     nom: "Entretien de jardin",
     titre: "Entretien de jardin à Moëlan-sur-Mer | Au Fil des 4 Saisons",
     description:
-      "Entretien d'espaces verts à Moëlan-sur-Mer, au contrat annuel ou ponctuel : taille de haies, tonte, élagage, débroussaillage. Crédit d'impôt de 50 %.",
+      "Entretien de jardin à Moëlan-sur-Mer, au contrat annuel ou ponctuel : tonte, taille de haies, élagage, débroussaillage, évacuation. Crédit d'impôt de 50 %.",
   },
   "/espaces-verts/": {
     nom: "Espaces verts",
@@ -71,15 +71,15 @@ export const pages: Record<string, MetaPage> = {
   },
   "/amenagement-exterieur-maison/": {
     nom: "Allées et bordures",
-    titre: "Allées et bordures à Moëlan-sur-Mer | Au Fil des 4 Saisons",
+    titre: "Allées, cours et bordures à Moëlan | Au Fil des 4 Saisons",
     description:
-      "Création d'allées et de bordures à Moëlan-sur-Mer : enrobé, pavés en pierre naturelle, béton désactivé, gravier, bordures en ardoise ou en brique.",
+      "Aménagement extérieur de maison à Moëlan-sur-Mer : allées en pavés, gravier, enrobé ou béton désactivé, bordures en ardoise, pierre ou brique. Devis gratuit.",
   },
   "/maconnerie-paysagere/": {
     nom: "Maçonnerie paysagère",
-    titre: "Maçonnerie paysagère, Moëlan-sur-Mer | Au Fil des 4 Saisons",
+    titre: "Maçonnerie paysagère à Moëlan-sur-Mer | Au Fil des 4 Saisons",
     description:
-      "Maçonnerie paysagère à Moëlan-sur-Mer : terrasses, escaliers en ardoise, murets et murs en pierre, dallages et allées. Découvrez nos réalisations.",
+      "Maçonnerie paysagère à Moëlan-sur-Mer : murets et murs en pierre, escaliers en ardoise, dallages, terrasses en gneiss et allées pavées. Devis gratuit.",
   },
   "/contact/": {
     nom: "Contact",
